@@ -1,0 +1,28 @@
+# Credentials and local environments
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service-account*.json
+.aws/
+.gcloud/
+.venv/
+venv/
+__pycache__/
+*.pyc
+node_modules/
+.pytest_cache/
+# Local runtime artifacts
+logs/
+work/
+*.log
+# Unity / Unreal generated files
+Library/
+Temp/
+Obj/
+Builds/
+Intermediate/
+Saved/
+DerivedDataCache/
