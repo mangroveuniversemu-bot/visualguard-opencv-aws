@@ -1,0 +1,22 @@
+{
+  "attestation_count": 1,
+  "cut": "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_EPOCH_ROLLBACK_CONCURRENCY_NEGATIVE001",
+  "live_aws": "NOT_RUN",
+  "live_external_witness": "NOT_RUN",
+  "mode": "LOCAL_DETERMINISTIC_HMAC_SQLITE_FIXTURE",
+  "result": {
+    "append_race": "APPENDED",
+    "revoked_current_epoch": "REPLAY_LEDGER_WITNESS_KEY_REVOKED",
+    "rollback": "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_ROLLBACK"
+  },
+  "revocation_list_epoch_after_restart": 1,
+  "revocation_update_epoch": 1,
+  "revoked_keys_after_restart": [
+    [
+      "fixture-independent-witness",
+      "fixture-hmac-key-2026-11"
+    ]
+  ],
+  "seed": "NONE",
+  "status": "PASS"
+}

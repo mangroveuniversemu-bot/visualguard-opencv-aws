@@ -759,6 +759,28 @@ class CaptureReplayWitnessRevocationStore:
         with self._lock:
             return self._current_epoch_unlocked()
 
+    def _revocation_list_unlocked(self) -> tuple[tuple[str, str], ...]:
+        rows = self._connection.execute(
+            "SELECT provider_id, key_id "
+            "FROM replay_ledger_witness_revoked_key "
+            "ORDER BY provider_id, key_id"
+        ).fetchall()
+        revocations: list[tuple[str, str]] = []
+        for provider_id, key_id in rows:
+            if not self._valid_identity(provider_id) or not self._valid_identity(
+                key_id
+            ):
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_INVALID"
+                )
+            revocations.append((str(provider_id), str(key_id)))
+        return tuple(revocations)
+
+    def revocation_list_state(self) -> tuple[int, tuple[tuple[str, str], ...]]:
+        """Return the monotonic epoch and complete persisted revocation list."""
+        with self._lock:
+            return self._current_epoch_unlocked(), self._revocation_list_unlocked()
+
     def attestation_count(self) -> int:
         with self._lock:
             return int(
@@ -915,6 +937,94 @@ class CaptureReplayWitnessRevocationStore:
                 )
                 self._connection.execute("COMMIT")
                 return epoch
+            except BaseException:
+                if self._connection.in_transaction:
+                    self._connection.execute("ROLLBACK")
+                raise
+
+    def cas_update_revocation_list(
+        self,
+        *,
+        expected_epoch: int,
+        replacement_epoch: int,
+        revoked_keys: object,
+    ) -> tuple[int, tuple[tuple[str, str], ...]]:
+        """CAS an additive revocation-list snapshot and advance one epoch.
+
+        ``revoked_keys`` is the complete replacement snapshot, not a delta.
+        Once persisted, identities cannot be removed by a later update.  An
+        exact retry of the already-committed replacement is idempotent.
+        """
+        if (
+            not isinstance(expected_epoch, int)
+            or isinstance(expected_epoch, bool)
+            or expected_epoch < 0
+            or not isinstance(replacement_epoch, int)
+            or isinstance(replacement_epoch, bool)
+            or replacement_epoch < 0
+            or not isinstance(revoked_keys, (list, tuple, set, frozenset))
+            or not 1 <= len(revoked_keys) <= 64
+        ):
+            raise ValueError("invalid witness revocation-list update")
+        normalized: set[tuple[str, str]] = set()
+        for identity in revoked_keys:
+            if (
+                not isinstance(identity, (list, tuple))
+                or len(identity) != 2
+                or not self._valid_identity(identity[0])
+                or not self._valid_identity(identity[1])
+            ):
+                raise ValueError("invalid witness revocation-list identity")
+            normalized.add((str(identity[0]), str(identity[1])))
+        if len(normalized) != len(revoked_keys):
+            raise ValueError("duplicate witness revocation-list identity")
+        replacement = tuple(sorted(normalized))
+        with self._lock:
+            try:
+                self._connection.execute("BEGIN IMMEDIATE")
+                current_epoch = self._current_epoch_unlocked()
+                current = self._revocation_list_unlocked()
+                if expected_epoch != current_epoch:
+                    if replacement_epoch == current_epoch and replacement == current:
+                        self._connection.execute("COMMIT")
+                        return current_epoch, current
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_CONFLICT"
+                    )
+                if replacement_epoch <= current_epoch:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_ROLLBACK"
+                    )
+                if replacement_epoch != current_epoch + 1:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_EPOCH_GAP"
+                    )
+                if not set(current).issubset(normalized):
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_ROLLBACK"
+                    )
+                if replacement == current:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_NO_CHANGE"
+                    )
+                for provider_id, key_id in sorted(normalized - set(current)):
+                    self._connection.execute(
+                        "INSERT INTO replay_ledger_witness_revoked_key "
+                        "VALUES (?, ?, ?)",
+                        (provider_id, key_id, replacement_epoch),
+                    )
+                cursor = self._connection.execute(
+                    "UPDATE replay_ledger_witness_revocation_state "
+                    "SET revocation_epoch = ? "
+                    "WHERE singleton = 1 AND revocation_epoch = ?",
+                    (replacement_epoch, expected_epoch),
+                )
+                if cursor.rowcount != 1:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_REVOCATION_LIST_CONFLICT"
+                    )
+                self._connection.execute("COMMIT")
+                return replacement_epoch, replacement
             except BaseException:
                 if self._connection.in_transaction:
                     self._connection.execute("ROLLBACK")
