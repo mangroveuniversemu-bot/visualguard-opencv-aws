@@ -53,10 +53,10 @@ def domain(algorithm):
     )
 
 
-def witness(policy, key):
+def witness(policy, key, migration_epoch=None):
     algorithm, key_id, key_epoch = policy
     payload = {
-        "witness_version": 3,
+        "witness_version": 4 if migration_epoch is not None else 3,
         "provider_id": PROVIDER_ID,
         "key_id": key_id,
         "key_epoch": key_epoch,
@@ -65,6 +65,8 @@ def witness(policy, key):
         **domain(algorithm).as_dict(),
         "state": state().as_dict(),
     }
+    if migration_epoch is not None:
+        payload["migration_epoch"] = migration_epoch
     digest = hashlib.sha256 if algorithm == OLD[0] else hashlib.sha512
     return {
         **payload,
@@ -76,21 +78,22 @@ def witness(policy, key):
     }
 
 
-def verifier(policy, key, *, versioned=True):
+def verifier(policy, key, *, versioned=True, migration_epoch=None):
     algorithm, key_id, key_epoch = policy
     return CaptureReplayWitnessVerifier(
         provider_id=PROVIDER_ID,
         trusted_keys={key_id: CaptureReplayWitnessKey(key, key_epoch=key_epoch)},
         expected_domain=domain(algorithm),
         required_key_epoch=key_epoch if versioned else None,
+        required_migration_epoch=migration_epoch,
         max_age_seconds=300,
     )
 
 
-def append(store, policy, key):
+def append(store, policy, key, migration_epoch=None):
     return store.verify_and_append(
-        verifier(policy, key),
-        witness(policy, key),
+        verifier(policy, key, migration_epoch=migration_epoch),
+        witness(policy, key, migration_epoch=migration_epoch),
         local_state=state(),
         minimum_sequence=2,
         now=NOW,
@@ -154,7 +157,7 @@ def exercise():
         with CaptureReplayWitnessRevocationStore(database) as reopened:
             active_policy = reopened.active_algorithm_policy()
             old_after_restart = error(lambda: append(reopened, OLD, OLD_KEY))
-            new_status = append(reopened, NEW, NEW_KEY)["status"]
+            new_status = append(reopened, NEW, NEW_KEY, 1)["status"]
 
         race_db = Path(temporary) / "race.sqlite3"
         with CaptureReplayWitnessRevocationStore(race_db) as store:

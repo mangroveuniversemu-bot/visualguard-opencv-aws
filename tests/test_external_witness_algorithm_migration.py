@@ -53,9 +53,15 @@ def domain(algorithm: str) -> CaptureReplayWitnessDomain:
     )
 
 
-def signed_witness(algorithm: str, key_id: str, key: bytes, key_epoch: int):
+def signed_witness(
+    algorithm: str,
+    key_id: str,
+    key: bytes,
+    key_epoch: int,
+    migration_epoch: int | None = None,
+):
     payload = {
-        "witness_version": 3,
+        "witness_version": 4 if migration_epoch is not None else 3,
         "provider_id": PROVIDER_ID,
         "key_id": key_id,
         "key_epoch": key_epoch,
@@ -64,6 +70,8 @@ def signed_witness(algorithm: str, key_id: str, key: bytes, key_epoch: int):
         **domain(algorithm).as_dict(),
         "state": state().as_dict(),
     }
+    if migration_epoch is not None:
+        payload["migration_epoch"] = migration_epoch
     digest = hashlib.sha256 if algorithm == OLD_ALGORITHM else hashlib.sha512
     return {
         **payload,
@@ -75,20 +83,27 @@ def signed_witness(algorithm: str, key_id: str, key: bytes, key_epoch: int):
     }
 
 
-def verifier(algorithm: str, key_id: str, key: bytes, key_epoch: int):
+def verifier(
+    algorithm: str,
+    key_id: str,
+    key: bytes,
+    key_epoch: int,
+    migration_epoch: int | None = None,
+):
     return CaptureReplayWitnessVerifier(
         provider_id=PROVIDER_ID,
         trusted_keys={key_id: CaptureReplayWitnessKey(key, key_epoch=key_epoch)},
         expected_domain=domain(algorithm),
         required_key_epoch=key_epoch,
+        required_migration_epoch=migration_epoch,
         max_age_seconds=300,
     )
 
 
-def append(store, algorithm, key_id, key, key_epoch):
+def append(store, algorithm, key_id, key, key_epoch, migration_epoch=None):
     return store.verify_and_append(
-        verifier(algorithm, key_id, key, key_epoch),
-        signed_witness(algorithm, key_id, key, key_epoch),
+        verifier(algorithm, key_id, key, key_epoch, migration_epoch),
+        signed_witness(algorithm, key_id, key, key_epoch, migration_epoch),
         local_state=state(),
         minimum_sequence=2,
         now=NOW,
@@ -137,7 +152,7 @@ class ExternalWitnessAlgorithmMigrationCases(unittest.TestCase):
                 "^REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_MISMATCH$",
             ):
                 append(reopened, OLD_ALGORITHM, OLD_KEY_ID, OLD_KEY, 0)
-            accepted = append(reopened, NEW_ALGORITHM, NEW_KEY_ID, NEW_KEY, 1)
+            accepted = append(reopened, NEW_ALGORITHM, NEW_KEY_ID, NEW_KEY, 1, 1)
             self.assertEqual(accepted["status"], "APPENDED")
             self.assertEqual(accepted["key_epoch"], 1)
 

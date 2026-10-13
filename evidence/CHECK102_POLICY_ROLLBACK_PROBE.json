@@ -1,0 +1,29 @@
+{
+  "active_policy_after_restart": [
+    "HMAC-SHA512",
+    "fixture-hmac-sha512-epoch-1",
+    1,
+    1
+  ],
+  "asymmetric_signing": "NOT_RUN",
+  "aws_live": "NOT_RUN",
+  "camera_live": "NOT_RUN",
+  "distributed_multi_writer": "NOT_RUN",
+  "kms_live": "NOT_RUN",
+  "live_external_witness": "NOT_RUN",
+  "mode": "LOCAL_DETERMINISTIC_HMAC_FIXTURE",
+  "race": {
+    "append": "APPENDED",
+    "attestation_count": 2,
+    "rollback": "REPLAY_LEDGER_WITNESS_POLICY_ROLLBACK",
+    "terminal_policy": [
+      "HMAC-SHA512",
+      "fixture-hmac-sha512-epoch-1",
+      1,
+      1
+    ]
+  },
+  "rollback_result": "REPLAY_LEDGER_WITNESS_POLICY_ROLLBACK",
+  "stale_epoch_after_restart": "REPLAY_LEDGER_WITNESS_MIGRATION_EPOCH_STALE",
+  "status": "PASS"
+}
