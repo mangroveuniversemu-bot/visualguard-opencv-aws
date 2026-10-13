@@ -1,0 +1,30 @@
+{
+  "active_policy_after_restart": [
+    "HMAC-SHA512",
+    "fixture-hmac-sha512-epoch-1",
+    1
+  ],
+  "append_vs_migration": {
+    "active_policy": [
+      "HMAC-SHA512",
+      "fixture-hmac-sha512-epoch-1",
+      1
+    ],
+    "migration": [
+      "HMAC-SHA512",
+      "fixture-hmac-sha512-epoch-1",
+      1
+    ],
+    "old_append": "REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_MISMATCH"
+  },
+  "authentication": "HMAC_SHARED_SECRET_FIXTURE_ONLY",
+  "aws_live": "NOT_RUN",
+  "camera_live": "NOT_RUN",
+  "kms_live": "NOT_RUN",
+  "legacy_downgrade": "REPLAY_LEDGER_WITNESS_ALGORITHM_MIGRATION_REQUIRED",
+  "live_external_witness": "NOT_RUN",
+  "new_algorithm_after_restart": "APPENDED",
+  "old_algorithm_after_restart": "REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_MISMATCH",
+  "physical_action": "NONE",
+  "seed": "NONE"
+}

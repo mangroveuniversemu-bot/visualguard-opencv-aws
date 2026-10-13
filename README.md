@@ -11,14 +11,15 @@ reviewable as text instead of only as an archive. AWS deployment, live camera
 input, an independently operated witness, and physical action remain
 `NOT_RUN`.
 
-The current bounded cut adds an explicit signed witness domain: application,
-purpose, ledger identity, deployment environment, and signature algorithm.
-The first domain-aware append persists the store domain in SQLite under the
-same `BEGIN IMMEDIATE` lock as the attestation. Cross-ledger,
-cross-environment, wrong-purpose, wrong-application, algorithm-confusion,
-legacy-downgrade, restart, and competing-domain append cases fail closed.
-HMAC remains a deterministic local fixture and does not prove independent
-trust-domain separation.
+The current bounded cut adds versioned witness algorithm/key-epoch migration.
+A v3 attestation signs `key_epoch` alongside the existing witness domain. The
+first accepted v3 append persists the active signature algorithm, key ID and
+key epoch in SQLite. A compare-and-swap migration updates that policy and the
+signed store domain under the same `BEGIN IMMEDIATE` lock as append. After
+restart, legacy v2 downgrade and cross-algorithm replay fail closed; a
+competing old append and migration serialize to one final active policy. HMAC
+SHA-256/SHA-512 remain deterministic local fixtures and do not prove an
+independent trust domain.
 
 ## Reproduce
 
@@ -26,31 +27,34 @@ trust-domain separation.
 python -m pip install -r requirements-vision.txt pytest==9.0.2 ruff==0.14.13
 python -m pytest -q tests/test_external_witness_revocation_epoch.py
 python -m pytest -q tests/test_external_witness_domain_separation.py
+python -m pytest -q tests/test_external_witness_algorithm_migration.py
 python -m pytest -q tests/test_external_witness_authenticity.py \
   tests/test_external_witness_key_rotation.py \
   tests/test_external_witness_revocation_epoch.py \
-  tests/test_external_witness_domain_separation.py
+  tests/test_external_witness_domain_separation.py \
+  tests/test_external_witness_algorithm_migration.py
 python -m pytest -q tests/test_opencv5_inspection.py
 python -m pytest -q
 python ops/replay_ledger_witness_domain_separation_negative.py
+python ops/replay_ledger_witness_algorithm_migration_negative.py
 python ops/replay_ledger_witness_revocation_epoch_negative.py
 python run_demo.py
 ```
 
-Fresh local results on 2026-10-13: domain separation 6/6 plus 5 subtests;
-domain separation repeated 10 times 60/60 plus 50 subtests; witness
-compatibility 26/26 plus 5 subtests; OpenCV 120/120 plus 47 subtests; scoped
-branch full suite 146/146 plus 52 subtests; changed-file Ruff and compileall
-PASS. Four crash probes referenced by the inherited OpenCV tests were restored
-from the CHECK086 artifact so the Git branch is self-contained. See
-`evidence/REPLAY_LEDGER_WITNESS_DOMAIN_SEPARATION_NEGATIVE001.md`.
+Fresh local results on 2026-10-13: algorithm migration 5/5; witness
+compatibility 31/31 plus 5 subtests; OpenCV 120/120 plus 47 subtests; scoped
+branch full suite 151/151 plus 52 subtests; changed-file Ruff, format check,
+compileall and demo PASS. An unscoped local staging-tree run found a duplicate
+test module under the retained CHECK094 package; the Git branch itself has one
+copy and `pytest -q tests` is the authoritative source-tree run. See
+`evidence/REPLAY_LEDGER_WITNESS_ALGORITHM_MIGRATION_NEGATIVE001.md`.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK090,
-  `REPLAY_LEDGER_WITNESS_REVOCATION_EPOCH_NEGATIVE001`.
+- Parent checkpoint: CHECK094,
+  `REPLAY_LEDGER_WITNESS_DOMAIN_SEPARATION_NEGATIVE001`.
 - Parent Drive artifact SHA-256:
-  `c4e1088e5d16d2928de86513c287dd42dc3f0dfcfc9ffad15d6fbbeca40a4255`.
+  `fde454e9f4f0c66eb8a8c9312edfb9df74ca9fae07d7f30a7cb2904b2787c085`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,

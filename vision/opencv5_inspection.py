@@ -58,7 +58,12 @@ REPLAY_LEDGER_ROWSET_TABLE_INFO = (
 REPLAY_LEDGER_ANCHOR_RECOVERY_VERSION = 1
 REPLAY_LEDGER_EXTERNAL_WITNESS_VERSION = 1
 REPLAY_LEDGER_DOMAIN_WITNESS_VERSION = 2
+REPLAY_LEDGER_ALGORITHM_WITNESS_VERSION = 3
 REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHM = "HMAC-SHA256"
+REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHMS = {
+    "HMAC-SHA256": hashlib.sha256,
+    "HMAC-SHA512": hashlib.sha512,
+}
 REPLAY_LEDGER_ANCHOR_TRANSITION_TABLE_SQL = """CREATE TABLE replay_ledger_anchor_transition (
     singleton INTEGER PRIMARY KEY CHECK (singleton = 1),
     transition_id TEXT NOT NULL,
@@ -156,6 +161,7 @@ class CaptureReplayWitnessKey:
     verifying_key: bytes
     active_from: int = 0
     retire_at: int | None = None
+    key_epoch: int = 0
 
 
 @dataclass(frozen=True)
@@ -215,6 +221,7 @@ class CaptureReplayWitnessVerifier:
         "signature_algorithm",
     }
     _REVOCATION_EPOCH_FIELD = "revocation_epoch"
+    _KEY_EPOCH_FIELD = "key_epoch"
 
     def __init__(
         self,
@@ -224,6 +231,7 @@ class CaptureReplayWitnessVerifier:
         verifying_key: bytes | None = None,
         trusted_keys: dict[str, CaptureReplayWitnessKey] | None = None,
         expected_domain: CaptureReplayWitnessDomain | None = None,
+        required_key_epoch: int | None = None,
         max_age_seconds: int,
         max_future_skew_seconds: int = 5,
     ) -> None:
@@ -274,6 +282,12 @@ class CaptureReplayWitnessVerifier:
                 or policy.retire_at <= policy.active_from
             ):
                 raise ValueError("retire_at must be later than active_from")
+            if (
+                not isinstance(policy.key_epoch, int)
+                or isinstance(policy.key_epoch, bool)
+                or policy.key_epoch < 0
+            ):
+                raise ValueError("key_epoch must be a non-negative integer")
             normalized_keys[trusted_key_id] = policy
         if (
             not isinstance(max_age_seconds, int)
@@ -299,14 +313,23 @@ class CaptureReplayWitnessVerifier:
                     or "\0" in value
                 ):
                     raise ValueError(f"{name} must be a non-empty bounded string")
-            if (
-                expected_domain.signature_algorithm
-                != REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHM
+            if expected_domain.signature_algorithm not in (
+                REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHMS
             ):
                 raise ValueError("unsupported witness signature algorithm")
+        if required_key_epoch is not None and (
+            expected_domain is None
+            or not isinstance(required_key_epoch, int)
+            or isinstance(required_key_epoch, bool)
+            or required_key_epoch < 0
+        ):
+            raise ValueError(
+                "required_key_epoch needs a domain and a non-negative integer"
+            )
         self.provider_id = provider_id
         self._trusted_keys = normalized_keys
         self.expected_domain = expected_domain
+        self.required_key_epoch = required_key_epoch
         self.max_age_seconds = max_age_seconds
         self.max_future_skew_seconds = max_future_skew_seconds
 
@@ -318,6 +341,10 @@ class CaptureReplayWitnessVerifier:
             cls._PAYLOAD_FIELDS | {cls._REVOCATION_EPOCH_FIELD},
             cls._PAYLOAD_FIELDS | cls._DOMAIN_FIELDS,
             cls._PAYLOAD_FIELDS | cls._DOMAIN_FIELDS | {cls._REVOCATION_EPOCH_FIELD},
+            cls._PAYLOAD_FIELDS | cls._DOMAIN_FIELDS | {cls._KEY_EPOCH_FIELD},
+            cls._PAYLOAD_FIELDS
+            | cls._DOMAIN_FIELDS
+            | {cls._REVOCATION_EPOCH_FIELD, cls._KEY_EPOCH_FIELD},
         )
         if not isinstance(payload, dict) or set(payload) not in valid_fields:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
@@ -374,6 +401,9 @@ class CaptureReplayWitnessVerifier:
         if self.expected_domain is not None:
             expected_fields = expected_fields | self._DOMAIN_FIELDS
             expected_version = REPLAY_LEDGER_DOMAIN_WITNESS_VERSION
+            if self.required_key_epoch is not None:
+                expected_fields = expected_fields | {self._KEY_EPOCH_FIELD}
+                expected_version = REPLAY_LEDGER_ALGORITHM_WITNESS_VERSION
         if witness_fields not in (
             expected_fields,
             expected_fields | {self._REVOCATION_EPOCH_FIELD},
@@ -411,15 +441,29 @@ class CaptureReplayWitnessVerifier:
                     raise CaptureReplayWitnessError(domain_failures[name])
         issued_at = payload["issued_at"]
         witness_key_id = payload["key_id"]
+        key_epoch = payload.get(self._KEY_EPOCH_FIELD)
         revocation_epoch = payload.get(self._REVOCATION_EPOCH_FIELD)
         signature = witness["signature"]
+        signature_algorithm = payload.get(
+            "signature_algorithm", REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHM
+        )
+        digest = REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHMS.get(signature_algorithm)
+        signature_length = digest().digest_size * 2 if digest is not None else 0
         if (
             not isinstance(issued_at, int)
             or isinstance(issued_at, bool)
             or issued_at < 0
             or not isinstance(signature, str)
-            or len(signature) != 64
+            or len(signature) != signature_length
             or any(character not in "0123456789abcdef" for character in signature)
+        ):
+            raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
+        if digest is None:
+            raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_ALGORITHM_MISMATCH")
+        if key_epoch is not None and (
+            not isinstance(key_epoch, int)
+            or isinstance(key_epoch, bool)
+            or key_epoch < 0
         ):
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
         if revocation_epoch is not None and (
@@ -440,6 +484,15 @@ class CaptureReplayWitnessVerifier:
         key_policy = self._trusted_keys.get(witness_key_id)
         if key_policy is None:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_KEY_UNKNOWN")
+        if self.required_key_epoch is not None:
+            if key_epoch != self.required_key_epoch:
+                raise CaptureReplayWitnessError(
+                    "REPLAY_LEDGER_WITNESS_KEY_EPOCH_MISMATCH"
+                )
+            if key_policy.key_epoch != self.required_key_epoch:
+                raise CaptureReplayWitnessError(
+                    "REPLAY_LEDGER_WITNESS_KEY_POLICY_EPOCH_MISMATCH"
+                )
         if now < key_policy.active_from:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_KEY_NOT_YET_ACTIVE")
         if key_policy.retire_at is not None and now >= key_policy.retire_at:
@@ -447,7 +500,7 @@ class CaptureReplayWitnessVerifier:
         expected_signature = hmac.new(
             key_policy.verifying_key,
             self.canonical_payload(payload),
-            hashlib.sha256,
+            digest,
         ).hexdigest()
         if not hmac.compare_digest(signature, expected_signature):
             raise CaptureReplayWitnessError(
@@ -506,6 +559,8 @@ class CaptureReplayWitnessVerifier:
             result.update(self.expected_domain.as_dict())
         if revocation_epoch is not None:
             result["revocation_epoch"] = revocation_epoch
+        if key_epoch is not None:
+            result["key_epoch"] = key_epoch
         return result
 
 
@@ -546,6 +601,12 @@ class CaptureReplayWitnessRevocationStore:
         deployment_environment TEXT NOT NULL,
         signature_algorithm TEXT NOT NULL
     )"""
+    _ALGORITHM_POLICY_SQL = """CREATE TABLE replay_ledger_witness_algorithm_policy (
+        singleton INTEGER PRIMARY KEY CHECK (singleton = 1),
+        signature_algorithm TEXT NOT NULL,
+        key_id TEXT NOT NULL,
+        key_epoch INTEGER NOT NULL CHECK (key_epoch >= 0)
+    )"""
 
     def __init__(self, database: str | Path) -> None:
         self._lock = threading.Lock()
@@ -578,6 +639,11 @@ class CaptureReplayWitnessRevocationStore:
             )
             self._connection.execute(
                 self._DOMAIN_SQL.replace(
+                    "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
+                )
+            )
+            self._connection.execute(
+                self._ALGORITHM_POLICY_SQL.replace(
                     "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
                 )
             )
@@ -645,6 +711,93 @@ class CaptureReplayWitnessRevocationStore:
                     "SELECT COUNT(*) FROM replay_ledger_witness_attestation"
                 ).fetchone()[0]
             )
+
+    def active_algorithm_policy(self) -> tuple[str, str, int] | None:
+        """Return the persisted algorithm/key epoch policy, if initialized."""
+        with self._lock:
+            row = self._connection.execute(
+                "SELECT signature_algorithm, key_id, key_epoch "
+                "FROM replay_ledger_witness_algorithm_policy WHERE singleton = 1"
+            ).fetchone()
+            if row is None:
+                return None
+            return str(row[0]), str(row[1]), int(row[2])
+
+    def migrate_algorithm(
+        self,
+        *,
+        expected_algorithm: str,
+        expected_key_id: str,
+        expected_key_epoch: int,
+        replacement_algorithm: str,
+        replacement_key_id: str,
+        replacement_key_epoch: int,
+    ) -> tuple[str, str, int]:
+        """Compare-and-swap the active algorithm/key epoch under the append lock."""
+        if (
+            expected_algorithm not in REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHMS
+            or replacement_algorithm not in REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHMS
+            or not self._valid_identity(expected_key_id)
+            or not self._valid_identity(replacement_key_id)
+            or not isinstance(expected_key_epoch, int)
+            or isinstance(expected_key_epoch, bool)
+            or expected_key_epoch < 0
+            or not isinstance(replacement_key_epoch, int)
+            or isinstance(replacement_key_epoch, bool)
+            or replacement_key_epoch <= expected_key_epoch
+        ):
+            raise ValueError("invalid witness algorithm migration")
+        expected = (expected_algorithm, expected_key_id, expected_key_epoch)
+        replacement = (
+            replacement_algorithm,
+            replacement_key_id,
+            replacement_key_epoch,
+        )
+        with self._lock:
+            try:
+                self._connection.execute("BEGIN IMMEDIATE")
+                row = self._connection.execute(
+                    "SELECT signature_algorithm, key_id, key_epoch "
+                    "FROM replay_ledger_witness_algorithm_policy "
+                    "WHERE singleton = 1"
+                ).fetchone()
+                if row is None:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_UNINITIALIZED"
+                    )
+                current = (str(row[0]), str(row[1]), int(row[2]))
+                if current == replacement:
+                    self._connection.execute("COMMIT")
+                    return replacement
+                if current != expected:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_ALGORITHM_MIGRATION_CONFLICT"
+                    )
+                domain_row = self._connection.execute(
+                    "SELECT signature_algorithm "
+                    "FROM replay_ledger_witness_domain WHERE singleton = 1"
+                ).fetchone()
+                if domain_row is None or str(domain_row[0]) != expected_algorithm:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_ALGORITHM_MIGRATION_CONFLICT"
+                    )
+                self._connection.execute(
+                    "UPDATE replay_ledger_witness_algorithm_policy "
+                    "SET signature_algorithm = ?, key_id = ?, key_epoch = ? "
+                    "WHERE singleton = 1",
+                    replacement,
+                )
+                self._connection.execute(
+                    "UPDATE replay_ledger_witness_domain "
+                    "SET signature_algorithm = ? WHERE singleton = 1",
+                    (replacement_algorithm,),
+                )
+                self._connection.execute("COMMIT")
+                return replacement
+            except BaseException:
+                if self._connection.in_transaction:
+                    self._connection.execute("ROLLBACK")
+                raise
 
     def revoke(self, provider_id: str, key_id: str) -> int:
         """Idempotently revoke a key and return its persisted epoch."""
@@ -722,11 +875,42 @@ class CaptureReplayWitnessRevocationStore:
                             domain_values,
                         )
                     elif tuple(persisted_domain) != domain_values:
+                        if tuple(persisted_domain[:4]) == domain_values[:4]:
+                            raise CaptureReplayWitnessError(
+                                "REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_MISMATCH"
+                            )
                         raise CaptureReplayWitnessError(
                             "REPLAY_LEDGER_WITNESS_STORE_DOMAIN_MISMATCH"
                         )
                 assert isinstance(witness, dict)
                 key_id = str(result["key_id"])
+                persisted_algorithm = self._connection.execute(
+                    "SELECT signature_algorithm, key_id, key_epoch "
+                    "FROM replay_ledger_witness_algorithm_policy "
+                    "WHERE singleton = 1"
+                ).fetchone()
+                if "key_epoch" not in result:
+                    if persisted_algorithm is not None:
+                        raise CaptureReplayWitnessError(
+                            "REPLAY_LEDGER_WITNESS_ALGORITHM_MIGRATION_REQUIRED"
+                        )
+                else:
+                    assert domain is not None
+                    requested_algorithm = (
+                        domain.signature_algorithm,
+                        key_id,
+                        int(result["key_epoch"]),
+                    )
+                    if persisted_algorithm is None:
+                        self._connection.execute(
+                            "INSERT INTO replay_ledger_witness_algorithm_policy "
+                            "VALUES (1, ?, ?, ?)",
+                            requested_algorithm,
+                        )
+                    elif tuple(persisted_algorithm) != requested_algorithm:
+                        raise CaptureReplayWitnessError(
+                            "REPLAY_LEDGER_WITNESS_ALGORITHM_POLICY_MISMATCH"
+                        )
                 revoked = self._connection.execute(
                     "SELECT revoked_epoch "
                     "FROM replay_ledger_witness_revoked_key "
