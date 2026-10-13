@@ -1,0 +1,21 @@
+{
+  "authentication": "HMAC_SHA256_SHARED_SECRET_FIXTURE_ONLY",
+  "aws_live": "NOT_RUN",
+  "camera_live": "NOT_RUN",
+  "concurrent_append_statuses": [
+    "REPLAY_LEDGER_WITNESS_STORE_DOMAIN_MISMATCH",
+    "APPENDED"
+  ],
+  "concurrent_attestation_count": 1,
+  "domain_failures": {
+    "algorithm": "REPLAY_LEDGER_WITNESS_ALGORITHM_MISMATCH",
+    "application": "REPLAY_LEDGER_WITNESS_APPLICATION_MISMATCH",
+    "environment": "REPLAY_LEDGER_WITNESS_ENVIRONMENT_MISMATCH",
+    "ledger": "REPLAY_LEDGER_WITNESS_LEDGER_MISMATCH",
+    "purpose": "REPLAY_LEDGER_WITNESS_PURPOSE_MISMATCH"
+  },
+  "live_external_witness": "NOT_RUN",
+  "physical_action": "NONE",
+  "restart_cross_ledger": "REPLAY_LEDGER_WITNESS_STORE_DOMAIN_MISMATCH",
+  "seed": "NONE"
+}

@@ -11,6 +11,7 @@ import tempfile
 from vision.opencv5_inspection import (
     CaptureReplayAnchorState,
     CaptureReplayLedger,
+    CaptureReplayWitnessDomain,
     CaptureReplayWitnessKey,
     CaptureReplayWitnessRevocationStore,
     CaptureReplayWitnessVerifier,
@@ -26,6 +27,12 @@ PROVIDER_ID = "fixture-independent-witness"
 KEY_ID = "fixture-hmac-key-2026-11"
 KEY = b"visualguard-witness-fixture-revocation-key-01"
 NOW = 2_000_000_000
+WITNESS_DOMAIN = CaptureReplayWitnessDomain(
+    application_id="visualguard-opencv5",
+    purpose="capture-replay-ledger-attestation",
+    ledger_id="visualguard-fixture-ledger-a",
+    deployment_environment="local-fixture",
+)
 
 
 def witness_state() -> CaptureReplayAnchorState:
@@ -40,11 +47,12 @@ def witness_state() -> CaptureReplayAnchorState:
 
 def signed_witness(epoch: int) -> dict[str, object]:
     payload = {
-        "witness_version": 1,
+        "witness_version": 2,
         "provider_id": PROVIDER_ID,
         "key_id": KEY_ID,
         "revocation_epoch": epoch,
         "issued_at": NOW,
+        **WITNESS_DOMAIN.as_dict(),
         "state": witness_state().as_dict(),
     }
     signature = hmac.new(
@@ -106,6 +114,7 @@ def main() -> None:
         verifier = CaptureReplayWitnessVerifier(
             provider_id=PROVIDER_ID,
             trusted_keys={KEY_ID: CaptureReplayWitnessKey(KEY)},
+            expected_domain=WITNESS_DOMAIN,
             max_age_seconds=300,
         )
         with CaptureReplayWitnessRevocationStore(revocation_db) as store:
@@ -133,6 +142,7 @@ def main() -> None:
                 "append": appended["status"],
                 "revocation_epoch": epoch,
                 "authentication": "HMAC_SHA256_SHARED_SECRET_FIXTURE_ONLY",
+                "domain": WITNESS_DOMAIN.as_dict(),
             },
             "live_external_witness": "NOT_RUN",
             "aws_live": "NOT_RUN",
