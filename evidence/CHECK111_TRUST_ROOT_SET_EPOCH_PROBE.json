@@ -1,0 +1,22 @@
+{
+  "attestation_count": 0,
+  "cut": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_EPOCH_ROLLBACK_CONCURRENCY_NEGATIVE001",
+  "live_aws": "NOT_RUN",
+  "live_external_witness": "NOT_RUN",
+  "mode": "LOCAL_DETERMINISTIC_HMAC_SQLITE_FIXTURE",
+  "result": {
+    "append_race": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_EPOCH_STALE",
+    "removed_root_current_epoch": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_UNKNOWN",
+    "snapshot_rollback": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_ROLLBACK"
+  },
+  "rotation_epoch": 2,
+  "seed": "NONE",
+  "status": "PASS",
+  "trust_root_epoch_after_restart": 2,
+  "trusted_roots_after_restart": [
+    [
+      "fixture-independent-witness",
+      "fixture-hmac-root-2026-12"
+    ]
+  ]
+}

@@ -222,6 +222,7 @@ class CaptureReplayWitnessVerifier:
         "signature_algorithm",
     }
     _REVOCATION_EPOCH_FIELD = "revocation_epoch"
+    _TRUST_ROOT_EPOCH_FIELD = "trust_root_epoch"
     _KEY_EPOCH_FIELD = "key_epoch"
     _MIGRATION_EPOCH_FIELD = "migration_epoch"
 
@@ -349,7 +350,7 @@ class CaptureReplayWitnessVerifier:
     @classmethod
     def canonical_payload(cls, payload: object) -> bytes:
         """Return the exact signed bytes for a schema-valid payload."""
-        valid_fields = (
+        base_fields = (
             cls._PAYLOAD_FIELDS,
             cls._PAYLOAD_FIELDS | {cls._REVOCATION_EPOCH_FIELD},
             cls._PAYLOAD_FIELDS | cls._DOMAIN_FIELDS,
@@ -368,6 +369,9 @@ class CaptureReplayWitnessVerifier:
                 cls._KEY_EPOCH_FIELD,
                 cls._MIGRATION_EPOCH_FIELD,
             },
+        )
+        valid_fields = base_fields + tuple(
+            fields | {cls._TRUST_ROOT_EPOCH_FIELD} for fields in base_fields
         )
         if not isinstance(payload, dict) or set(payload) not in valid_fields:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
@@ -412,6 +416,7 @@ class CaptureReplayWitnessVerifier:
         minimum_sequence: int,
         now: int,
         required_revocation_epoch: int | None = None,
+        required_trust_root_epoch: int | None = None,
     ) -> dict[str, int | str]:
         """Authenticate and compare a witness against local monotonic state."""
         if not isinstance(witness, dict):
@@ -430,10 +435,14 @@ class CaptureReplayWitnessVerifier:
                 if self.required_migration_epoch is not None:
                     expected_fields = expected_fields | {self._MIGRATION_EPOCH_FIELD}
                     expected_version = REPLAY_LEDGER_POLICY_EPOCH_WITNESS_VERSION
-        if witness_fields not in (
+        allowed_fields = (
             expected_fields,
             expected_fields | {self._REVOCATION_EPOCH_FIELD},
-        ):
+            expected_fields | {self._TRUST_ROOT_EPOCH_FIELD},
+            expected_fields
+            | {self._REVOCATION_EPOCH_FIELD, self._TRUST_ROOT_EPOCH_FIELD},
+        )
+        if witness_fields not in allowed_fields:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
         payload = {name: witness[name] for name in witness_fields}
         if (
@@ -470,6 +479,7 @@ class CaptureReplayWitnessVerifier:
         key_epoch = payload.get(self._KEY_EPOCH_FIELD)
         migration_epoch = payload.get(self._MIGRATION_EPOCH_FIELD)
         revocation_epoch = payload.get(self._REVOCATION_EPOCH_FIELD)
+        trust_root_epoch = payload.get(self._TRUST_ROOT_EPOCH_FIELD)
         signature = witness["signature"]
         signature_algorithm = payload.get(
             "signature_algorithm", REPLAY_LEDGER_WITNESS_SIGNATURE_ALGORITHM
@@ -497,6 +507,12 @@ class CaptureReplayWitnessVerifier:
             not isinstance(revocation_epoch, int)
             or isinstance(revocation_epoch, bool)
             or revocation_epoch < 0
+        ):
+            raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
+        if trust_root_epoch is not None and (
+            not isinstance(trust_root_epoch, int)
+            or isinstance(trust_root_epoch, bool)
+            or trust_root_epoch < 0
         ):
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_SCHEMA_INVALID")
         if migration_epoch is not None and (
@@ -567,6 +583,27 @@ class CaptureReplayWitnessVerifier:
                 raise CaptureReplayWitnessError(
                     "REPLAY_LEDGER_WITNESS_REVOCATION_EPOCH_FROM_FUTURE"
                 )
+        if required_trust_root_epoch is not None:
+            if (
+                not isinstance(required_trust_root_epoch, int)
+                or isinstance(required_trust_root_epoch, bool)
+                or required_trust_root_epoch < 0
+            ):
+                raise ValueError(
+                    "required_trust_root_epoch must be a non-negative integer"
+                )
+            if trust_root_epoch is None:
+                raise CaptureReplayWitnessError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_EPOCH_MISSING"
+                )
+            if trust_root_epoch < required_trust_root_epoch:
+                raise CaptureReplayWitnessError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_EPOCH_STALE"
+                )
+            if trust_root_epoch > required_trust_root_epoch:
+                raise CaptureReplayWitnessError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_EPOCH_FROM_FUTURE"
+                )
         if issued_at > now + self.max_future_skew_seconds:
             raise CaptureReplayWitnessError("REPLAY_LEDGER_WITNESS_FROM_FUTURE")
         if now - issued_at > self.max_age_seconds:
@@ -599,6 +636,8 @@ class CaptureReplayWitnessVerifier:
             result.update(self.expected_domain.as_dict())
         if revocation_epoch is not None:
             result["revocation_epoch"] = revocation_epoch
+        if trust_root_epoch is not None:
+            result["trust_root_epoch"] = trust_root_epoch
         if key_epoch is not None:
             result["key_epoch"] = key_epoch
         if migration_epoch is not None:
@@ -650,6 +689,20 @@ class CaptureReplayWitnessRevocationStore:
         key_epoch INTEGER NOT NULL CHECK (key_epoch >= 0),
         migration_epoch INTEGER NOT NULL CHECK (migration_epoch >= 0)
     )"""
+    _TRUST_ROOT_STATE_SQL = """CREATE TABLE replay_ledger_witness_trust_root_state (
+        singleton INTEGER PRIMARY KEY CHECK (singleton = 1),
+        trust_root_epoch INTEGER NOT NULL CHECK (trust_root_epoch >= 0),
+        root_set_sha256 TEXT NOT NULL
+    )"""
+    _TRUST_ROOT_SQL = """CREATE TABLE replay_ledger_witness_trust_root (
+        provider_id TEXT NOT NULL,
+        key_id TEXT NOT NULL,
+        PRIMARY KEY (provider_id, key_id)
+    )"""
+    _TRUST_ROOT_HISTORY_SQL = """CREATE TABLE replay_ledger_witness_trust_root_history (
+        trust_root_epoch INTEGER PRIMARY KEY CHECK (trust_root_epoch >= 0),
+        root_set_sha256 TEXT NOT NULL UNIQUE
+    )"""
 
     def __init__(self, database: str | Path) -> None:
         self._lock = threading.Lock()
@@ -690,6 +743,21 @@ class CaptureReplayWitnessRevocationStore:
                     "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
                 )
             )
+            self._connection.execute(
+                self._TRUST_ROOT_STATE_SQL.replace(
+                    "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
+                )
+            )
+            self._connection.execute(
+                self._TRUST_ROOT_SQL.replace(
+                    "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
+                )
+            )
+            self._connection.execute(
+                self._TRUST_ROOT_HISTORY_SQL.replace(
+                    "CREATE TABLE ", "CREATE TABLE IF NOT EXISTS ", 1
+                )
+            )
             policy_columns = {
                 str(row[1])
                 for row in self._connection.execute(
@@ -706,6 +774,17 @@ class CaptureReplayWitnessRevocationStore:
                 "INSERT OR IGNORE INTO replay_ledger_witness_revocation_state "
                 "VALUES (1, 0)"
             )
+            empty_root_digest = self._trust_root_digest(())
+            self._connection.execute(
+                "INSERT OR IGNORE INTO replay_ledger_witness_trust_root_state "
+                "VALUES (1, 0, ?)",
+                (empty_root_digest,),
+            )
+            self._connection.execute(
+                "INSERT OR IGNORE INTO replay_ledger_witness_trust_root_history "
+                "VALUES (0, ?)",
+                (empty_root_digest,),
+            )
             if self._connection.execute("PRAGMA quick_check").fetchall() != [("ok",)]:
                 raise CaptureReplayLedgerIntegrityError("SQLITE_INTEGRITY_CHECK_FAILED")
             rows = self._connection.execute(
@@ -720,6 +799,30 @@ class CaptureReplayWitnessRevocationStore:
             ):
                 raise CaptureReplayLedgerSchemaError(
                     "REPLAY_LEDGER_WITNESS_REVOCATION_STATE_INVALID"
+                )
+            root_state = self._connection.execute(
+                "SELECT singleton, trust_root_epoch, root_set_sha256 "
+                "FROM replay_ledger_witness_trust_root_state"
+            ).fetchall()
+            if (
+                len(root_state) != 1
+                or root_state[0][0] != 1
+                or not isinstance(root_state[0][1], int)
+                or root_state[0][1] < 0
+                or root_state[0][2]
+                != self._trust_root_digest(self._trust_root_set_unlocked())
+            ):
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+                )
+            history_row = self._connection.execute(
+                "SELECT 1 FROM replay_ledger_witness_trust_root_history "
+                "WHERE trust_root_epoch = ? AND root_set_sha256 = ?",
+                (int(root_state[0][1]), str(root_state[0][2])),
+            ).fetchone()
+            if history_row is None:
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_INVALID"
                 )
         except BaseException:
             self._connection.close()
@@ -780,6 +883,59 @@ class CaptureReplayWitnessRevocationStore:
         """Return the monotonic epoch and complete persisted revocation list."""
         with self._lock:
             return self._current_epoch_unlocked(), self._revocation_list_unlocked()
+
+    @staticmethod
+    def _trust_root_digest(roots: tuple[tuple[str, str], ...]) -> str:
+        canonical = json.dumps(
+            [list(identity) for identity in roots],
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        return hashlib.sha256(canonical.encode()).hexdigest()
+
+    def _trust_root_state_unlocked(self) -> tuple[int, str]:
+        row = self._connection.execute(
+            "SELECT trust_root_epoch, root_set_sha256 "
+            "FROM replay_ledger_witness_trust_root_state WHERE singleton = 1"
+        ).fetchone()
+        if (
+            row is None
+            or not isinstance(row[0], int)
+            or row[0] < 0
+            or not isinstance(row[1], str)
+            or not _valid_sha256(row[1])
+        ):
+            raise CaptureReplayLedgerSchemaError(
+                "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+            )
+        return int(row[0]), str(row[1])
+
+    def _trust_root_set_unlocked(self) -> tuple[tuple[str, str], ...]:
+        rows = self._connection.execute(
+            "SELECT provider_id, key_id FROM replay_ledger_witness_trust_root "
+            "ORDER BY provider_id, key_id"
+        ).fetchall()
+        roots: list[tuple[str, str]] = []
+        for provider_id, key_id in rows:
+            if not self._valid_identity(provider_id) or not self._valid_identity(
+                key_id
+            ):
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_INVALID"
+                )
+            roots.append((str(provider_id), str(key_id)))
+        return tuple(roots)
+
+    def trust_root_set_state(self) -> tuple[int, tuple[tuple[str, str], ...]]:
+        """Return the active trust-root epoch and complete identity snapshot."""
+        with self._lock:
+            epoch, digest = self._trust_root_state_unlocked()
+            roots = self._trust_root_set_unlocked()
+            if digest != self._trust_root_digest(roots):
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+                )
+            return epoch, roots
 
     def attestation_count(self) -> int:
         with self._lock:
@@ -1030,6 +1186,109 @@ class CaptureReplayWitnessRevocationStore:
                     self._connection.execute("ROLLBACK")
                 raise
 
+    def cas_update_trust_root_set(
+        self,
+        *,
+        expected_epoch: int,
+        replacement_epoch: int,
+        trusted_roots: object,
+    ) -> tuple[int, tuple[tuple[str, str], ...]]:
+        """CAS the complete trust-root snapshot and advance one epoch.
+
+        Unlike revocations, active roots may be removed during rotation. The
+        epoch is strictly monotonic and every committed snapshot digest is
+        retained so a previously active set cannot be restored under a newer
+        epoch. An exact retry of the committed update is idempotent.
+        """
+        if (
+            not isinstance(expected_epoch, int)
+            or isinstance(expected_epoch, bool)
+            or expected_epoch < 0
+            or not isinstance(replacement_epoch, int)
+            or isinstance(replacement_epoch, bool)
+            or replacement_epoch < 0
+            or not isinstance(trusted_roots, (list, tuple, set, frozenset))
+            or not 1 <= len(trusted_roots) <= 64
+        ):
+            raise ValueError("invalid witness trust-root-set update")
+        normalized: set[tuple[str, str]] = set()
+        for identity in trusted_roots:
+            if (
+                not isinstance(identity, (list, tuple))
+                or len(identity) != 2
+                or not self._valid_identity(identity[0])
+                or not self._valid_identity(identity[1])
+            ):
+                raise ValueError("invalid witness trust-root identity")
+            normalized.add((str(identity[0]), str(identity[1])))
+        if len(normalized) != len(trusted_roots):
+            raise ValueError("duplicate witness trust-root identity")
+        replacement = tuple(sorted(normalized))
+        replacement_digest = self._trust_root_digest(replacement)
+        with self._lock:
+            try:
+                self._connection.execute("BEGIN IMMEDIATE")
+                current_epoch, persisted_digest = self._trust_root_state_unlocked()
+                current = self._trust_root_set_unlocked()
+                if persisted_digest != self._trust_root_digest(current):
+                    raise CaptureReplayLedgerSchemaError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+                    )
+                if expected_epoch != current_epoch:
+                    if replacement_epoch == current_epoch and replacement == current:
+                        self._connection.execute("COMMIT")
+                        return current_epoch, current
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_CONFLICT"
+                    )
+                if replacement_epoch <= current_epoch:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_EPOCH_ROLLBACK"
+                    )
+                if replacement_epoch != current_epoch + 1:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_EPOCH_GAP"
+                    )
+                if replacement == current:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_NO_CHANGE"
+                    )
+                seen = self._connection.execute(
+                    "SELECT 1 FROM replay_ledger_witness_trust_root_history "
+                    "WHERE root_set_sha256 = ?",
+                    (replacement_digest,),
+                ).fetchone()
+                if seen is not None:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_ROLLBACK"
+                    )
+                self._connection.execute("DELETE FROM replay_ledger_witness_trust_root")
+                self._connection.executemany(
+                    "INSERT INTO replay_ledger_witness_trust_root VALUES (?, ?)",
+                    replacement,
+                )
+                cursor = self._connection.execute(
+                    "UPDATE replay_ledger_witness_trust_root_state "
+                    "SET trust_root_epoch = ?, root_set_sha256 = ? "
+                    "WHERE singleton = 1 AND trust_root_epoch = ?",
+                    (replacement_epoch, replacement_digest, expected_epoch),
+                )
+                if cursor.rowcount != 1:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_CONFLICT"
+                    )
+                self._connection.execute(
+                    "INSERT INTO replay_ledger_witness_trust_root_history "
+                    "VALUES (?, ?)",
+                    (replacement_epoch, replacement_digest),
+                )
+                self._connection.execute("COMMIT")
+                return replacement_epoch, replacement
+            except BaseException:
+                if self._connection.in_transaction:
+                    self._connection.execute("ROLLBACK")
+                raise
+
     def verify_and_append(
         self,
         verifier: CaptureReplayWitnessVerifier,
@@ -1039,19 +1298,28 @@ class CaptureReplayWitnessRevocationStore:
         minimum_sequence: int,
         now: int,
     ) -> dict[str, int | str]:
-        """Verify and append under the same lock used by revocation."""
+        """Verify and append under the same lock used by trust policy."""
         if not isinstance(verifier, CaptureReplayWitnessVerifier):
             raise TypeError("verifier must be CaptureReplayWitnessVerifier")
         with self._lock:
             try:
                 self._connection.execute("BEGIN IMMEDIATE")
                 epoch = self._current_epoch_unlocked()
+                trust_root_epoch, trust_root_digest = self._trust_root_state_unlocked()
+                trust_roots = self._trust_root_set_unlocked()
+                if trust_root_digest != self._trust_root_digest(trust_roots):
+                    raise CaptureReplayLedgerSchemaError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+                    )
                 result = verifier.verify(
                     witness,
                     local_state=local_state,
                     minimum_sequence=minimum_sequence,
                     now=now,
                     required_revocation_epoch=epoch,
+                    required_trust_root_epoch=(
+                        trust_root_epoch if trust_roots else None
+                    ),
                 )
                 persisted_domain = self._connection.execute(
                     "SELECT application_id, purpose, ledger_id, "
@@ -1082,6 +1350,10 @@ class CaptureReplayWitnessRevocationStore:
                         )
                 assert isinstance(witness, dict)
                 key_id = str(result["key_id"])
+                if trust_roots and (verifier.provider_id, key_id) not in trust_roots:
+                    raise CaptureReplayWitnessError(
+                        "REPLAY_LEDGER_WITNESS_TRUST_ROOT_UNKNOWN"
+                    )
                 persisted_algorithm = self._connection.execute(
                     "SELECT signature_algorithm, key_id, key_epoch, migration_epoch "
                     "FROM replay_ledger_witness_algorithm_policy "
@@ -1160,6 +1432,7 @@ class CaptureReplayWitnessRevocationStore:
                     "status": "APPENDED" if cursor.rowcount else "REPLAYED",
                     "fingerprint_sha256": fingerprint,
                     "revocation_epoch": epoch,
+                    **({"trust_root_epoch": trust_root_epoch} if trust_roots else {}),
                 }
             except BaseException:
                 if self._connection.in_transaction:
