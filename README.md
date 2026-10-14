@@ -11,12 +11,12 @@ reviewable as text instead of only as an archive. AWS deployment, live camera
 input, an independently operated witness, and physical action remain
 `NOT_RUN`.
 
-The current bounded cut packages eight judging-facing OpenCV negative controls
-into one replayable matrix: alarm, occlusion, missing view, stale capture,
-calibration drift, dependency drift, consequence mismatch, and a clear control.
-It also adds a pure follow-up adapter so the OpenCV result demonstrably changes
-the next workflow step (`QUEUE_HUMAN_REVIEW`, `REQUEST_NEW_CAPTURE`, or
-`HOLD_AUTOMATION`). The adapter never executes an external or physical action.
+The current bounded cut packages the OpenCV 5 replay, eight judging-facing
+negative controls, downstream routing, and the AWS disclosure into a
+machine-verifiable 180-second demo contract. Artifact digests, required
+segments, and claim boundaries fail closed. The plan is
+`PREPARED_NOT_RECORDED`; it cannot label fixed arrays, the blocked AWS
+preflight, or an unrecorded script as live evidence.
 
 The AWS deployment preflight is executable but fail-closed. It requires
 explicit owner authorization, approved region/account/role, deployment target,
@@ -57,6 +57,8 @@ python ops/replay_ledger_witness_trust_root_history_external_anchor_co_rollback_
 python ops/opencv5_judging_negative_control_matrix.py
 python ops/aws_deployment_preflight.py \
   --output evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json
+python ops/verify_demo_evidence_contract.py
+python -m pytest -q tests/test_demo_evidence_contract.py
 python run_demo.py
 ```
 
@@ -64,14 +66,15 @@ The preflight exits `2` while blocked and `0` only after every static gate plus
 both read-only AWS checks pass. See `.env.example` for variable names; keep
 values in an authorized runtime or secret store, never in the repository.
 
-Fresh local results on 2026-10-14: judging-matrix targeted tests 5/5; matrix plus
-OpenCV inspection regression slice 125/125 plus 55 subtests; scoped branch full
-suite 193/193 plus 66 subtests; changed-file Ruff, format check, compileall, and
-replayable matrix probe PASS as executions. Every matrix row has
-`action_executed=false` and `physical_action=NONE`; AWS and live camera remain
-`NOT_RUN`.
+Fresh local results on 2026-10-15: demo-contract targeted tests 7/7; contract,
+matrix, and OpenCV inspection regression slice 132/132 plus 55 subtests; scoped
+branch full suite 206/206 plus 66 subtests; changed-file Ruff, format check,
+compileall, and contract probe PASS as executions. The contract binds two
+artifacts across six required segments at exactly 180 seconds. Every matrix row
+has `action_executed=false` and `physical_action=NONE`; AWS, live camera, and
+video recording remain `NOT_RUN`/`PREPARED_NOT_RECORDED`.
 See
-`evidence/VISUALGUARD_JUDGING_GAP_NEGATIVE_CONTROLS001.md`.
+`evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.md`.
 
 Fresh preflight evidence on 2026-10-15: six targeted tests pass, including
 account/region mismatch and missing-CLI controls. The real local probe blocks
@@ -80,9 +83,8 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK123,
-  `REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001`.
-- Parent commit: `375a860815b64340bdebbb04fd54bc946bcf3be5`.
+- Parent checkpoint: CHECK129, `VISUALGUARD_AWS_DEPLOYMENT_PREFLIGHT001`.
+- Parent commit: `135c07ee9f0110c9688c6cc6f4b8854e0b0a8679`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,
@@ -95,6 +97,8 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
   certify pre-migration truth.
 - The matrix proves deterministic local routing over fixed arrays, not field
   performance, source authenticity, AWS integration, or executed automation.
+- Passing the demo contract proves only that a prepared script matches its
+  bound artifacts and claim limits; it does not prove a video was recorded.
 
 ## Deployment gate
 

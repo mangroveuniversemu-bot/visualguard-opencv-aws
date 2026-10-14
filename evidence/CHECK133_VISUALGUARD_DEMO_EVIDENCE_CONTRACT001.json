@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "check": "CHECK133",
+  "cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT001",
+  "executed_at": "2026-10-15T04:32:37+08:00",
+  "parent_checkpoint": "CHECK129",
+  "parent_commit": "135c07ee9f0110c9688c6cc6f4b8854e0b0a8679",
+  "branch": "codex/witness-revocation-epoch-20261013",
+  "provenance": "DERIVED",
+  "evidence_modes": [
+    "SYNTHETIC_REPLAY",
+    "AWS_READ_ONLY_PREFLIGHT"
+  ],
+  "result": {
+    "status": "PASS",
+    "duration_seconds": 180,
+    "required_segments": 6,
+    "bound_artifacts": 2,
+    "manifest_sha256": "fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2"
+  },
+  "tests": {
+    "targeted": "PASS 7/7",
+    "regression_slice": "PASS 132/132 plus 55 subtests",
+    "full_suite": "PASS 206/206 plus 66 subtests",
+    "ruff_changed_files": "PASS",
+    "compileall_changed_files": "PASS",
+    "seed": "NONE"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "opencv": "5.0.0",
+    "opencv_python_headless": "5.0.0.93",
+    "numpy": "2.5.3",
+    "pytest": "9.0.2",
+    "ruff": "0.14.13"
+  },
+  "live_state": {
+    "aws_api": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "endpoint": "NOT_DEPLOYED",
+    "camera": "NOT_RUN",
+    "video": "PREPARED_NOT_RECORDED",
+    "physical_action": "NONE"
+  },
+  "known_limitations": [
+    "The contract proves a prepared script matches bound local evidence; it does not prove a video was recorded.",
+    "Fixed synthetic arrays do not establish field accuracy or source authenticity.",
+    "The blocked preflight is not AWS API, deployment, endpoint, or camera evidence."
+  ],
+  "next_cut": "PAYPAL rotation; return only for human-controlled video evidence or owner-authorized AWS preflight"
+}

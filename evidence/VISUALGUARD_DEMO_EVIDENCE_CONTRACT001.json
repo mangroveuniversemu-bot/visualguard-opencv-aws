@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT001",
+  "status": "PREPARED_NOT_RECORDED",
+  "provenance": "DERIVED",
+  "max_duration_seconds": 180,
+  "aws_claim": "NOT_RUN",
+  "camera_claim": "NOT_RUN",
+  "action_executed": false,
+  "segments": [
+    {
+      "id": "problem_and_scope",
+      "duration_seconds": 20,
+      "evidence_mode": "PUBLIC_REFERENCE",
+      "claims": [
+        "VisualGuard demonstrates bounded inspection and human-routing behavior.",
+        "This prepared plan is not a recorded video, field-accuracy result, or autonomous actuation claim."
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "opencv5_clear_path",
+      "duration_seconds": 30,
+      "evidence_mode": "SYNTHETIC_REPLAY",
+      "claims": [
+        "The replay was executed with OpenCV 5 over fixed synthetic arrays.",
+        "A clear two-view case queues human review without executing an action."
+      ],
+      "artifacts": [
+        {
+          "path": "evidence/CHECK126_JUDGING_NEGATIVE_CONTROL_MATRIX.json",
+          "sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d"
+        }
+      ]
+    },
+    {
+      "id": "negative_controls",
+      "duration_seconds": 55,
+      "evidence_mode": "SYNTHETIC_REPLAY",
+      "claims": [
+        "Alarm, missing-view, occlusion, stale, calibration-drift, version-drift, and consequence-mismatch controls fail closed.",
+        "The matrix contains eight cases and every case records action_executed=false."
+      ],
+      "artifacts": [
+        {
+          "path": "evidence/CHECK126_JUDGING_NEGATIVE_CONTROL_MATRIX.json",
+          "sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d"
+        }
+      ]
+    },
+    {
+      "id": "bounded_follow_up",
+      "duration_seconds": 30,
+      "evidence_mode": "SYNTHETIC_REPLAY",
+      "claims": [
+        "Inspection output changes only a planned next step: human review, new capture, or hold automation.",
+        "No external or physical action is executed."
+      ],
+      "artifacts": [
+        {
+          "path": "evidence/CHECK126_JUDGING_NEGATIVE_CONTROL_MATRIX.json",
+          "sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d"
+        }
+      ]
+    },
+    {
+      "id": "aws_disclosure",
+      "duration_seconds": 20,
+      "evidence_mode": "AWS_READ_ONLY_PREFLIGHT",
+      "claims": [
+        "AWS deployment, endpoint, camera, and API execution are NOT_RUN.",
+        "The fail-closed preflight stopped before AWS because owner-authorized runtime configuration was unavailable."
+      ],
+      "artifacts": [
+        {
+          "path": "evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json",
+          "sha256": "7e3c0d1292b9f001d02165de502339ee810be727f87a0d0166b742a82d594bd2"
+        }
+      ]
+    },
+    {
+      "id": "falsifier_and_next_gate",
+      "duration_seconds": 25,
+      "evidence_mode": "LOCAL_HTTP_FIXTURE",
+      "claims": [
+        "Digest drift, missing controls, duration overrun, or upgraded AWS claims invalidate this plan.",
+        "The next external gate is an owner-authorized AWS read-only preflight followed by separately approved deployment evidence."
+      ],
+      "artifacts": [
+        {
+          "path": "evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json",
+          "sha256": "7e3c0d1292b9f001d02165de502339ee810be727f87a0d0166b742a82d594bd2"
+        }
+      ]
+    }
+  ]
+}

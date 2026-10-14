@@ -9,9 +9,19 @@
   "deployment_completed": false,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK126",
-  "parent_commit": "7f9447cb1df02901ba0e6797d950b3b2708cd605",
-  "current_cut": "VISUALGUARD_AWS_DEPLOYMENT_PREFLIGHT001",
+  "parent_checkpoint": "CHECK129",
+  "parent_commit": "135c07ee9f0110c9688c6cc6f4b8854e0b0a8679",
+  "current_cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT001",
+  "demo_evidence_contract": {
+    "status": "PREPARED_NOT_RECORDED",
+    "duration_seconds": 180,
+    "required_segments": 6,
+    "bound_artifacts": 2,
+    "manifest_sha256": "fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2",
+    "aws_claim": "NOT_RUN",
+    "camera_claim": "NOT_RUN",
+    "action_executed": false
+  },
   "aws_preflight": {
     "mode": "READ_ONLY_FAIL_CLOSED",
     "allowed_api_operations": [
@@ -33,7 +43,7 @@
     "endpoint": "NOT_DEPLOYED"
   },
   "validation": {
-    "executed_at": "2026-10-15T01:29:47+08:00",
+    "executed_at": "2026-10-15T04:32:37+08:00",
     "python": "3.12.14",
     "sqlite": "3.53.1",
     "opencv": "5.0.0",
@@ -45,7 +55,10 @@
     "opencv_regression_slice": "PASS 125/125 plus 55 subtests",
     "aws_preflight_targeted_tests": "PASS 6/6",
     "aws_preflight_real_probe": "BLOCKED before AWS API; exit 2; commands_run empty",
-    "scoped_branch_full_suite": "PASS 199/199 plus 66 subtests",
+    "demo_contract_targeted_tests": "PASS 7/7",
+    "demo_contract_regression_slice": "PASS 132/132 plus 55 subtests",
+    "demo_contract_probe": "PASS; 180 seconds; 6 segments; 2 artifacts bound",
+    "scoped_branch_full_suite": "PASS 206/206 plus 66 subtests",
     "judging_matrix_probe": "PASS execution; 8/8 cases routed; action_executed=false for every case",
     "seed": "NONE"
   },
@@ -62,7 +75,8 @@
     "Coordinated rollback of SQLite and the matching local checkpoint is accepted and requires an independently administered monotonic or immutable anchor to detect.",
     "Checkpoint equality does not authenticate the source or prove pre-migration truth."
     ,
-    "The judging matrix uses fixed synthetic arrays and proves local routing only; it does not demonstrate field accuracy, AWS execution, or an executed action."
+    "The judging matrix uses fixed synthetic arrays and proves local routing only; it does not demonstrate field accuracy, AWS execution, or an executed action.",
+    "The demo contract is PREPARED_NOT_RECORDED and does not establish that a video, live camera run, or AWS deployment exists."
   ],
   "prerequisites": [
     "Authorized AWS programmatic identity with scoped runtime permissions",
@@ -73,7 +87,8 @@
     "Supply the preflight variables only in an owner-authorized runtime and rerun ops/aws_deployment_preflight.py.",
     "Provision the smallest meaningful AWS component only after the read-only preflight passes and access/cost approval is preserved.",
     "Replace local HMAC fixtures with an independently administered asymmetric witness.",
-    "Capture the eight-case matrix with authorized AWS execution logs and live camera inputs."
+    "Capture the eight-case matrix with authorized AWS execution logs and live camera inputs.",
+    "Record and review the bounded demo only as a separate human-controlled submission step; keep PREPARED_NOT_RECORDED until then."
   ]
 }
 
