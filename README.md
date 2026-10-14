@@ -18,6 +18,12 @@ It also adds a pure follow-up adapter so the OpenCV result demonstrably changes
 the next workflow step (`QUEUE_HUMAN_REVIEW`, `REQUEST_NEW_CAPTURE`, or
 `HOLD_AUTOMATION`). The adapter never executes an external or physical action.
 
+The AWS deployment preflight is executable but fail-closed. It requires
+explicit owner authorization, approved region/account/role, deployment target,
+cost scope, and immutable artifact digest before making any AWS call. If those
+gates pass, it permits only `sts get-caller-identity` and `iam get-role` reads;
+deployment and endpoint creation remain `NOT_RUN`.
+
 ## Reproduce
 
 ```bash
@@ -49,8 +55,14 @@ python ops/replay_ledger_witness_trust_root_set_abort_restart_atomicity_negative
 python ops/replay_ledger_witness_trust_root_history_tamper_restart_negative.py
 python ops/replay_ledger_witness_trust_root_history_external_anchor_co_rollback_falsifier.py
 python ops/opencv5_judging_negative_control_matrix.py
+python ops/aws_deployment_preflight.py \
+  --output evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json
 python run_demo.py
 ```
+
+The preflight exits `2` while blocked and `0` only after every static gate plus
+both read-only AWS checks pass. See `.env.example` for variable names; keep
+values in an authorized runtime or secret store, never in the repository.
 
 Fresh local results on 2026-10-14: judging-matrix targeted tests 5/5; matrix plus
 OpenCV inspection regression slice 125/125 plus 55 subtests; scoped branch full
@@ -60,6 +72,11 @@ replayable matrix probe PASS as executions. Every matrix row has
 `NOT_RUN`.
 See
 `evidence/VISUALGUARD_JUDGING_GAP_NEGATIVE_CONTROLS001.md`.
+
+Fresh preflight evidence on 2026-10-15: six targeted tests pass, including
+account/region mismatch and missing-CLI controls. The real local probe blocks
+before AWS because no owner-authorized AWS configuration is present; AWS API,
+deployment, endpoint, camera, and physical action remain `NOT_RUN`.
 
 ## Provenance and limits
 

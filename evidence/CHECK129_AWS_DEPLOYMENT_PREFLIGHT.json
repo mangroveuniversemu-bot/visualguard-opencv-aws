@@ -1,0 +1,58 @@
+{
+  "action_executed": false,
+  "checks": [
+    {
+      "code": "source_ready",
+      "detail": "Source is imported and locally verified.",
+      "status": "PASS"
+    },
+    {
+      "code": "owner_authorization",
+      "detail": "Set VISUALGUARD_AWS_OWNER_AUTHORIZED=true only in an owner-authorized runtime.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "region_approval",
+      "detail": "AWS_REGION and VISUALGUARD_AWS_APPROVED_REGION must be the same valid region.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "account_scope",
+      "detail": "VISUALGUARD_AWS_ACCOUNT_ID must name the authorized account.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "runtime_role_scope",
+      "detail": "Runtime role ARN is missing, invalid, or belongs to another account.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "deployment_target",
+      "detail": "Choose one explicit target: apprunner, ecs-fargate, or lambda-container.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "cost_scope",
+      "detail": "Cost scope must be existing-budget, free-tier, or zero-new-cost.",
+      "status": "BLOCK"
+    },
+    {
+      "code": "artifact_binding",
+      "detail": "VISUALGUARD_ARTIFACT_SHA256 must bind deployment to immutable bytes.",
+      "status": "BLOCK"
+    }
+  ],
+  "commands_run": [],
+  "cut": "VISUALGUARD_AWS_DEPLOYMENT_PREFLIGHT001",
+  "evidence_mode": "AWS_READ_ONLY_PREFLIGHT",
+  "live_state": {
+    "aws_api": "NOT_RUN",
+    "camera": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "endpoint": "NOT_DEPLOYED",
+    "physical_action": "NONE"
+  },
+  "provenance": "DERIVED",
+  "schema_version": 1,
+  "status": "BLOCKED"
+}
