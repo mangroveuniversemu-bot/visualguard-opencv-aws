@@ -29,6 +29,11 @@ video claims, and any upgrade of AWS/camera evidence.
   55 subtests;
 - scoped branch full suite: PASS 206/206 plus 66 subtests;
 - changed-file Ruff format/lint and compileall: PASS;
+- hosted GitHub Actions run `38633479920`, job `116090670297`: PASS at
+  `82b7d742a81df3b533438af3182f44febbfebd2e`;
+- preserved falsifier: run `38633333775` failed before tests because the pip
+  cache had no dependency-file path; commit `82b7d742...` bound it to
+  `requirements-vision.txt`, after which every hosted step passed;
 - manifest SHA-256:
   `fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2`;
 - AWS API, deployment, endpoint, camera, recorded video, and physical action:
@@ -45,7 +50,6 @@ are also unavailable.
 
 ## Exact next action
 
-Push the verified commit and require the new non-scheduled GitHub Actions run
-to pass. Then rotate to PayPal. Resume this lane only for a human-controlled
-video capture/review or when the authorized AWS configuration exists; preserve
-new video/AWS evidence separately before changing any `NOT_RUN` claim.
+Rotate to PayPal. Resume this lane only for a human-controlled video
+capture/review or when the authorized AWS configuration exists; preserve new
+video/AWS evidence separately before changing any `NOT_RUN` claim.

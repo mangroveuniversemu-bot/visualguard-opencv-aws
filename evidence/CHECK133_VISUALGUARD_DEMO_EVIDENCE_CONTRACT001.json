@@ -26,6 +26,25 @@
     "compileall_changed_files": "PASS",
     "seed": "NONE"
   },
+  "hosted_ci": {
+    "status": "PASS",
+    "commit": "82b7d742a81df3b533438af3182f44febbfebd2e",
+    "run_id": 38633479920,
+    "job_id": 116090670297,
+    "steps": {
+      "setup_python": "PASS",
+      "install_dependencies": "PASS",
+      "verify_contract": "PASS",
+      "ruff": "PASS",
+      "full_suite": "PASS"
+    },
+    "preserved_falsifier": {
+      "run_id": 38633333775,
+      "status": "FAIL_BEFORE_TESTS",
+      "reason": "setup-python pip cache did not have cache-dependency-path for requirements-vision.txt",
+      "closure": "Bound cache-dependency-path to requirements-vision.txt; successor run passed every step."
+    }
+  },
   "runtime": {
     "python": "3.12.14",
     "opencv": "5.0.0",

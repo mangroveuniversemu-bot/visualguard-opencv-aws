@@ -75,6 +75,8 @@ has `action_executed=false` and `physical_action=NONE`; AWS, live camera, and
 video recording remain `NOT_RUN`/`PREPARED_NOT_RECORDED`.
 See
 `evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.md`.
+Hosted GitHub Actions run `38633479920` / job `116090670297` passed the
+contract, changed-file quality checks, and full suite at `82b7d742...`.
 
 Fresh preflight evidence on 2026-10-15: six targeted tests pass, including
 account/region mismatch and missing-CLI controls. The real local probe blocks
