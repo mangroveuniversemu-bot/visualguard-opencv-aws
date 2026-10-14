@@ -9,11 +9,11 @@
   "deployment_completed": false,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK115",
-  "parent_commit": "63cdff202f5a59b337283ddadccbb0001844d8ba",
-  "current_cut": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_TAMPER_RESTART_FAIL_CLOSED_NEGATIVE001",
+  "parent_checkpoint": "CHECK119",
+  "parent_commit": "9df8063cbd37b92748333ddf1bbad9a4c647bab4",
+  "current_cut": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001",
   "validation": {
-    "executed_at": "2026-10-14T14:41:00+08:00",
+    "executed_at": "2026-10-14T18:32:07+08:00",
     "python": "3.12.14",
     "sqlite": "3.53.1",
     "opencv": "5.0.0",
@@ -21,10 +21,10 @@
     "numpy": "2.5.3",
     "pytest": "9.0.2",
     "ruff": "0.14.13",
-    "trust_root_history_integrity_targeted_tests": "PASS 5/5",
-    "trust_root_regression_slice": "PASS 18/18 plus 3 subtests",
-    "scoped_branch_full_suite": "PASS 183/183 plus 58 subtests",
-    "trust_root_history_tamper_probe": "PASS logical tamper, SQLite quick_check ok, restart fail closed before append",
+    "trust_root_history_external_anchor_targeted_tests": "PASS 5/5",
+    "trust_root_regression_slice": "PASS 23/23 plus 3 subtests",
+    "scoped_branch_full_suite": "PASS 188/188 plus 58 subtests",
+    "trust_root_history_external_anchor_probe": "PASS execution; database-only and anchor-only rollback rejected; coordinated rollback falsifier ACCEPTED_MATCHING_PAIR",
     "seed": "NONE"
   },
   "live_state": {
@@ -33,6 +33,11 @@
     "camera": "NOT_RUN",
     "physical_action": "NONE"
   },
+  "known_limitations": [
+    "A colocated file checkpoint is a local verification fixture, not an independent freshness source.",
+    "Coordinated rollback of SQLite and the matching local checkpoint is accepted and requires an independently administered monotonic or immutable anchor to detect.",
+    "Checkpoint equality does not authenticate the source or prove pre-migration truth."
+  ],
   "prerequisites": [
     "Authorized AWS programmatic identity with scoped runtime permissions",
     "Selected AWS region and agreed resource/cost scope",

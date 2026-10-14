@@ -78,6 +78,7 @@ REPLAY_LEDGER_ANCHOR_TRANSITION_TABLE_INFO = (
     (3, "receipt_sha256", "TEXT", 1, None, 0),
 )
 REPLAY_LEDGER_POLICY_SCHEMA_VERSION = 1
+TRUST_ROOT_HISTORY_CHECKPOINT_SCHEMA_VERSION = 1
 REPLAY_LEDGER_POLICY_TABLE_SQL = """CREATE TABLE replay_ledger_policy (
     singleton INTEGER PRIMARY KEY CHECK (singleton = 1),
     policy_schema_version INTEGER NOT NULL,
@@ -1034,6 +1035,58 @@ class CaptureReplayWitnessRevocationStore:
                     "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
                 )
             return epoch, roots
+
+    def trust_root_history_checkpoint(self) -> dict[str, int | str]:
+        """Return the active history head for an independently stored anchor."""
+        with self._lock:
+            epoch, root_digest = self._trust_root_state_unlocked()
+            roots = self._trust_root_set_unlocked()
+            if root_digest != self._trust_root_digest(roots):
+                raise CaptureReplayLedgerSchemaError(
+                    "REPLAY_LEDGER_WITNESS_TRUST_ROOT_STATE_INVALID"
+                )
+            chain_digest = self._validate_trust_root_history_unlocked(
+                current_epoch=epoch,
+                current_root_digest=root_digest,
+            )
+            return {
+                "schema_version": TRUST_ROOT_HISTORY_CHECKPOINT_SCHEMA_VERSION,
+                "trust_root_epoch": epoch,
+                "root_set_sha256": root_digest,
+                "chain_sha256": chain_digest,
+            }
+
+    def verify_trust_root_history_checkpoint(
+        self,
+        checkpoint: object,
+    ) -> dict[str, int | str]:
+        """Fail closed when a supplied independent history head disagrees."""
+        if not isinstance(checkpoint, dict) or set(checkpoint) != {
+            "schema_version",
+            "trust_root_epoch",
+            "root_set_sha256",
+            "chain_sha256",
+        }:
+            raise CaptureReplayLedgerSchemaError(
+                "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_ANCHOR_INVALID"
+            )
+        if (
+            checkpoint["schema_version"] != TRUST_ROOT_HISTORY_CHECKPOINT_SCHEMA_VERSION
+            or not isinstance(checkpoint["trust_root_epoch"], int)
+            or isinstance(checkpoint["trust_root_epoch"], bool)
+            or checkpoint["trust_root_epoch"] < 0
+            or not _valid_sha256(checkpoint["root_set_sha256"])
+            or not _valid_sha256(checkpoint["chain_sha256"])
+        ):
+            raise CaptureReplayLedgerSchemaError(
+                "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_ANCHOR_INVALID"
+            )
+        current = self.trust_root_history_checkpoint()
+        if checkpoint != current:
+            raise CaptureReplayLedgerSchemaError(
+                "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_ANCHOR_MISMATCH"
+            )
+        return current
 
     def attestation_count(self) -> int:
         with self._lock:
