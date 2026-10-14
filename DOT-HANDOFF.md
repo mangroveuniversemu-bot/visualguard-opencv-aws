@@ -8,38 +8,37 @@ witness, and physical action remain **NOT_RUN**.
 
 ## Current bounded cut
 
-`REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001`
+`VISUALGUARD_JUDGING_GAP_NEGATIVE_CONTROLS001`
 
-- Parent checkpoint: CHECK119.
-- Parent commit: `9df8063cbd37b92748333ddf1bbad9a4c647bab4`.
+- Parent checkpoint: CHECK123.
+- Parent commit: `375a860815b64340bdebbb04fd54bc946bcf3be5`.
 - IP classification: `DERIVED`.
-- Evidence mode: `LOCAL_FILE_ANCHOR_FIXTURE`.
+- Evidence mode: `SYNTHETIC_REPLAY`.
 
-The store now exports and verifies a versioned trust-root-history checkpoint.
-The latest checkpoint rejects an older database and an older checkpoint rejects
-a newer database. The bounded falsifier also proves that rolling back the
-SQLite history and colocated checkpoint together yields
-`ACCEPTED_MATCHING_PAIR`. This is a valuable claim boundary, not live external
-witness evidence.
+The replayable matrix runs eight fixed-array OpenCV controls and converts each
+inspection result into a bounded follow-up plan. Clear evidence queues human
+review; missing or occluded views request a new capture; alarm, stale capture,
+calibration drift, dependency drift, and consequence mismatch hold automation.
+Every row records `action_executed=false` and `physical_action=NONE`.
 
 ## Fresh evidence
 
-- external-anchor targeted tests: PASS 5/5;
-- trust-root regression slice: PASS 23/23 plus 3 subtests;
-- scoped full suite: PASS 188/188 plus 58 subtests;
+- judging-matrix targeted tests: PASS 5/5;
+- matrix plus OpenCV regression slice: PASS 125/125 plus 55 subtests;
+- scoped branch full suite: PASS 193/193 plus 66 subtests;
 - changed-file Ruff and format check: PASS;
-- compileall, synthetic demo, and replayable co-rollback probe: PASS execution;
-- coordinated rollback resistance: **FALSIFIED** for a same-domain file anchor.
+- compileall and replayable eight-case matrix probe: PASS execution;
+- OpenCV output changes the planned downstream workflow action: demonstrated
+  locally; external action execution: **NONE**.
 
 ## Blockers and resume condition
 
-Authorized AWS identity, selected region/cost scope, and an independently
-administered monotonic or immutable witness remain unavailable. Resume live
-validation only when those inputs are authorized. Do not treat local checkpoint
-equality, HMAC fixtures, or SQLite `quick_check=ok` as source authenticity.
+Authorized AWS identity, selected region/cost scope, live camera input, and an
+independently administered monotonic or immutable witness remain unavailable.
+The matrix is deterministic local evidence, not a field-accuracy or deployment
+claim.
 
 ## Exact next action
 
-Rotate to
-`PAYPAL_PROVIDER_EVIDENCE_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001`
-unless a higher-priority fresh canonical checkpoint changes routing.
+Run the complete branch suite, publish the verified commit and checkpoint, then
+rotate to PayPal unless a newer canonical checkpoint changes routing.

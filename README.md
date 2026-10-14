@@ -11,14 +11,12 @@ reviewable as text instead of only as an archive. AWS deployment, live camera
 input, an independently operated witness, and physical action remain
 `NOT_RUN`.
 
-The current bounded cut exports and verifies a versioned trust-root-history
-checkpoint containing the active epoch, root-set digest, and chain head. A
-fresh external checkpoint rejects a rolled-back SQLite history, and a stale
-checkpoint rejects a newer database. The negative probe also preserves the
-critical falsifier: SQLite and a colocated file checkpoint rolled back together
-remain internally consistent and are accepted. The local file is therefore a
-fixture for the verification contract, not an independent freshness source or
-live external witness.
+The current bounded cut packages eight judging-facing OpenCV negative controls
+into one replayable matrix: alarm, occlusion, missing view, stale capture,
+calibration drift, dependency drift, consequence mismatch, and a clear control.
+It also adds a pure follow-up adapter so the OpenCV result demonstrably changes
+the next workflow step (`QUEUE_HUMAN_REVIEW`, `REQUEST_NEW_CAPTURE`, or
+`HOLD_AUTOMATION`). The adapter never executes an external or physical action.
 
 ## Reproduce
 
@@ -39,6 +37,7 @@ python -m pytest -q tests/test_external_witness_authenticity.py \
   tests/test_external_witness_domain_separation.py \
   tests/test_external_witness_algorithm_migration.py
 python -m pytest -q tests/test_opencv5_inspection.py
+python -m pytest -q tests/test_judging_negative_control_matrix.py
 python -m pytest -q
 python ops/replay_ledger_witness_domain_separation_negative.py
 python ops/replay_ledger_witness_algorithm_migration_negative.py
@@ -49,22 +48,24 @@ python ops/replay_ledger_witness_trust_root_set_epoch_negative.py
 python ops/replay_ledger_witness_trust_root_set_abort_restart_atomicity_negative.py
 python ops/replay_ledger_witness_trust_root_history_tamper_restart_negative.py
 python ops/replay_ledger_witness_trust_root_history_external_anchor_co_rollback_falsifier.py
+python ops/opencv5_judging_negative_control_matrix.py
 python run_demo.py
 ```
 
-Fresh local results on 2026-10-14: external-anchor targeted tests 5/5;
-trust-root regression slice 23/23 plus 3 subtests; scoped branch full suite
-188/188 plus 58 subtests; changed-file Ruff, format check, compileall, synthetic
-demo and the co-rollback falsifier probe PASS as executions. The security
-falsifier result is `ACCEPTED_MATCHING_PAIR`, not a rollback-resistance PASS.
+Fresh local results on 2026-10-14: judging-matrix targeted tests 5/5; matrix plus
+OpenCV inspection regression slice 125/125 plus 55 subtests; scoped branch full
+suite 193/193 plus 66 subtests; changed-file Ruff, format check, compileall, and
+replayable matrix probe PASS as executions. Every matrix row has
+`action_executed=false` and `physical_action=NONE`; AWS and live camera remain
+`NOT_RUN`.
 See
-`evidence/REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001.md`.
+`evidence/VISUALGUARD_JUDGING_GAP_NEGATIVE_CONTROLS001.md`.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK119,
-  `REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_TAMPER_RESTART_FAIL_CLOSED_NEGATIVE001`.
-- Parent commit: `9df8063cbd37b92748333ddf1bbad9a4c647bab4`.
+- Parent checkpoint: CHECK123,
+  `REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_EXTERNAL_ANCHOR_CO_ROLLBACK_FALSIFIER_NEGATIVE001`.
+- Parent commit: `375a860815b64340bdebbb04fd54bc946bcf3be5`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,
@@ -75,6 +76,8 @@ See
   therefore requires an independently administered monotonic or immutable
   anchor. Legacy unchained rows establish a local migration baseline and cannot
   certify pre-migration truth.
+- The matrix proves deterministic local routing over fixed arrays, not field
+  performance, source authenticity, AWS integration, or executed automation.
 
 ## Deployment gate
 
