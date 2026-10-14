@@ -31,6 +31,8 @@ same-person review, and review digest drift.
   artifacts; manifest SHA-256:
   `fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2`;
 - actual missing-video probe: `BLOCKED`, reason `VIDEO_MISSING`, exit 2;
+- hosted GitHub Actions run `38654945975`, job `116162376099`: PASS at
+  functional commit `9051a943b3f40a4e3a7e57cc86213d39f701448a`;
 - AWS API, deployment, endpoint, camera, recorded video, and physical action:
   **NOT_RUN** / **NOT_DEPLOYED** / **PREPARED_NOT_RECORDED** / **NONE**.
 

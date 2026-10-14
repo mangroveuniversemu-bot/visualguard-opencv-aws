@@ -72,7 +72,7 @@
     "final_video_gate_targeted_tests": "PASS 8/8",
     "final_video_gate_missing_video_probe": "BLOCKED VIDEO_MISSING; exit 2",
     "scoped_branch_full_suite": "PASS 214/214 plus 66 subtests",
-    "hosted_ci": "PASS run 38633479920 job 116090670297 at 82b7d742a81df3b533438af3182f44febbfebd2e",
+    "hosted_ci": "PASS run 38654945975 job 116162376099 at 9051a943b3f40a4e3a7e57cc86213d39f701448a",
     "judging_matrix_probe": "PASS execution; 8/8 cases routed; action_executed=false for every case",
     "seed": "NONE"
   },

@@ -81,8 +81,9 @@ exactly 180 seconds; AWS, live camera, deployment, physical action, and video
 recording remain `NOT_RUN` / `NONE` / `PREPARED_NOT_RECORDED`.
 See
 `evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.md`.
-Hosted GitHub Actions run `38633479920` / job `116090670297` passed the
-contract, changed-file quality checks, and full suite at `82b7d742...`.
+Hosted GitHub Actions run `38654945975` / job `116162376099` passed the
+underlying contract, final-video gate quality checks, and full 214-test suite
+at functional commit `9051a943b3f40a4e3a7e57cc86213d39f701448a`.
 
 Fresh preflight evidence on 2026-10-15: six targeted tests pass, including
 account/region mismatch and missing-CLI controls. The real local probe blocks

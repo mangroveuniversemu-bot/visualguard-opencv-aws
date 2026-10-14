@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "check": "CHECK136",
+  "cut": "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001",
+  "executed_at": "2026-10-15T07:33:16+08:00",
+  "parent_portfolio_checkpoint": "CHECK135",
+  "parent_lane_checkpoint": "CHECK133",
+  "parent_commit": "244b4e620a7e7672bd08c2b90fafd507ca35760b",
+  "functional_commit": "9051a943b3f40a4e3a7e57cc86213d39f701448a",
+  "branch": "codex/witness-revocation-epoch-20261013",
+  "provenance": "DERIVED",
+  "evidence_modes": [
+    "SYNTHETIC_REPLAY",
+    "AWS_READ_ONLY_PREFLIGHT"
+  ],
+  "result": {
+    "gate_status": "PREPARED_NOT_RECORDED",
+    "review_status": "PREPARED_NOT_REVIEWED",
+    "actual_probe": "BLOCKED",
+    "actual_probe_reason": "VIDEO_MISSING",
+    "actual_probe_exit_code": 2,
+    "contract_sha256": "fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2",
+    "required_segments": 6,
+    "max_duration_seconds": 180
+  },
+  "tests": {
+    "targeted": "PASS 8/8",
+    "full_suite": "PASS 214/214 plus 66 subtests",
+    "ruff_changed_files": "PASS",
+    "format_changed_files": "PASS",
+    "compileall_changed_files": "PASS",
+    "json_parse": "PASS",
+    "seed": "NONE"
+  },
+  "hosted_ci": {
+    "status": "PASS",
+    "run_id": 38654945975,
+    "job_id": 116162376099,
+    "commit": "9051a943b3f40a4e3a7e57cc86213d39f701448a",
+    "steps": {
+      "setup_python": "PASS",
+      "install_dependencies": "PASS",
+      "verify_contract": "PASS",
+      "ruff": "PASS",
+      "full_suite": "PASS"
+    },
+    "artifacts": []
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "opencv": "5.0.0",
+    "opencv_python_headless": "5.0.0.93",
+    "numpy": "2.5.3",
+    "pytest": "9.0.2",
+    "ruff": "0.14.13"
+  },
+  "live_state": {
+    "video": "PREPARED_NOT_RECORDED",
+    "independent_review": "PREPARED_NOT_REVIEWED",
+    "aws_api": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "endpoint": "NOT_DEPLOYED",
+    "camera": "NOT_RUN",
+    "physical_action": "NONE",
+    "action_executed": false
+  },
+  "blocked_reason": "A final video and distinct human reviewer receipt are absent; owner-authorized AWS configuration is also absent.",
+  "resume_condition": "Supply exact final video bytes, completed operator receipt, and a distinct reviewer receipt, or owner-authorized AWS preflight configuration.",
+  "next_cut": "PAYPAL_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001_OR_NEXT_CANONICAL_READY_CUT"
+}
