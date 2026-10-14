@@ -11,16 +11,13 @@ reviewable as text instead of only as an archive. AWS deployment, live camera
 input, an independently operated witness, and physical action remain
 `NOT_RUN`.
 
-The current bounded cut adds an authoritative trust-root-set snapshot and
-monotonic epoch. A compare-and-swap rotation must name the complete non-empty
-provider/key identity set, match the current epoch, and advance exactly one
-epoch under the same `BEGIN IMMEDIATE` lock as witness append. Exact committed
-retries are idempotent; stale writers, gaps, no-op advances, epoch rollback,
-and reactivation of any historical snapshot fail closed across restart. Once
-initialized, the signed witness must bind the current root epoch and its
-provider/key identity must be in the active set. Competing append/rotation
-updates therefore have only serial outcomes. HMAC remains a deterministic
-local fixture and does not prove an independent trust domain.
+The current bounded cut adds an abort/restart atomicity falsifier for the
+authoritative trust-root-set CAS. A deterministic SQLite trigger aborts the
+state-row update after active-root rows have already been changed inside the
+transaction but before commit. Raw state, root and history rows must remain the
+exact pre-rotation snapshot across restart; after the trigger is removed, one
+retry must advance the epoch and history exactly once. HMAC remains a
+deterministic local fixture and does not prove an independent trust domain.
 
 ## Reproduce
 
@@ -32,6 +29,7 @@ python -m pytest -q tests/test_external_witness_algorithm_migration.py
 python -m pytest -q tests/test_external_witness_policy_rollback.py
 python -m pytest -q tests/test_external_witness_revocation_list_epoch.py
 python -m pytest -q tests/test_external_witness_trust_root_set_epoch.py
+python -m pytest -q tests/test_external_witness_trust_root_set_atomicity.py
 python -m pytest -q tests/test_external_witness_authenticity.py \
   tests/test_external_witness_key_rotation.py \
   tests/test_external_witness_revocation_epoch.py \
@@ -45,26 +43,25 @@ python ops/replay_ledger_witness_policy_rollback_negative.py
 python ops/replay_ledger_witness_revocation_epoch_negative.py
 python ops/replay_ledger_witness_revocation_list_epoch_negative.py
 python ops/replay_ledger_witness_trust_root_set_epoch_negative.py
+python ops/replay_ledger_witness_trust_root_set_abort_restart_atomicity_negative.py
 python run_demo.py
 ```
 
-Fresh local results on 2026-10-14: trust-root-set targeted tests 10/10 plus 3
-subtests; scoped branch full suite 175/175 plus 58 subtests; changed-file Ruff,
-format check, compileall, synthetic demo and the replayable
-epoch/rollback/restart/race probe PASS. See
-`evidence/REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_EPOCH_ROLLBACK_CONCURRENCY_NEGATIVE001.md`.
+Fresh local results on 2026-10-14: atomicity targeted tests 3/3; scoped branch
+full suite 178/178 plus 58 subtests; changed-file Ruff, format check, compileall,
+synthetic demo and the abort/restart/retry probe PASS. See
+`evidence/REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_ABORT_RESTART_ATOMICITY_NEGATIVE001.md`.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK106,
-  `REPLAY_LEDGER_WITNESS_REVOCATION_LIST_EPOCH_ROLLBACK_CONCURRENCY_NEGATIVE001`.
-- Parent Drive artifact SHA-256:
-  `63be074318cc6df51f3449e30109d69e35887990516c2e12da88fd58e2961618`.
+- Parent checkpoint: CHECK111,
+  `REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_EPOCH_ROLLBACK_CONCURRENCY_NEGATIVE001`.
+- Parent commit: `2afc202bda256c695fcdfd8e15205e84acd330f2`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,
-  physical disk, distributed multi-writer ordering, and physical action are
-  not demonstrated.
+  process kill, physical disk/power loss, distributed multi-writer ordering,
+  and physical action are not demonstrated.
 
 ## Deployment gate
 
@@ -72,4 +69,5 @@ Do not treat source import or local tests as AWS deployment. Deployment still
 requires an authorized AWS identity, selected region, cost scope, and an
 independently administered witness/key-revocation channel. No public release,
 submission, paid provisioning, or automatic merge is authorized here.
+
 

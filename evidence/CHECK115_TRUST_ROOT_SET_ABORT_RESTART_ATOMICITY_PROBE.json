@@ -1,0 +1,44 @@
+{
+  "abort_error": "INJECTED_TRUST_ROOT_UPDATE_ABORT",
+  "attestation_count": 1,
+  "aws": "NOT_RUN",
+  "camera": "NOT_RUN",
+  "cut": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_SET_ABORT_RESTART_ATOMICITY_NEGATIVE001",
+  "evidence_mode": "LOCAL_DETERMINISTIC_HMAC_SQLITE_FIXTURE",
+  "failure_injection": "SQLITE_TRIGGER_ABORT_AFTER_ROOT_ROWS_MUTATED_BEFORE_STATE_COMMIT",
+  "history_epoch_count": 3,
+  "ip_classification": "DERIVED",
+  "live_external_witness": "NOT_RUN",
+  "physical_action": "NONE",
+  "post_abort_append": "APPENDED",
+  "removed_root_after_retry": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_EPOCH_STALE",
+  "restart_state_after_abort": {
+    "epoch": 1,
+    "roots": [
+      [
+        "fixture-independent-witness",
+        "fixture-hmac-root-2026-11"
+      ],
+      [
+        "fixture-independent-witness",
+        "fixture-hmac-root-2026-12"
+      ]
+    ]
+  },
+  "retry_epoch": 2,
+  "retry_roots": [
+    [
+      "fixture-independent-witness",
+      "fixture-hmac-root-2026-12"
+    ],
+    [
+      "fixture-independent-witness",
+      "fixture-hmac-root-2027-01"
+    ]
+  ],
+  "seed": "NONE",
+  "snapshot_unchanged_after_abort": true,
+  "sqlite_quick_check": [
+    "ok"
+  ]
+}
