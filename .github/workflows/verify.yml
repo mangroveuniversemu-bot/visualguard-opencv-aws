@@ -18,6 +18,7 @@ jobs:
         with:
           python-version: "3.12"
           cache: pip
+          cache-dependency-path: requirements-vision.txt
       - name: Install pinned runtime and test tools
         run: python -m pip install -r requirements-vision.txt pytest==9.0.2 ruff==0.14.13
       - name: Verify demo evidence contract
