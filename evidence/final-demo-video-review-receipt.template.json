@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_NOT_REVIEWED",
+  "reviewer_id": "REPLACE_WITH_DISTINCT_OPAQUE_REVIEWER_ID",
+  "video_sha256": "REPLACE_AFTER_REVIEW",
+  "contract_sha256": "REPLACE_AFTER_REVIEW",
+  "observed_segment_ids": [],
+  "attestation": {
+    "synthetic_replay_disclosed": true,
+    "fixed_synthetic_arrays_disclosed": true,
+    "opencv5_runtime_claimed": true,
+    "live_camera_claimed": false,
+    "live_aws_claimed": false,
+    "aws_deployment_claimed": false,
+    "physical_action_claimed": false,
+    "field_accuracy_claimed": false,
+    "source_authenticity_claimed": false,
+    "credentials_visible": false
+  },
+  "credentials_exposed": false
+}

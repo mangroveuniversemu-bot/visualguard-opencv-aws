@@ -25,7 +25,7 @@ jobs:
         run: python ops/verify_demo_evidence_contract.py
       - name: Check formatting and lint
         run: |
-          ruff format --check ops/verify_demo_evidence_contract.py tests/test_demo_evidence_contract.py
-          ruff check ops/verify_demo_evidence_contract.py tests/test_demo_evidence_contract.py
+          ruff format --check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py
+          ruff check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py
       - name: Run test suite
         run: python -m pytest -q

@@ -8,48 +8,45 @@ witness, recorded video, and physical action remain **NOT_RUN**.
 
 ## Current bounded cut
 
-`VISUALGUARD_DEMO_EVIDENCE_CONTRACT001`
+`VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001`
 
-- Parent checkpoint: CHECK129.
-- Parent commit: `135c07ee9f0110c9688c6cc6f4b8854e0b0a8679`.
+- Parent portfolio checkpoint: CHECK135.
+- Parent lane checkpoint: CHECK133.
+- Parent commit: `244b4e620a7e7672bd08c2b90fafd507ca35760b`.
 - IP classification: `DERIVED`.
 - Evidence modes: `SYNTHETIC_REPLAY` and `AWS_READ_ONLY_PREFLIGHT`.
 
-The new executable contract binds the checked-in OpenCV 5 eight-case matrix
-and blocked AWS preflight by SHA-256. It requires six demo segments totaling no
-more than 180 seconds and rejects missing coverage, duration overrun, path
-escape, digest drift, incomplete controls, physical-action claims, recorded
-video claims, and any upgrade of AWS/camera evidence.
+The new executable gate retains that contract and additionally binds exact
+final video bytes, byte size, real-media duration, per-segment observations,
+and a distinct reviewer's receipt. It rejects missing/substituted video,
+duration overrun, incomplete observation, AWS/camera/deployment overclaim,
+same-person review, and review digest drift.
 
-## Fresh evidence
+## Fresh local evidence
 
-- contract verifier: PASS; 180 seconds, 6 segments, 2 bound artifacts;
-- demo-contract targeted tests: PASS 7/7;
-- contract plus judging matrix and OpenCV regression slice: PASS 132/132 plus
-  55 subtests;
-- scoped branch full suite: PASS 206/206 plus 66 subtests;
+- final-video gate targeted tests: PASS 8/8;
+- scoped branch full suite: PASS 214/214 plus 66 subtests;
 - changed-file Ruff format/lint and compileall: PASS;
-- hosted GitHub Actions run `38633479920`, job `116090670297`: PASS at
-  `82b7d742a81df3b533438af3182f44febbfebd2e`;
-- preserved falsifier: run `38633333775` failed before tests because the pip
-  cache had no dependency-file path; commit `82b7d742...` bound it to
-  `requirements-vision.txt`, after which every hosted step passed;
-- manifest SHA-256:
+- underlying contract verifier: PASS; 180 seconds, 6 segments, 2 bound
+  artifacts; manifest SHA-256:
   `fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2`;
+- actual missing-video probe: `BLOCKED`, reason `VIDEO_MISSING`, exit 2;
 - AWS API, deployment, endpoint, camera, recorded video, and physical action:
   **NOT_RUN** / **NOT_DEPLOYED** / **PREPARED_NOT_RECORDED** / **NONE**.
 
 ## Unknowns, blockers, and resume condition
 
-The contract proves internal consistency of a prepared script, not that a
-video exists or that field accuracy, source authenticity, AWS integration, or
-safe actuation is established. AWS remains blocked on owner-authorized
-identity, region/account/role, cost scope, immutable artifact binding, and the
-read-only preflight. A live-camera run and independently administered witness
-are also unavailable.
+The gate is executable but no video or independent review exists. Its current
+result is intentionally blocked, not a video PASS. It does not establish field
+accuracy, source authenticity, live camera, AWS integration, or safe actuation.
+AWS remains blocked on owner-authorized identity, region/account/role, cost
+scope, immutable artifact binding, and the read-only preflight.
 
 ## Exact next action
 
-Rotate to PayPal. Resume this lane only for a human-controlled video
-capture/review or when the authorized AWS configuration exists; preserve new
-video/AWS evidence separately before changing any `NOT_RUN` claim.
+Record the bounded six-segment demo only through a human-controlled process,
+complete the operator receipt, obtain a distinct reviewer receipt, and run
+`ops/verify_final_demo_video_evidence.py` against the exact final bytes. Until
+that succeeds, retain `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED` and all
+AWS/camera/deployment `NOT_RUN` fields. If no recording/reviewer is available,
+rotate to the next portfolio lane rather than manufacture evidence.

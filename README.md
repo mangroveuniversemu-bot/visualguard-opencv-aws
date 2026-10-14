@@ -11,12 +11,13 @@ reviewable as text instead of only as an archive. AWS deployment, live camera
 input, an independently operated witness, and physical action remain
 `NOT_RUN`.
 
-The current bounded cut packages the OpenCV 5 replay, eight judging-facing
-negative controls, downstream routing, and the AWS disclosure into a
-machine-verifiable 180-second demo contract. Artifact digests, required
-segments, and claim boundaries fail closed. The plan is
-`PREPARED_NOT_RECORDED`; it cannot label fixed arrays, the blocked AWS
-preflight, or an unrecorded script as live evidence.
+The current bounded cut adds a final-video evidence gate on top of the OpenCV 5
+replay contract. It binds exact video bytes, the checked-in six-segment demo
+contract, per-segment operator observations, and a distinct reviewer's receipt.
+The gate uses real-media `ffprobe` inspection and fails closed on substituted
+bytes, duration overrun, missing segments, claim overreach, or review drift.
+No final video or independent review exists yet, so the current state remains
+`PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`.
 
 The AWS deployment preflight is executable but fail-closed. It requires
 explicit owner authorization, approved region/account/role, deployment target,
@@ -59,6 +60,11 @@ python ops/aws_deployment_preflight.py \
   --output evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json
 python ops/verify_demo_evidence_contract.py
 python -m pytest -q tests/test_demo_evidence_contract.py
+python -m pytest -q tests/test_final_demo_video_evidence.py
+python ops/verify_final_demo_video_evidence.py \
+  --video .local/final-demo.mp4 \
+  --receipt .local/final-demo-receipt.json \
+  --review .local/final-demo-review.json
 python run_demo.py
 ```
 
@@ -66,13 +72,13 @@ The preflight exits `2` while blocked and `0` only after every static gate plus
 both read-only AWS checks pass. See `.env.example` for variable names; keep
 values in an authorized runtime or secret store, never in the repository.
 
-Fresh local results on 2026-10-15: demo-contract targeted tests 7/7; contract,
-matrix, and OpenCV inspection regression slice 132/132 plus 55 subtests; scoped
-branch full suite 206/206 plus 66 subtests; changed-file Ruff, format check,
-compileall, and contract probe PASS as executions. The contract binds two
-artifacts across six required segments at exactly 180 seconds. Every matrix row
-has `action_executed=false` and `physical_action=NONE`; AWS, live camera, and
-video recording remain `NOT_RUN`/`PREPARED_NOT_RECORDED`.
+Fresh local results on 2026-10-15: final-video gate targeted tests 8/8 and
+scoped branch full suite 214/214 plus 66 subtests; changed-file Ruff, format
+check, compileall, JSON parsing, and the underlying demo-contract probe pass.
+The actual missing-video probe returns `VIDEO_MISSING` with exit 2. No final
+video or independent review was supplied. The contract remains six segments at
+exactly 180 seconds; AWS, live camera, deployment, physical action, and video
+recording remain `NOT_RUN` / `NONE` / `PREPARED_NOT_RECORDED`.
 See
 `evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.md`.
 Hosted GitHub Actions run `38633479920` / job `116090670297` passed the
@@ -99,8 +105,10 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
   certify pre-migration truth.
 - The matrix proves deterministic local routing over fixed arrays, not field
   performance, source authenticity, AWS integration, or executed automation.
-- Passing the demo contract proves only that a prepared script matches its
-  bound artifacts and claim limits; it does not prove a video was recorded.
+- Passing the final-video gate would prove only that reviewed video bytes match
+  the bounded synthetic-replay contract. It would not prove field accuracy,
+  source authenticity, live camera, AWS execution, deployment, or physical
+  action. The prepared templates do not prove a video was recorded.
 
 ## Deployment gate
 
