@@ -1,0 +1,19 @@
+{
+    "attestation_count_after_tamper": 0,
+    "aws": "NOT_RUN",
+    "camera": "NOT_RUN",
+    "cut": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_TAMPER_RESTART_FAIL_CLOSED_NEGATIVE001",
+    "evidence_mode": "LOCAL_DETERMINISTIC_HMAC_SQLITE_FIXTURE",
+    "ip_classification": "DERIVED",
+    "known_limitation": "A database attacker able to rewrite the full history chain and its trust context is outside this local-fixture claim.",
+    "live_external_witness": "NOT_RUN",
+    "original_epoch_1_root_set_sha256": "67440c56443c9d15b349e955c1dc0a374f6dddd6fbca02df3c6468a8bdcd6e53",
+    "physical_action": "NONE",
+    "restart_error": "REPLAY_LEDGER_WITNESS_TRUST_ROOT_HISTORY_INVALID",
+    "seed": "NONE",
+    "sqlite_quick_check_after_tamper": [
+        "ok"
+    ],
+    "tamper": "OLDER_ROOT_SET_DIGEST_CHANGED_WITHOUT_CHAIN_REWRITE",
+    "tampered_epoch_1_root_set_sha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}
