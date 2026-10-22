@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VisualGuard Inspector</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #1b1f24; --muted: #5b6470;
+    --border: #d9dde3; --accent: #2457c5; --stop: #b42318; --stop-bg: #fde8e6;
+    --request: #8a5a00; --request-bg: #fff3d6; --review: #1d6b3a; --review-bg: #e3f4e8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111418; --panel: #1a1f25; --text: #e6e9ee; --muted: #9aa4b0;
+      --border: #2c333c; --accent: #7aa2ff; --stop: #ff8a80; --stop-bg: #3a1714;
+      --request: #ffcf70; --request-bg: #36290b; --review: #7bd99a; --review-bg: #12301c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 22px; margin: 8px 0 4px; }
+  .muted { color: var(--muted); }
+  .banner { border: 1px solid var(--border); background: var(--panel); border-radius: 8px;
+    padding: 10px 12px; margin: 12px 0; font-size: 13px; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px; margin: 12px 0; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+  label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  select, input[type=file], button { font: inherit; }
+  select, input[type=file] { max-width: 100%; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 6px;
+    padding: 8px 14px; cursor: pointer; }
+  button.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  button:disabled { opacity: .5; cursor: default; }
+  .decision { display: inline-block; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+  .STOP { color: var(--stop); background: var(--stop-bg); }
+  .REQUEST_VIEW { color: var(--request); background: var(--request-bg); }
+  .REVIEW { color: var(--review); background: var(--review-bg); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  figure { margin: 0; }
+  figure img { width: 100%; height: auto; border-radius: 6px; border: 1px solid var(--border); }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  td, th { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--border); }
+  ol.trace { padding-left: 20px; margin: 6px 0; }
+  code { font-size: 12px; overflow-wrap: anywhere; }
+  .error { color: var(--stop); }
+</style>
+</head>
+<body>
+<main>
+  <h1>VisualGuard Inspector</h1>
+  <div class="muted">OpenCV 5 two-view inspection that turns vision evidence into a bounded next step.</div>
+  <div class="banner">
+    Planned actions are never executed: there is no camera, actuator or external call behind this page.
+    Samples are synthetic renders, not field data. Uploaded images are analysed in memory and not stored;
+    only their SHA-256 digests enter the replay ledger.
+  </div>
+
+  <section class="panel" aria-labelledby="input-h">
+    <h2 id="input-h" style="font-size:16px;margin:0 0 8px">Input</h2>
+    <div class="row">
+      <div>
+        <label for="sample">Synthetic sample pair</label>
+        <select id="sample"></select>
+      </div>
+      <button id="load" class="secondary" type="button">Load sample</button>
+      <div>
+        <label for="front">Front view image</label>
+        <input id="front" type="file" accept="image/*">
+      </div>
+      <div>
+        <label for="side">Side view image</label>
+        <input id="side" type="file" accept="image/*">
+      </div>
+      <button id="run" type="button" disabled>Inspect</button>
+    </div>
+    <div id="status" class="muted" style="margin-top:8px" role="status"></div>
+  </section>
+
+  <section class="panel" id="result" hidden aria-live="polite">
+    <div class="row" style="align-items:center">
+      <span id="decision" class="decision"></span>
+      <span>reason <code id="reason"></code></span>
+      <span>planned action <code id="action"></code></span>
+      <span>executed <code id="executed"></code></span>
+    </div>
+    <ol class="trace" id="trace"></ol>
+    <div class="grid" id="views"></div>
+    <details style="margin-top:10px"><summary>Evidence JSON</summary><pre id="json" style="overflow:auto;font-size:12px"></pre></details>
+  </section>
+</main>
+<script>
+const state = { front: null, side: null, sample: null };
+const $ = (id) => document.getElementById(id);
+const sources = { front: "camera-front-v1", side: "camera-side-v1" };
+
+function setStatus(text, isError) {
+  $("status").textContent = text;
+  $("status").className = isError ? "error" : "muted";
+}
+function ready() { $("run").disabled = !(state.front && state.side); }
+
+async function loadSamples() {
+  const response = await fetch("/v1/samples");
+  const data = await response.json();
+  for (const name of data.samples) {
+    const option = document.createElement("option");
+    option.value = name; option.textContent = name.replaceAll("_", " ");
+    $("sample").appendChild(option);
+  }
+}
+
+$("load").addEventListener("click", async () => {
+  setStatus("Rendering sample...");
+  const response = await fetch("/v1/samples/" + encodeURIComponent($("sample").value));
+  const data = await response.json();
+  state.front = data.views.front.image_base64;
+  state.side = data.views.side.image_base64;
+  state.sample = data;
+  $("front").value = ""; $("side").value = "";
+  setStatus("Loaded " + data.scenario + " (generator label: " + data.expected + "). " + data.note);
+  ready();
+});
+
+for (const view of ["front", "side"]) {
+  $(view).addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      state[view] = String(reader.result).split(",")[1];
+      state.sample = null;
+      setStatus("Loaded " + view + " image " + file.name);
+      ready();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function row(label, value) {
+  const tr = document.createElement("tr");
+  const th = document.createElement("th"); th.textContent = label;
+  const td = document.createElement("td"); td.textContent = value;
+  tr.append(th, td); return tr;
+}
+
+function render(result) {
+  $("result").hidden = false;
+  $("decision").textContent = result.decision;
+  $("decision").className = "decision " + result.decision;
+  $("reason").textContent = result.reason;
+  $("action").textContent = result.follow_up.planned_action;
+  $("executed").textContent = String(result.follow_up.action_executed);
+  $("trace").replaceChildren();
+  for (const step of result.trace || []) {
+    const li = document.createElement("li");
+    const detail = { ...step }; delete detail.step;
+    li.textContent = step.step + ": " + JSON.stringify(detail);
+    $("trace").appendChild(li);
+  }
+  $("views").replaceChildren();
+  for (const [name, view] of Object.entries(result.views || {})) {
+    const figure = document.createElement("figure");
+    if (view.annotated_png_base64) {
+      const img = document.createElement("img");
+      img.alt = name + " view with detections and quality metrics";
+      img.src = "data:image/png;base64," + view.annotated_png_base64;
+      figure.appendChild(img);
+    }
+    const caption = document.createElement("figcaption");
+    caption.textContent = name + " view";
+    const table = document.createElement("table");
+    const q = view.quality;
+    table.append(
+      row("usable", q.usable + (q.failures.length ? " (" + q.failures.join(", ") + ")" : "")),
+      row("sharpness", q.sharpness), row("mean grey", q.mean_gray),
+      row("visible fraction", q.visible_fraction),
+      row("lit red indicators", view.detections.length),
+      row("analysis ms", view.analysis_ms)
+    );
+    figure.append(caption, table);
+    $("views").appendChild(figure);
+  }
+  const copy = JSON.parse(JSON.stringify(result));
+  for (const view of Object.values(copy.views || {})) delete view.annotated_png_base64;
+  $("json").textContent = JSON.stringify(copy, null, 2);
+}
+
+$("run").addEventListener("click", async () => {
+  $("run").disabled = true;
+  setStatus("Inspecting...");
+  const batch = crypto.randomUUID();
+  const body = { annotate: true, views: {} };
+  for (const view of ["front", "side"]) {
+    body.views[view] = { image_base64: state[view], source_id: sources[view], capture_id: batch + "-" + view };
+  }
+  try {
+    const response = await fetch("/v1/inspect", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+    });
+    const result = await response.json();
+    if (!response.ok && !result.decision) throw new Error(result.error || response.status);
+    render(result.trace ? result : { ...result, trace: [], views: {} });
+    setStatus(response.ok ? "Done in " + result.timings_ms.analyze + " ms analysis." : "Request failed closed: " + result.error, !response.ok);
+  } catch (error) {
+    setStatus("Request failed: " + error.message, true);
+  } finally { ready(); }
+});
+
+loadSamples().catch((error) => setStatus("Could not list samples: " + error.message, true));
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Only the runtime sources and pinned requirements enter the image.
+*
+!requirements-vision.txt
+!requirements-lambda.txt
+!vision/*.py
+!service/*.py
+!service/index.html
