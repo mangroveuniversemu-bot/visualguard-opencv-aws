@@ -1,0 +1,118 @@
+name: aws-lambda
+
+# Never scheduled. Runs only when the owner pushes an aws-* tag or, once this
+# file is on the default branch, dispatches it manually. The tag prefix (or
+# the dispatch input) is the explicit authorization for exactly one mode:
+#   aws-preflight-*       read-only: sts get-caller-identity + iam get-role
+#   aws-deploy-private-*  push image, create/update Lambda, AWS_IAM URL
+#   aws-deploy-public-*   same, plus a public Function URL (public release)
+on:
+  push:
+    tags:
+      - "aws-preflight-*"
+      - "aws-deploy-private-*"
+      - "aws-deploy-public-*"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "preflight | deploy-private | deploy-public"
+        required: true
+        type: choice
+        options: [preflight, deploy-private, deploy-public]
+      confirm:
+        description: "READ_ONLY_PREFLIGHT, DEPLOY_LAMBDA_PRIVATE_URL, or PUBLIC_URL_APPROVED_BY_OWNER"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: aws-lambda
+  cancel-in-progress: false
+
+jobs:
+  aws:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AWS_REGION: ${{ vars.VISUALGUARD_AWS_REGION }}
+      VISUALGUARD_AWS_APPROVED_REGION: ${{ vars.VISUALGUARD_AWS_REGION }}
+      VISUALGUARD_AWS_COST_SCOPE: ${{ vars.VISUALGUARD_AWS_COST_SCOPE }}
+      VISUALGUARD_AWS_DEPLOY_TARGET: lambda-container
+      VISUALGUARD_AWS_ACCOUNT_ID: ${{ secrets.VISUALGUARD_AWS_ACCOUNT_ID }}
+      VISUALGUARD_AWS_RUNTIME_ROLE_ARN: ${{ secrets.VISUALGUARD_AWS_RUNTIME_ROLE_ARN }}
+    steps:
+      - name: Resolve and authorize mode
+        id: mode
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          REF_TYPE: ${{ github.ref_type }}
+          INPUT_MODE: ${{ inputs.mode }}
+          INPUT_CONFIRM: ${{ inputs.confirm }}
+        run: |
+          set -eu
+          if [ "$REF_TYPE" = "tag" ]; then
+            case "$REF_NAME" in
+              aws-preflight-*) mode=preflight ;;
+              aws-deploy-private-*) mode=deploy-private ;;
+              aws-deploy-public-*) mode=deploy-public ;;
+              *) echo "unrecognised tag"; exit 1 ;;
+            esac
+          else
+            mode="$INPUT_MODE"
+            case "$mode:$INPUT_CONFIRM" in
+              preflight:READ_ONLY_PREFLIGHT|deploy-private:DEPLOY_LAMBDA_PRIVATE_URL|deploy-public:PUBLIC_URL_APPROVED_BY_OWNER) ;;
+              *) echo "confirmation phrase does not match mode"; exit 1 ;;
+            esac
+          fi
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "Authorized mode: $mode"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-vision.txt
+      - name: Install pinned runtime
+        run: python -m pip install -r requirements-vision.txt
+      - name: Assume the OIDC deploy role (no stored AWS keys)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.VISUALGUARD_AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.VISUALGUARD_AWS_REGION }}
+          role-session-name: visualguard-${{ github.run_id }}
+      - name: Bind the exact committed source
+        run: |
+          echo "VISUALGUARD_ARTIFACT_SHA256=$(git archive --format=tar HEAD | sha256sum | cut -c1-64)" >> "$GITHUB_ENV"
+          echo "VISUALGUARD_AWS_OWNER_AUTHORIZED=true" >> "$GITHUB_ENV"
+          mkdir -p aws-evidence
+      - name: Read-only preflight
+        if: steps.mode.outputs.mode == 'preflight'
+        run: python ops/aws_deployment_preflight.py --output aws-evidence/preflight.json
+      - name: Deploy private Lambda Function URL
+        if: steps.mode.outputs.mode == 'deploy-private'
+        run: >
+          python ops/aws_lambda_deploy.py --mode execute
+          --confirm DEPLOY_LAMBDA_PRIVATE_URL
+          --output aws-evidence/deploy.json
+      - name: Deploy public Lambda Function URL
+        if: steps.mode.outputs.mode == 'deploy-public'
+        run: >
+          python ops/aws_lambda_deploy.py --mode execute
+          --confirm DEPLOY_LAMBDA_PRIVATE_URL
+          --public-url --confirm-public PUBLIC_URL_APPROVED_BY_OWNER
+          --output aws-evidence/deploy.json
+      - name: Smoke test the public URL
+        if: steps.mode.outputs.mode == 'deploy-public'
+        run: |
+          url=$(python -c "import json;d=json.load(open('aws-evidence/deploy.json'));print([s for s in d['steps'] if s['step']=='function_url'][0]['url'])")
+          python ops/smoke_test_endpoint.py --base-url "$url" --output aws-evidence/public-smoke.json
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aws-evidence-${{ steps.mode.outputs.mode }}-${{ github.run_id }}
+          path: aws-evidence/
+          if-no-files-found: warn

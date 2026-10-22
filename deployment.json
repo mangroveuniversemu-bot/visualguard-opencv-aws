@@ -9,9 +9,46 @@
   "deployment_completed": false,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK135 (portfolio) / CHECK133 (lane)",
-  "parent_commit": "244b4e620a7e7672bd08c2b90fafd507ca35760b",
-  "current_cut": "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001",
+  "parent_checkpoint": "CHECK136 (prior cut) / CHECK138 (this lane)",
+  "parent_commit": "a32af351cabde632a7d87366df2aa8cf9fd44355",
+  "current_cut": "VISUALGUARD_OPENCV5_SCENE_ENDPOINT001",
+  "opencv5_scene_pipeline": {
+    "status": "LOCALLY_VERIFIED_SYNTHETIC",
+    "pipeline_version": "opencv5-scene-v1",
+    "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+    "evaluation_evidence": "evidence/CHECK137_OPENCV5_SCENE_PIPELINE_EVAL.json",
+    "test_split_pairs": 540,
+    "test_exact_accuracy": 0.9426,
+    "test_unsafe_miss_count": 0,
+    "known_failures": [
+      "round bright red non-emissive sticker: 30/30 false STOP",
+      "motion blur test seed 2110022: REVIEW instead of REQUEST_VIEW"
+    ],
+    "input_mode": "SYNTHETIC_SCENE"
+  },
+  "endpoint": {
+    "status": "LOCAL_CONTAINER_AND_HOSTED_CI_VERIFIED",
+    "routes": [
+      "GET /",
+      "GET /healthz",
+      "GET /v1/samples",
+      "POST /v1/inspect"
+    ],
+    "local_container_evidence": "evidence/CHECK138_LOCAL_CONTAINER_ENDPOINT_SMOKE.json",
+    "hosted_ci": "PASS run 39808657344 (test + container jobs) at b3049dd98ba243c81ab62d4aaa8b741b7639c282",
+    "lambda_runtime_interface_emulator": "PASS (local emulation, not AWS)",
+    "aws_endpoint": "NOT_DEPLOYED"
+  },
+  "aws_deploy_kit": {
+    "status": "PREPARED_NOT_RUN",
+    "target": "lambda-container",
+    "runbook": "docs/AWS_DEPLOYMENT_RUNBOOK.md",
+    "workflow": ".github/workflows/aws-lambda.yml (aws-* tag or manual dispatch; never scheduled)",
+    "auth": "GitHub OIDC role assumption; no stored AWS keys",
+    "default_function_url_auth": "AWS_IAM",
+    "public_url_requires": "separate owner approval (public release)",
+    "blocked_on": "owner AWS Console setup, repository secrets/variables, cost scope approval"
+  },
   "final_video_evidence_gate": {
     "status": "PREPARED_NOT_RECORDED",
     "review_status": "PREPARED_NOT_REVIEWED",
@@ -54,7 +91,7 @@
     "endpoint": "NOT_DEPLOYED"
   },
   "validation": {
-    "executed_at": "2026-10-15T07:33:16+08:00",
+    "executed_at": "2026-10-22T16:10:00+00:00",
     "python": "3.12.14",
     "sqlite": "3.53.1",
     "opencv": "5.0.0",
@@ -71,10 +108,15 @@
     "demo_contract_probe": "PASS; 180 seconds; 6 segments; 2 artifacts bound",
     "final_video_gate_targeted_tests": "PASS 8/8",
     "final_video_gate_missing_video_probe": "BLOCKED VIDEO_MISSING; exit 2",
-    "scoped_branch_full_suite": "PASS 214/214 plus 66 subtests",
+    "scoped_branch_full_suite": "PASS 243/243 plus 116 subtests (session host, Python 3.13.16)",
     "hosted_ci": "PASS run 38654945975 job 116162376099 at 9051a943b3f40a4e3a7e57cc86213d39f701448a",
     "judging_matrix_probe": "PASS execution; 8/8 cases routed; action_executed=false for every case",
-    "seed": "NONE"
+    "seed": "NONE",
+    "python_session": "3.13.16 (session host); CI 3.12",
+    "scene_pipeline_targeted_tests": "PASS 14/14 plus 38 subtests",
+    "service_targeted_tests": "PASS 11/11 plus 7 subtests",
+    "aws_deploy_kit_targeted_tests": "PASS 4/4 plus 5 subtests (fake AWS runner; no AWS call)",
+    "hosted_ci_scene_endpoint": "PASS run 39808657344 at b3049dd98ba243c81ab62d4aaa8b741b7639c282"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
@@ -87,24 +129,25 @@
   "known_limitations": [
     "A colocated file checkpoint is a local verification fixture, not an independent freshness source.",
     "Coordinated rollback of SQLite and the matching local checkpoint is accepted and requires an independently administered monotonic or immutable anchor to detect.",
-    "Checkpoint equality does not authenticate the source or prove pre-migration truth."
-    ,
+    "Checkpoint equality does not authenticate the source or prove pre-migration truth.",
     "The judging matrix uses fixed synthetic arrays and proves local routing only; it does not demonstrate field accuracy, AWS execution, or an executed action.",
     "The demo contract is PREPARED_NOT_RECORDED and does not establish that a video, live camera run, or AWS deployment exists.",
-    "The final-video gate and receipt templates are prepared only; no final video or independent review exists."
+    "The final-video gate and receipt templates are prepared only; no final video or independent review exists.",
+    "Scene-pipeline metrics come from a synthetic generator written by the same author as the detector; they do not establish field accuracy.",
+    "The capture replay ledger is per process / per Lambda execution environment, not global.",
+    "execution_environment in endpoint responses is self-reported; the Lambda emulator reports AWS_LAMBDA locally."
   ],
   "prerequisites": [
-    "Authorized AWS programmatic identity with scoped runtime permissions",
-    "Selected AWS region and agreed resource/cost scope",
-    "Independently administered asymmetric witness keys and revocation channel"
+    "Owner creates the GitHub OIDC provider, deploy role and Lambda runtime role from ops/aws/ templates",
+    "Owner sets repository secrets/variables listed in docs/AWS_DEPLOYMENT_RUNBOOK.md",
+    "Owner approves region, cost scope and budget alert",
+    "Separate owner approval for any public Function URL"
   ],
   "next_steps": [
-    "Supply the preflight variables only in an owner-authorized runtime and rerun ops/aws_deployment_preflight.py.",
-    "Provision the smallest meaningful AWS component only after the read-only preflight passes and access/cost approval is preserved.",
-    "Replace local HMAC fixtures with an independently administered asymmetric witness.",
-    "Capture the eight-case matrix with authorized AWS execution logs and live camera inputs.",
-    "Record and review the bounded demo only as a separate human-controlled submission step; keep PREPARED_NOT_RECORDED until then."
+    "Owner completes AWS Console setup, then tag aws-preflight-1 to run the read-only preflight.",
+    "After preflight evidence review and cost approval, tag aws-deploy-private-1 and record the deploy evidence.",
+    "Decide public judge URL versus live screen-share; tag aws-deploy-public-1 only with public-release approval.",
+    "Decide whether to replace the CHECK133 180-second contract with a v002 that binds CHECK137/CHECK138 and AWS evidence.",
+    "Record and independently review the final video only through the human-controlled process."
   ]
 }
-
-

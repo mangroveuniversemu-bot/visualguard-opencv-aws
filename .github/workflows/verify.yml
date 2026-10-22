@@ -26,8 +26,8 @@ jobs:
         run: python ops/verify_demo_evidence_contract.py
       - name: Check formatting and lint
         run: |
-          ruff format --check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py vision/scene_analysis.py vision/synthetic_scenes.py ops/evaluate_scene_pipeline.py ops/smoke_test_endpoint.py service/app.py service/lambda_handler.py tests/test_scene_analysis.py tests/test_service.py
-          ruff check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py vision/scene_analysis.py vision/synthetic_scenes.py ops/evaluate_scene_pipeline.py ops/smoke_test_endpoint.py service/app.py service/lambda_handler.py tests/test_scene_analysis.py tests/test_service.py
+          ruff format --check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py vision/scene_analysis.py vision/synthetic_scenes.py ops/evaluate_scene_pipeline.py ops/smoke_test_endpoint.py service/app.py service/lambda_handler.py tests/test_scene_analysis.py tests/test_service.py ops/aws_lambda_deploy.py tests/test_aws_lambda_deploy.py
+          ruff check ops/verify_demo_evidence_contract.py ops/verify_final_demo_video_evidence.py tests/test_demo_evidence_contract.py tests/test_final_demo_video_evidence.py vision/scene_analysis.py vision/synthetic_scenes.py ops/evaluate_scene_pipeline.py ops/smoke_test_endpoint.py service/app.py service/lambda_handler.py tests/test_scene_analysis.py tests/test_service.py ops/aws_lambda_deploy.py tests/test_aws_lambda_deploy.py
       - name: Run test suite
         run: python -m pytest -q
 

@@ -5,25 +5,38 @@ AWS**.
 
 ## Current status
 
-**SOURCE_IMPORTED_AND_LOCALLY_VERIFIED** on the development branch. The source
-was recovered from the append-only CHECK086 Google Drive artifact and is now
-reviewable as text instead of only as an archive. AWS deployment, live camera
-input, an independently operated witness, and physical action remain
-`NOT_RUN`.
+**SOURCE_IMPORTED_AND_LOCALLY_VERIFIED** on `claude/practical-ride-st6n28`
+(continuing `codex/witness-revocation-epoch-20261013` at `a32af35`). AWS
+deployment, live camera, an independently operated witness, a recorded
+video and physical action are all `NOT_RUN`.
 
-The current bounded cut adds a final-video evidence gate on top of the OpenCV 5
-replay contract. It binds exact video bytes, the checked-in six-segment demo
-contract, per-segment operator observations, and a distinct reviewer's receipt.
-The gate uses real-media `ffprobe` inspection and fails closed on substituted
-bytes, duration overrun, missing segments, claim overreach, or review drift.
-No final video or independent review exists yet, so the current state remains
-`PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`.
+Current cut: `VISUALGUARD_OPENCV5_SCENE_ENDPOINT001`.
 
-The AWS deployment preflight is executable but fail-closed. It requires
-explicit owner authorization, approved region/account/role, deployment target,
-cost scope, and immutable artifact digest before making any AWS call. If those
-gates pass, it permits only `sts get-caller-identity` and `iam get-role` reads;
-deployment and endpoint creation remain `NOT_RUN`.
+- **OpenCV 5 workload.** `vision/scene_analysis.py` analyses 640×480
+  two-view frames. Quality gates (Sobel/Laplacian sharpness, `calcHist`
+  exposure, dark-cell occlusion) are measured from pixels. Lit red
+  indicators are detected with HSV `inRange`, morphology, `findContours`
+  and shape tests. The two views are fused, and every capture is bound to
+  the existing durable replay ledger. The previous 24×16 threshold
+  pipeline is kept unchanged.
+- **Evaluation.** 540 held-out synthetic pairs: 94.26% exact with 0 unsafe
+  misses. The naive red-count baseline scores 50% with 60 unsafe misses;
+  the legacy brightness baseline scores 31.85% with 76. Known failure:
+  round red stickers false-stop 30/30. See `docs/TECHNICAL_REPORT.md`.
+- **Endpoint.** `service/app.py` serves a demo page and `POST /v1/inspect`.
+  Each response returns the decision, the planned follow-up (never
+  executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
+  and `lambda` targets. A read-only local container and hosted CI both pass
+  the 9-check smoke test.
+- **AWS (prepared, NOT_RUN).** OIDC-based GitHub workflow, least-privilege
+  IAM templates and a gated Lambda deploy script; see
+  `docs/AWS_DEPLOYMENT_RUNBOOK.md`. It is blocked on owner AWS setup and
+  cost approval.
+- **Final video.** The gate from CHECK136 is unchanged:
+  `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`.
+
+Docs: `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
+`docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`.
 
 ## Reproduce
 
@@ -66,7 +79,25 @@ python ops/verify_final_demo_video_evidence.py \
   --receipt .local/final-demo-receipt.json \
   --review .local/final-demo-review.json
 python run_demo.py
+python -m pytest -q tests/test_scene_analysis.py tests/test_service.py tests/test_aws_lambda_deploy.py
+python ops/evaluate_scene_pipeline.py --output /tmp/eval.json
+python -m service.app --port 8080   # demo page at http://127.0.0.1:8080/
+python ops/smoke_test_endpoint.py --base-url http://127.0.0.1:8080
+docker build --target http -t visualguard:http .
+docker run --read-only --tmpfs /tmp -p 8080:8080 visualguard:http
+python ops/aws_lambda_deploy.py --mode preview   # no AWS call
 ```
+
+Fresh results on 2026-10-22, session host with Python 3.13.16:
+
+- full suite 243/243 plus 116 subtests;
+- CHECK137 evaluation at `b3049dd`;
+- CHECK138: images rebuilt from `git archive b3049dd`, read-only HTTP
+  container smoke 9/9, Lambda image through the Runtime Interface Emulator.
+
+Hosted GitHub Actions run `39808657344` (Python 3.12) passed the test job
+and the container build/smoke job at `b3049dd`. None of this is AWS
+execution.
 
 The preflight exits `2` while blocked and `0` only after every static gate plus
 both read-only AWS checks pass. See `.env.example` for variable names; keep
@@ -92,8 +123,8 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK129, `VISUALGUARD_AWS_DEPLOYMENT_PREFLIGHT001`.
-- Parent commit: `135c07ee9f0110c9688c6cc6f4b8854e0b0a8679`.
+- Parent checkpoint: CHECK136, `VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001`.
+- Parent commit: `a32af351cabde632a7d87366df2aa8cf9fd44355`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,
@@ -106,6 +137,12 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
   certify pre-migration truth.
 - The matrix proves deterministic local routing over fixed arrays, not field
   performance, source authenticity, AWS integration, or executed automation.
+- Scene-pipeline metrics come from procedurally rendered frames. Generator
+  and detector have the same author, so they establish behaviour on this
+  generator only, not field accuracy.
+- Response field `execution_environment` is self-reported. The Lambda
+  emulator reports `AWS_LAMBDA` locally, so only AWS-side records (invoke
+  results, CloudWatch `REPORT` lines) can upgrade AWS status.
 - Passing the final-video gate would prove only that reviewed video bytes match
   the bounded synthetic-replay contract. It would not prove field accuracy,
   source authenticity, live camera, AWS execution, deployment, or physical
