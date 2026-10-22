@@ -1,0 +1,160 @@
+{
+  "base_image": "python:3.12-slim@sha256:cb33f7f771ecec2ef1225cf39b159591a040391bd73e4c01f00fdfc4c47611d2 (pulled via mirror.gcr.io)",
+  "build_context": "git archive of source_commit",
+  "check": "CHECK138",
+  "cut": "VISUALGUARD_LOCAL_CONTAINER_ENDPOINT_SMOKE001",
+  "docker": "29.9.1",
+  "evidence_mode": "LOCAL_CONTAINER_SYNTHETIC_INPUT",
+  "executed_at": "2026-10-22T15:55:20Z",
+  "http_container": {
+    "checks": [
+      {
+        "check": "healthz",
+        "decision": null,
+        "http_status": 200,
+        "latency_ms": 53.6,
+        "planned_action": null,
+        "reason": null,
+        "server_analyze_ms": null,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:normal_green_clear",
+        "decision": "REVIEW",
+        "http_status": 200,
+        "latency_ms": 107.2,
+        "planned_action": "QUEUE_HUMAN_REVIEW",
+        "reason": "HUMAN_REVIEW",
+        "server_analyze_ms": 71.498,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:alarm_red_side_only",
+        "decision": "STOP",
+        "http_status": 200,
+        "latency_ms": 83.8,
+        "planned_action": "HOLD_AUTOMATION",
+        "reason": "ALARM",
+        "server_analyze_ms": 56.205,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:normal_green_with_glare",
+        "decision": "REVIEW",
+        "http_status": 200,
+        "latency_ms": 134.4,
+        "planned_action": "QUEUE_HUMAN_REVIEW",
+        "reason": "HUMAN_REVIEW",
+        "server_analyze_ms": 101.083,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:normal_green_with_red_sticker",
+        "decision": "REVIEW",
+        "http_status": 200,
+        "latency_ms": 114.4,
+        "planned_action": "QUEUE_HUMAN_REVIEW",
+        "reason": "HUMAN_REVIEW",
+        "server_analyze_ms": 70.862,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:normal_defocus",
+        "decision": "REQUEST_VIEW",
+        "http_status": 200,
+        "latency_ms": 87.3,
+        "planned_action": "REQUEST_NEW_CAPTURE",
+        "reason": "BLURRED_VIEW",
+        "server_analyze_ms": 60.208,
+        "status": "PASS"
+      },
+      {
+        "check": "inspect:alarm_lamp_occluded",
+        "decision": "REQUEST_VIEW",
+        "http_status": 200,
+        "latency_ms": 161.8,
+        "planned_action": "REQUEST_NEW_CAPTURE",
+        "reason": "OCCLUDED_VIEW",
+        "server_analyze_ms": 136.14,
+        "status": "PASS"
+      },
+      {
+        "check": "negative:capture_id_substitution",
+        "decision": "STOP",
+        "http_status": 200,
+        "latency_ms": 96.6,
+        "planned_action": null,
+        "reason": "CAPTURE_ID_REPLAY_MISMATCH",
+        "server_analyze_ms": null,
+        "status": "PASS"
+      },
+      {
+        "check": "negative:malformed_json",
+        "decision": "STOP",
+        "http_status": 400,
+        "latency_ms": 3.2,
+        "planned_action": null,
+        "reason": "INVALID_JSON",
+        "server_analyze_ms": null,
+        "status": "PASS"
+      }
+    ],
+    "log_contains_image_data": false,
+    "run_flags": "--read-only --tmpfs /tmp -p 18080:8080",
+    "smoke_status": "PASS",
+    "structured_log_lines": 12
+  },
+  "image_id_note": "Local image IDs are not registry digests and are not byte-reproducible across builds; deployment must bind the ECR manifest digest instead.",
+  "lambda_container_rie": {
+    "emulator": "aws-lambda-runtime-interface-emulator (latest release binary)",
+    "emulator_sha256": "6b1e686e62ab2baf5759c412c4864276ef2a88b094fca53ec070637ccba9b9a5",
+    "results": {
+      "alarm_red_side_only": [
+        200,
+        "STOP",
+        "ALARM",
+        "HOLD_AUTOMATION",
+        false
+      ],
+      "bad_body": [
+        400,
+        "STOP",
+        "INVALID_JSON"
+      ],
+      "healthz": [
+        200,
+        true,
+        "5.0.0"
+      ],
+      "normal_defocus": [
+        200,
+        "REQUEST_VIEW",
+        "BLURRED_VIEW",
+        "REQUEST_NEW_CAPTURE",
+        false
+      ],
+      "normal_green_clear": [
+        200,
+        "REVIEW",
+        "HUMAN_REVIEW",
+        "QUEUE_HUMAN_REVIEW",
+        false
+      ]
+    },
+    "self_report_caveat": "The emulator sets Lambda environment variables, so /healthz self-reports AWS_LAMBDA while running locally. execution_environment is never AWS evidence."
+  },
+  "live_state": {
+    "aws_api": "NOT_RUN",
+    "camera": "NOT_RUN",
+    "deployment": "NOT_RUN",
+    "endpoint": "NOT_DEPLOYED",
+    "physical_action": "NONE"
+  },
+  "local_image_ids": {
+    "http": "sha256:b3aae02e8b0d14b0609e53152e5729a1c1af92352b7c4702dd83a665001bb939",
+    "lambda": "sha256:c4d62797d583c786f8a7a8099522c2fb3943236755bb26d04768a001be0026cd"
+  },
+  "provenance": "DERIVED",
+  "schema_version": 1,
+  "source_commit": "b3049dd98ba243c81ab62d4aaa8b741b7639c282"
+}
