@@ -67,7 +67,7 @@
     "duration_seconds": 180,
     "required_segments": 6,
     "bound_artifacts": 2,
-    "manifest_sha256": "b424519b226b68ed4296de31a8d990ee248fa07d60039475d0319d269998855d",
+    "manifest_sha256": "10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30",
     "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
     "public_endpoint_claim": "NOT_AUTHORIZED",
     "camera_claim": "NOT_RUN",
@@ -163,13 +163,15 @@
     "artifact_id": 12610292181,
     "artifact_sha256": "8c3e70164fe27368a1f10fb8616c2055c27d4a081374822c1d40db2702859ae6",
     "evidence_path": "evidence/AWS_EXECUTION_20261026_40223113044.json",
-    "evidence_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
+    "evidence_sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0",
     "invocation_scope": "PRIVATE_AWS_IAM_SYNTHETIC_INPUTS",
     "cloudwatch_report_count": 3,
     "supplemental_request_id": "5e91ad05-2270-4828-b1dc-619fc4ebdd62",
     "reserved_concurrency": "UNAVAILABLE_FOR_ACCOUNT",
     "public_url": false,
     "live_camera": "NOT_RUN",
-    "physical_action": "NONE"
+    "physical_action": "NONE",
+    "evidence_without_terminal_lf_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
+    "byte_normalization_note": "The checked-in JSON ends with one LF. The earlier a86e... digest is the same payload without that terminal LF."
   }
 }
