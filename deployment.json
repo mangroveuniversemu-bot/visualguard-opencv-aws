@@ -4,14 +4,14 @@
   "competition": "OpenCV AI Competition 2026, powered by AWS",
   "official_rules_url": "https://opencv26.devpost.com/",
   "target_platform": "AWS",
-  "stage": "SOURCE_IMPORTED_AND_LOCALLY_VERIFIED",
+  "stage": "PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED",
   "source_imported": true,
-  "deployment_completed": false,
+  "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK136 (prior cut) / CHECK138 (this lane)",
-  "parent_commit": "a32af351cabde632a7d87366df2aa8cf9fd44355",
-  "current_cut": "VISUALGUARD_OPENCV5_SCENE_ENDPOINT001",
+  "parent_checkpoint": "VISUALGUARD_AWS_EXECUTION_READBACK_20261026",
+  "parent_commit": "3442e3aa0e8d6003c538ecd2045cd65b2e697710",
+  "current_cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT002",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -37,17 +37,17 @@
     "local_container_evidence": "evidence/CHECK138_LOCAL_CONTAINER_ENDPOINT_SMOKE.json",
     "hosted_ci": "PASS run 39808657344 (test + container jobs) at b3049dd98ba243c81ab62d4aaa8b741b7639c282",
     "lambda_runtime_interface_emulator": "PASS (local emulation, not AWS)",
-    "aws_endpoint": "NOT_DEPLOYED"
+    "aws_endpoint": "DEPLOYED_PRIVATE_AWS_IAM"
   },
   "aws_deploy_kit": {
-    "status": "PREPARED_NOT_RUN",
+    "status": "PRIVATE_DEPLOYED_AND_INVOKED",
     "target": "lambda-container",
     "runbook": "docs/AWS_DEPLOYMENT_RUNBOOK.md",
     "workflow": ".github/workflows/aws-lambda.yml (aws-* tag or manual dispatch; never scheduled)",
     "auth": "GitHub OIDC role assumption; no stored AWS keys",
     "default_function_url_auth": "AWS_IAM",
     "public_url_requires": "separate owner approval (public release)",
-    "blocked_on": "owner AWS Console setup, repository secrets/variables, cost scope approval"
+    "blocked_on": "separate owner approval for public URL or any further paid deployment"
   },
   "final_video_evidence_gate": {
     "status": "PREPARED_NOT_RECORDED",
@@ -55,18 +55,21 @@
     "video": "MISSING",
     "requires_real_media_probe": true,
     "requires_distinct_reviewer": true,
-    "aws_claim": "NOT_RUN",
+    "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
     "camera_claim": "NOT_RUN",
-    "deployment_claim": "NOT_RUN",
-    "action_executed": false
+    "deployment_claim": "DEPLOYED_PRIVATE_AWS_IAM",
+    "action_executed": false,
+    "public_endpoint_claim": "NOT_AUTHORIZED"
   },
   "demo_evidence_contract": {
     "status": "PREPARED_NOT_RECORDED",
+    "cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT002",
     "duration_seconds": 180,
     "required_segments": 6,
     "bound_artifacts": 2,
-    "manifest_sha256": "fdf2ac2eba921b5aad52829dee632bb0062fd7c66b1025125e8eb6d5de377fb2",
-    "aws_claim": "NOT_RUN",
+    "manifest_sha256": "b424519b226b68ed4296de31a8d990ee248fa07d60039475d0319d269998855d",
+    "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
+    "public_endpoint_claim": "NOT_AUTHORIZED",
     "camera_claim": "NOT_RUN",
     "action_executed": false
   },
@@ -86,12 +89,12 @@
       "VISUALGUARD_AWS_COST_SCOPE",
       "VISUALGUARD_ARTIFACT_SHA256"
     ],
-    "last_real_probe": "BLOCKED_BEFORE_AWS_API",
-    "deployment": "NOT_RUN",
-    "endpoint": "NOT_DEPLOYED"
+    "last_real_probe": "READY_IN_DEPLOY_WORKFLOW",
+    "deployment": "EXECUTED",
+    "endpoint": "DEPLOYED_PRIVATE_AWS_IAM"
   },
   "validation": {
-    "executed_at": "2026-10-22T16:10:00+00:00",
+    "executed_at": "2026-10-25T19:30:00+00:00",
     "python": "3.12.14",
     "sqlite": "3.53.1",
     "opencv": "5.0.0",
@@ -116,13 +119,15 @@
     "scene_pipeline_targeted_tests": "PASS 14/14 plus 38 subtests",
     "service_targeted_tests": "PASS 11/11 plus 7 subtests",
     "aws_deploy_kit_targeted_tests": "PASS 4/4 plus 5 subtests (fake AWS runner; no AWS call)",
-    "hosted_ci_scene_endpoint": "PASS run 39808657344 at b3049dd98ba243c81ab62d4aaa8b741b7639c282"
+    "hosted_ci_scene_endpoint": "PASS run 39808657344 at b3049dd98ba243c81ab62d4aaa8b741b7639c282",
+    "aws_execution": "PASS private Lambda synthetic inputs; run 40223113044",
+    "aws_evidence_head_ci": "PASS run 40224824470 (test + container jobs)"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
-    "aws": "NOT_RUN",
-    "aws_read_only_preflight": "BLOCKED_BEFORE_AWS_API",
-    "endpoint": "NOT_DEPLOYED",
+    "aws": "PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
+    "aws_read_only_preflight": "READY_IN_DEPLOY_WORKFLOW",
+    "endpoint": "DEPLOYED_PRIVATE_AWS_IAM",
     "camera": "NOT_RUN",
     "physical_action": "NONE"
   },
@@ -130,24 +135,41 @@
     "A colocated file checkpoint is a local verification fixture, not an independent freshness source.",
     "Coordinated rollback of SQLite and the matching local checkpoint is accepted and requires an independently administered monotonic or immutable anchor to detect.",
     "Checkpoint equality does not authenticate the source or prove pre-migration truth.",
-    "The judging matrix uses fixed synthetic arrays and proves local routing only; it does not demonstrate field accuracy, AWS execution, or an executed action.",
-    "The demo contract is PREPARED_NOT_RECORDED and does not establish that a video, live camera run, or AWS deployment exists.",
+    "The judging matrix and private AWS invocations use synthetic inputs; neither demonstrates field accuracy, live camera, or an executed action.",
+    "The demo contract is PREPARED_NOT_RECORDED; it binds private AWS synthetic execution but does not establish a video, live camera run, public endpoint, or submission.",
     "The final-video gate and receipt templates are prepared only; no final video or independent review exists.",
     "Scene-pipeline metrics come from a synthetic generator written by the same author as the detector; they do not establish field accuracy.",
     "The capture replay ledger is per process / per Lambda execution environment, not global.",
     "execution_environment in endpoint responses is self-reported; the Lambda emulator reports AWS_LAMBDA locally."
   ],
   "prerequisites": [
-    "Owner creates the GitHub OIDC provider, deploy role and Lambda runtime role from ops/aws/ templates",
-    "Owner sets repository secrets/variables listed in docs/AWS_DEPLOYMENT_RUNBOOK.md",
-    "Owner approves region, cost scope and budget alert",
-    "Separate owner approval for any public Function URL"
+    "Separate owner approval for any public Function URL",
+    "Separate owner approval and cost scope for any further paid AWS operation",
+    "Human operator records the final video and a distinct reviewer verifies it"
   ],
   "next_steps": [
-    "Owner completes AWS Console setup, then tag aws-preflight-1 to run the read-only preflight.",
-    "After preflight evidence review and cost approval, tag aws-deploy-private-1 and record the deploy evidence.",
-    "Decide public judge URL versus live screen-share; tag aws-deploy-public-1 only with public-release approval.",
-    "Decide whether to replace the CHECK133 180-second contract with a v002 that binds CHECK137/CHECK138 and AWS evidence.",
-    "Record and independently review the final video only through the human-controlled process."
-  ]
+    "Record the six-segment 180-second v002 storyboard without exposing credentials.",
+    "Have a distinct human reviewer bind the final media bytes to contract v002.",
+    "Request separate owner approval before any public Function URL or competition submission."
+  ],
+  "aws_execution_evidence": {
+    "status": "AWS_PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
+    "region": "us-east-1",
+    "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "evidence_commit": "3442e3aa0e8d6003c538ecd2045cd65b2e697710",
+    "image_digest": "sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+    "workflow_run": 40223113044,
+    "workflow_job": 121258766517,
+    "artifact_id": 12610292181,
+    "artifact_sha256": "8c3e70164fe27368a1f10fb8616c2055c27d4a081374822c1d40db2702859ae6",
+    "evidence_path": "evidence/AWS_EXECUTION_20261026_40223113044.json",
+    "evidence_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
+    "invocation_scope": "PRIVATE_AWS_IAM_SYNTHETIC_INPUTS",
+    "cloudwatch_report_count": 3,
+    "supplemental_request_id": "5e91ad05-2270-4828-b1dc-619fc4ebdd62",
+    "reserved_concurrency": "UNAVAILABLE_FOR_ACCOUNT",
+    "public_url": false,
+    "live_camera": "NOT_RUN",
+    "physical_action": "NONE"
+  }
 }

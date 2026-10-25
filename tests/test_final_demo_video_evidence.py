@@ -7,10 +7,12 @@ import json
 
 import pytest
 
+from ops.verify_demo_evidence_contract import AWS_CLAIM
 from ops.verify_final_demo_video_evidence import (
     CONTRACT_PATH,
     EXPECTED_ATTESTATION,
     ROOT,
+    VIDEO_EVIDENCE_MODE,
     verify_final_video_evidence,
 )
 
@@ -36,11 +38,11 @@ def _write_bundle(tmp_path):
         )
         cursor = end
     receipt = {
-        "schema_version": 1,
-        "cut": "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001",
+        "schema_version": 2,
+        "cut": "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE002",
         "status": "RECORDED",
         "provenance": "DERIVED",
-        "evidence_mode": "SYNTHETIC_REPLAY",
+        "evidence_mode": VIDEO_EVIDENCE_MODE,
         "action_executed": False,
         "operator_id": "operator-alpha",
         "contract_sha256": contract_sha256,
@@ -53,7 +55,7 @@ def _write_bundle(tmp_path):
         "attestation": EXPECTED_ATTESTATION,
     }
     review = {
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "INDEPENDENT_REVIEWED",
         "reviewer_id": "reviewer-beta",
         "video_sha256": video_sha256,
@@ -84,7 +86,8 @@ def test_final_video_passes_with_distinct_reviewer(tmp_path):
     assert result["result"] == "PASS"
     assert result["independent_review"] == "PASS"
     assert result["segment_count"] == 6
-    assert result["aws"] == "NOT_RUN"
+    assert result["aws"] == AWS_CLAIM
+    assert result["public_endpoint"] == "NOT_AUTHORIZED"
     assert result["camera"] == "NOT_RUN"
     assert result["action_executed"] is False
 
@@ -117,9 +120,12 @@ def test_missing_segment_observation_fails_closed(tmp_path):
         _verify(video, receipt_path, review_path)
 
 
-def test_live_aws_claim_overreach_fails_closed(tmp_path):
+def test_public_aws_claim_overreach_fails_closed(tmp_path):
     video, receipt_path, review_path, receipt, _review = _write_bundle(tmp_path)
-    receipt["attestation"] = {**EXPECTED_ATTESTATION, "live_aws_claimed": True}
+    receipt["attestation"] = {
+        **EXPECTED_ATTESTATION,
+        "public_aws_endpoint_claimed": True,
+    }
     receipt_path.write_text(json.dumps(receipt), encoding="utf-8")
     with pytest.raises(ValueError, match="ATTESTATION_BOUNDARY_INVALID"):
         _verify(video, receipt_path, review_path)

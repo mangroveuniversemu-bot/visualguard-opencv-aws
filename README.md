@@ -5,12 +5,13 @@ AWS**.
 
 ## Current status
 
-**SOURCE_IMPORTED_AND_LOCALLY_VERIFIED** on `claude/practical-ride-st6n28`
-(continuing `codex/witness-revocation-epoch-20261013` at `a32af35`). AWS
-deployment, live camera, an independently operated witness, a recorded
-video and physical action are all `NOT_RUN`.
+**PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED** on `claude/practical-ride-st6n28`.
+A private `AWS_IAM` Lambda in `us-east-1` was deployed and invoked from
+source commit `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live camera, an
+independently operated witness, a recorded video and physical action remain
+`NOT_RUN` / `NONE`.
 
-Current cut: `VISUALGUARD_OPENCV5_SCENE_ENDPOINT001`.
+Current cut: `VISUALGUARD_DEMO_EVIDENCE_CONTRACT002`.
 
 - **OpenCV 5 workload.** `vision/scene_analysis.py` analyses 640×480
   two-view frames. Quality gates (Sobel/Laplacian sharpness, `calcHist`
@@ -28,11 +29,12 @@ Current cut: `VISUALGUARD_OPENCV5_SCENE_ENDPOINT001`.
   executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
   and `lambda` targets. A read-only local container and hosted CI both pass
   the 9-check smoke test.
-- **AWS (prepared, NOT_RUN).** OIDC-based GitHub workflow, least-privilege
-  IAM templates and a gated Lambda deploy script; see
-  `docs/AWS_DEPLOYMENT_RUNBOOK.md`. It is blocked on owner AWS setup and
-  cost approval.
-- **Final video.** The gate from CHECK136 is unchanged:
+- **AWS (private synthetic execution verified).** The OIDC workflow deployed
+  an `AWS_IAM` Lambda and invoked health, alarm and clear synthetic cases;
+  an AWS Console invocation added the empty-views negative control. The
+  evidence is bound in `evidence/AWS_EXECUTION_20261026_40223113044.json`.
+  No public endpoint, live camera or physical action is claimed.
+- **Final video.** Contract v002 binds the AWS evidence and remains
   `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`.
 
 Docs: `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
@@ -106,37 +108,42 @@ values in an authorized runtime or secret store, never in the repository.
 Fresh local results on 2026-10-15: final-video gate targeted tests 8/8 and
 scoped branch full suite 214/214 plus 66 subtests; changed-file Ruff, format
 check, compileall, JSON parsing, and the underlying demo-contract probe pass.
-The actual missing-video probe returns `VIDEO_MISSING` with exit 2. No final
-video or independent review was supplied. The contract remains six segments at
-exactly 180 seconds; AWS, live camera, deployment, physical action, and video
-recording remain `NOT_RUN` / `NONE` / `PREPARED_NOT_RECORDED`.
+The historical missing-video probe returned `VIDEO_MISSING` with exit 2. No
+final video or independent review has since been supplied. Contract v002 remains
+six segments at exactly 180 seconds and now binds the private AWS synthetic
+execution while live camera, public endpoint and physical action remain
+`NOT_RUN` / `NOT_AUTHORIZED` / `NONE`.
 See
-`evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.md`.
+`evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json`.
 Hosted GitHub Actions run `38654945975` / job `116162376099` passed the
 underlying contract, final-video gate quality checks, and full 214-test suite
 at functional commit `9051a943b3f40a4e3a7e57cc86213d39f701448a`.
 
-Fresh preflight evidence on 2026-10-15: six targeted tests pass, including
-account/region mismatch and missing-CLI controls. The real local probe blocks
-before AWS because no owner-authorized AWS configuration is present; AWS API,
-deployment, endpoint, camera, and physical action remain `NOT_RUN`.
+Fresh AWS evidence on 2026-10-26: workflow run `40223113044` deployed the
+private Lambda from `832b1b4`, captured three CloudWatch `REPORT` lines and
+returned the bounded health/alarm/clear outcomes. Supplemental RequestId
+`5e91ad05-2270-4828-b1dc-619fc4ebdd62` proves the empty-views negative
+control. Validation run `40224824470` passed both test and container jobs.
+Reserved concurrency 2 was rejected by the account quota and is not configured.
 
 ## Provenance and limits
 
-- Parent checkpoint: CHECK136, `VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001`.
-- Parent commit: `a32af351cabde632a7d87366df2aa8cf9fd44355`.
+- Parent checkpoint: AWS execution readback committed at `3442e3aa0e8d6003c538ecd2045cd65b2e697710`.
+- AWS source commit: `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
-- Live external witness, asymmetric signing, managed KMS, AWS runtime, camera,
-  process kill, physical disk/power loss, distributed multi-writer ordering,
-  and physical action are not demonstrated.
+- Live external witness, asymmetric signing, managed KMS, camera, process kill,
+  physical disk/power loss, distributed multi-writer ordering, and physical
+  action are not demonstrated. AWS runtime evidence is limited to private
+  Lambda invocations over synthetic inputs.
 - The probe demonstrates that a same-domain file checkpoint does not stop
   coordinated rollback of the database and checkpoint. Production freshness
   therefore requires an independently administered monotonic or immutable
   anchor. Legacy unchained rows establish a local migration baseline and cannot
   certify pre-migration truth.
 - The matrix proves deterministic local routing over fixed arrays, not field
-  performance, source authenticity, AWS integration, or executed automation.
+  performance, source authenticity, or executed automation. Separate AWS-side
+  records prove only private Lambda execution over synthetic inputs.
 - Scene-pipeline metrics come from procedurally rendered frames. Generator
   and detector have the same author, so they establish behaviour on this
   generator only, not field accuracy.
@@ -144,15 +151,15 @@ deployment, endpoint, camera, and physical action remain `NOT_RUN`.
   emulator reports `AWS_LAMBDA` locally, so only AWS-side records (invoke
   results, CloudWatch `REPORT` lines) can upgrade AWS status.
 - Passing the final-video gate would prove only that reviewed video bytes match
-  the bounded synthetic-replay contract. It would not prove field accuracy,
-  source authenticity, live camera, AWS execution, deployment, or physical
-  action. The prepared templates do not prove a video was recorded.
+  the bounded local-plus-private-AWS synthetic contract. It would not prove
+  field accuracy, source authenticity, live camera, public availability or
+  physical action. The prepared templates do not prove a video was recorded.
 
 ## Deployment gate
 
-Do not treat source import or local tests as AWS deployment. Deployment still
-requires an authorized AWS identity, selected region, cost scope, and an
-independently administered witness/key-revocation channel. No public release,
-submission, paid provisioning, or automatic merge is authorized here.
+The one-time private AWS execution is complete and must not be repeated under
+its expired US$1 operation allowance. A public Function URL, further paid
+provisioning, competition submission, or automatic merge still requires
+separate owner authorization.
 
 

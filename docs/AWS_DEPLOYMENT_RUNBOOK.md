@@ -1,9 +1,17 @@
-# AWS deployment runbook (prepared, NOT_RUN)
+# AWS deployment runbook and execution readback
 
-Target: the smallest meaningful AWS component. One Lambda container
+Execution update (2026-10-26): one private `AWS_IAM` Lambda was deployed and
+invoked in `us-east-1` under the owner's one-time approval. Source commit
+`832b1b476ce88e3fa95e83ac5749f64af0f4bd63`, workflow run `40223113044`,
+and sanitized evidence
+`evidence/AWS_EXECUTION_20261026_40223113044.json` are the canonical record.
+Reserved concurrency 2 was rejected by the account quota and is not configured.
+Do not rerun a paid deployment or create a public URL without new approval.
+
+Original target: the smallest meaningful AWS component. One Lambda container
 function (`visualguard-inspector`) built from one ECR repository
 (`visualguard`), invoked through the AWS API, with an `AWS_IAM` Function URL
-by default. Nothing in this file has been executed.
+by default. The private workflow path has now been executed once; the public workflow path remains NOT_RUN.
 
 ## Who does what
 

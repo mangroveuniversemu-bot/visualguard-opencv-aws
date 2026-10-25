@@ -12,20 +12,22 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from ops.verify_demo_evidence_contract import verify_contract
+    from ops.verify_demo_evidence_contract import AWS_CLAIM, verify_contract
 except ModuleNotFoundError:  # pragma: no cover - direct script execution
-    from verify_demo_evidence_contract import verify_contract
+    from verify_demo_evidence_contract import AWS_CLAIM, verify_contract
 
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = Path("evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json")
+VIDEO_EVIDENCE_MODE = "MIXED_SYNTHETIC_REPLAY_AND_AWS_LAMBDA"
 EXPECTED_ATTESTATION = {
     "synthetic_replay_disclosed": True,
     "fixed_synthetic_arrays_disclosed": True,
     "opencv5_runtime_claimed": True,
+    "private_aws_lambda_synthetic_execution_claimed": True,
+    "public_aws_endpoint_claimed": False,
+    "reserved_concurrency_claimed": False,
     "live_camera_claimed": False,
-    "live_aws_claimed": False,
-    "aws_deployment_claimed": False,
     "physical_action_claimed": False,
     "field_accuracy_claimed": False,
     "source_authenticity_claimed": False,
@@ -146,25 +148,22 @@ def verify_final_video_evidence(
     duration = duration_probe(video_path)
     _require(math.isfinite(duration) and duration > 0, "VIDEO_DURATION_INVALID")
     _require(
-        duration <= float(contract["max_duration_seconds"]),
-        "VIDEO_DURATION_EXCEEDED",
+        duration <= float(contract["max_duration_seconds"]), "VIDEO_DURATION_EXCEEDED"
     )
 
-    _require(receipt.get("schema_version") == 1, "RECEIPT_SCHEMA_UNSUPPORTED")
+    _require(receipt.get("schema_version") == 2, "RECEIPT_SCHEMA_UNSUPPORTED")
     _require(
-        receipt.get("cut") == "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001",
+        receipt.get("cut") == "VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE002",
         "CUT_INVALID",
     )
     _require(receipt.get("status") == "RECORDED", "VIDEO_STATUS_NOT_RECORDED")
     _require(receipt.get("provenance") == "DERIVED", "PROVENANCE_INVALID")
     _require(
-        receipt.get("evidence_mode") == "SYNTHETIC_REPLAY",
-        "EVIDENCE_MODE_INVALID",
+        receipt.get("evidence_mode") == VIDEO_EVIDENCE_MODE, "EVIDENCE_MODE_INVALID"
     )
     _require(receipt.get("action_executed") is False, "ACTION_EXECUTION_OVERCLAIMED")
     _require(
-        receipt.get("contract_sha256") == contract_sha256,
-        "CONTRACT_DIGEST_MISMATCH",
+        receipt.get("contract_sha256") == contract_sha256, "CONTRACT_DIGEST_MISMATCH"
     )
     video = receipt.get("video")
     _require(isinstance(video, dict), "VIDEO_RECEIPT_INVALID")
@@ -186,24 +185,20 @@ def verify_final_video_evidence(
     )
     _verify_segments(receipt, contract, duration)
 
-    _require(review.get("schema_version") == 1, "REVIEW_SCHEMA_UNSUPPORTED")
+    _require(review.get("schema_version") == 2, "REVIEW_SCHEMA_UNSUPPORTED")
     _require(review.get("status") == "INDEPENDENT_REVIEWED", "REVIEW_INCOMPLETE")
     reviewer_id = review.get("reviewer_id")
     _require(
         isinstance(reviewer_id, str) and reviewer_id.strip(), "REVIEWER_ID_INVALID"
     )
     _require(reviewer_id != operator_id, "REVIEW_NOT_INDEPENDENT")
-    _require(
-        review.get("video_sha256") == video_sha256,
-        "REVIEW_VIDEO_DIGEST_MISMATCH",
-    )
+    _require(review.get("video_sha256") == video_sha256, "REVIEW_VIDEO_DIGEST_MISMATCH")
     _require(
         review.get("contract_sha256") == contract_sha256,
         "REVIEW_CONTRACT_DIGEST_MISMATCH",
     )
     _require(
-        review.get("attestation") == EXPECTED_ATTESTATION,
-        "REVIEW_BOUNDARY_INVALID",
+        review.get("attestation") == EXPECTED_ATTESTATION, "REVIEW_BOUNDARY_INVALID"
     )
     _require(
         review.get("observed_segment_ids")
@@ -226,7 +221,8 @@ def verify_final_video_evidence(
         "segment_count": len(contract["segments"]),
         "independent_review": "PASS",
         "contract_result": contract_result["status"],
-        "aws": "NOT_RUN",
+        "aws": AWS_CLAIM,
+        "public_endpoint": "NOT_AUTHORIZED",
         "camera": "NOT_RUN",
         "physical_action": "NONE",
     }
