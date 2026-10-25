@@ -9,9 +9,9 @@
   "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK141_VISUALGUARD_AWS_DEMO_CONTRACT002_CI_CLOSURE",
-  "parent_commit": "d3034ba6a0945210a5a24cbe3609f174d8901fd4",
-  "current_cut": "VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002",
+  "parent_checkpoint": "CHECK142_VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002_CI_CLOSURE",
+  "parent_commit": "5a42536a4f93b70d6ea094452f1e6f95c55a8124",
+  "current_cut": "VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -94,7 +94,7 @@
     "endpoint": "DEPLOYED_PRIVATE_AWS_IAM"
   },
   "validation": {
-    "executed_at": "2026-10-25T19:30:00+00:00",
+    "executed_at": "2026-10-25T21:28:00+00:00",
     "python": "3.12.14",
     "sqlite": "3.53.1",
     "opencv": "5.0.0",
@@ -123,7 +123,10 @@
     "aws_execution": "PASS private Lambda synthetic inputs; run 40223113044",
     "aws_evidence_head_ci": "PASS run 40224824470 (test + container jobs)",
     "capture_packet_targeted_tests": "PASS 9/9; bounded packet + 8 fail-closed controls",
-    "capture_packet_gate": "PASS; 180 seconds; 6 segments; 2 artifacts; secret_patterns_detected=0"
+    "capture_packet_gate": "PASS; 180 seconds; 6 segments; 2 artifacts; secret_patterns_detected=0",
+    "storyboard_gate": "PASS; deterministic checked-in HTML; 180 seconds; 6 ordered segments; no AWS call",
+    "storyboard_targeted_tests": "PASS 5/5; related capture/contract/video suite PASS 33/33",
+    "storyboard_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
@@ -150,7 +153,7 @@
     "Human operator records the final video and a distinct reviewer verifies it"
   ],
   "next_steps": [
-    "A human operator records the six-segment 180-second v002 storyboard from local repository surfaces only.",
+    "A human operator opens the checked-in offline storyboard locally and records the six-segment 180-second video without opening AWS Console.",
     "A distinct human reviewer verifies the same final media bytes and the credential-exposure boundary.",
     "Request separate owner approval before any public Function URL, further paid AWS operation, or competition submission."
   ],
@@ -185,6 +188,19 @@
     "aws_console_capture_allowed": false,
     "secrets_required": false,
     "schema_v2_receipt_templates": true,
+    "recording": "NOT_RUN",
+    "independent_review": "NOT_RUN"
+  },
+  "demo_storyboard": {
+    "status": "PREPARED_NOT_RECORDED",
+    "cut": "VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001",
+    "path": "evidence/VISUALGUARD_AWS_DEMO_STORYBOARD001.html",
+    "generator": "ops/render_demo_storyboard.py",
+    "sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
+    "duration_seconds": 180,
+    "required_segments": 6,
+    "capture_surface": "LOCAL_REPOSITORY_RENDER_ONLY",
+    "aws_call": "NOT_RUN",
     "recording": "NOT_RUN",
     "independent_review": "NOT_RUN"
   }

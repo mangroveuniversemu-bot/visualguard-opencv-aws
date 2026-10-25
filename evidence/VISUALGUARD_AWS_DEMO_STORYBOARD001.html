@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VisualGuard AWS demo storyboard</title>
+<style>
+:root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html { scroll-snap-type: y mandatory; background: #06121c; color: #f3f8fb; }
+body { margin: 0; }
+.scene { min-height: 100vh; padding: 5vh 7vw 4vh; display: grid; grid-template-rows: auto 1fr auto;
+  scroll-snap-align: start; background: radial-gradient(circle at 85% 12%, #164b65 0, #0b2535 28%, #06121c 72%); }
+header { display: flex; justify-content: space-between; color: #a9cad8; font-variant-numeric: tabular-nums; }
+.counter, .mode { color: #58d6bf; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.body { align-self: center; max-width: 1050px; }
+h2 { margin: .15em 0 .45em; font-size: clamp(3rem, 8vw, 7rem); line-height: .95; }
+ul { max-width: 900px; font-size: clamp(1.2rem, 2.2vw, 2rem); line-height: 1.45; }
+li + li { margin-top: .45em; }
+.identifiers { display: grid; grid-template-columns: minmax(10rem, 14rem) 1fr; gap: .35rem 1rem;
+  margin-top: 1.5rem; padding: 1rem; background: #071018cc; border: 1px solid #2b7183; border-radius: 12px; }
+dt { color: #9ccbd7; } dd { margin: 0; overflow-wrap: anywhere; }
+footer { justify-self: stretch; padding: .85rem 1rem; text-align: center; border: 2px solid #58d6bf;
+  background: #062d33; color: #d9fff8; font-weight: 900; letter-spacing: .04em; }
+code { color: #e2f6a5; }
+</style>
+<script id="storyboard-metadata" type="application/json">{"action_executed":false,"aws":"PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED","camera":"NOT_RUN","capture_surface":"LOCAL_REPOSITORY_RENDER_ONLY","contract_sha256":"10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30","cut":"VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001","duration_seconds":180,"independent_review":"NOT_RUN","packet_sha256":"2c9d8baa0ebcb8e8049e650ae0077ef8ceb7ea1ad360d3147da35a8ef551c856","physical_action":"NONE","public_endpoint":"NOT_AUTHORIZED","recording":"NOT_RUN","schema_version":1,"segment_count":6,"status":"PREPARED_NOT_RECORDED"}</script>
+</head>
+<body>
+<section class="scene" data-segment-id="problem_and_scope"
+  data-duration-seconds="20" data-start-second="0"
+  data-end-second="20">
+  <header><span class="counter">1/6</span><span>000–020s</span></header>
+  <div class="body">
+    <p class="mode">PUBLIC_REFERENCE</p>
+    <h2>The bounded problem</h2>
+    <ul><li>VisualGuard demonstrates bounded inspection and human-routing behavior.</li><li>This prepared plan is not a recorded video, field-accuracy result, or autonomous actuation claim.</li></ul>
+    
+  </div>
+  <footer>PRIVATE AWS / SYNTHETIC INPUT / NO ACTION EXECUTED</footer>
+</section><section class="scene" data-segment-id="opencv5_clear_path"
+  data-duration-seconds="30" data-start-second="20"
+  data-end-second="50">
+  <header><span class="counter">2/6</span><span>020–050s</span></header>
+  <div class="body">
+    <p class="mode">SYNTHETIC_REPLAY</p>
+    <h2>OpenCV 5 clear path</h2>
+    <ul><li>The local replay used OpenCV 5 over fixed synthetic arrays.</li><li>A clear two-view case queues human review without executing an action.</li></ul>
+    
+  </div>
+  <footer>SYNTHETIC REPLAY — CAMERA NOT RUN</footer>
+</section><section class="scene" data-segment-id="negative_controls"
+  data-duration-seconds="45" data-start-second="50"
+  data-end-second="95">
+  <header><span class="counter">3/6</span><span>050–095s</span></header>
+  <div class="body">
+    <p class="mode">SYNTHETIC_REPLAY</p>
+    <h2>Negative controls</h2>
+    <ul><li>The local eight-case matrix covers alarm, missing-view, occlusion, stale, calibration-drift, version-drift, and consequence-mismatch controls.</li><li>Every matrix case records action_executed=false.</li></ul>
+    
+  </div>
+  <footer>FIXED SYNTHETIC CASES — NOT FIELD ACCURACY</footer>
+</section><section class="scene" data-segment-id="bounded_follow_up"
+  data-duration-seconds="25" data-start-second="95"
+  data-end-second="120">
+  <header><span class="counter">4/6</span><span>095–120s</span></header>
+  <div class="body">
+    <p class="mode">SYNTHETIC_REPLAY</p>
+    <h2>Bounded follow-up</h2>
+    <ul><li>Inspection output changes only a planned next step: human review, new capture, or hold automation.</li><li>No external or physical action is executed.</li></ul>
+    
+  </div>
+  <footer>PLANNED FOLLOW-UP ONLY — ACTION_EXECUTED=FALSE</footer>
+</section><section class="scene" data-segment-id="aws_disclosure"
+  data-duration-seconds="40" data-start-second="120"
+  data-end-second="160">
+  <header><span class="counter">5/6</span><span>120–160s</span></header>
+  <div class="body">
+    <p class="mode">AWS_LAMBDA_EXECUTION_SYNTHETIC_INPUT</p>
+    <h2>Private AWS execution</h2>
+    <ul><li>A private AWS_IAM Lambda in us-east-1 ran OpenCV 5.0.0 against synthetic inputs at source commit 832b1b476ce88e3fa95e83ac5749f64af0f4bd63.</li><li>Health returned HTTP 200; alarm returned STOP/HOLD_AUTOMATION; clear returned REVIEW/QUEUE_HUMAN_REVIEW; empty views returned REQUEST_VIEW/REQUEST_NEW_CAPTURE.</li><li>CloudWatch REPORT lines and the supplemental Lambda RequestId bind the invocations to AWS-side records.</li></ul>
+    <dl class="identifiers"><dt>Source commit</dt><dd><code>832b1b476ce88e3fa95e83ac5749f64af0f4bd63</code></dd><dt>Evidence commit</dt><dd><code>3442e3aa0e8d6003c538ecd2045cd65b2e697710</code></dd><dt>Workflow run</dt><dd><code>40223113044</code></dd><dt>Artifact SHA-256</dt><dd><code>8c3e70164fe27368a1f10fb8616c2055c27d4a081374822c1d40db2702859ae6</code></dd><dt>Image digest</dt><dd><code>sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd</code></dd><dt>Supplemental RequestId</dt><dd><code>5e91ad05-2270-4828-b1dc-619fc4ebdd62</code></dd></dl>
+  </div>
+  <footer>PRIVATE AWS_IAM LAMBDA — SYNTHETIC INPUT</footer>
+</section><section class="scene" data-segment-id="falsifier_and_next_gate"
+  data-duration-seconds="20" data-start-second="160"
+  data-end-second="180">
+  <header><span class="counter">6/6</span><span>160–180s</span></header>
+  <div class="body">
+    <p class="mode">AWS_LAMBDA_EXECUTION_SYNTHETIC_INPUT</p>
+    <h2>Falsifier and next gate</h2>
+    <ul><li>The evidence does not establish a public endpoint, live camera, field accuracy, physical action, or final submission.</li><li>Reserved concurrency 2 was rejected by the account quota and is not configured; digest drift or an upgraded claim invalidates this plan.</li></ul>
+    
+  </div>
+  <footer>NO PUBLIC URL / LIVE CAMERA / PHYSICAL ACTION</footer>
+</section>
+</body>
+</html>

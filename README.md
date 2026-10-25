@@ -11,7 +11,7 @@ source commit `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live camera, an
 independently operated witness, a recorded video and physical action remain
 `NOT_RUN` / `NONE`.
 
-Current cut: `VISUALGUARD_DEMO_EVIDENCE_CONTRACT002`.
+Current cut: `VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001`.
 
 - **OpenCV 5 workload.** `vision/scene_analysis.py` analyses 640×480
   two-view frames. Quality gates (Sobel/Laplacian sharpness, `calcHist`
@@ -78,6 +78,7 @@ python ops/aws_deployment_preflight.py \
   --output evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json
 python ops/verify_demo_evidence_contract.py
 python ops/verify_demo_capture_packet.py
+python ops/render_demo_storyboard.py --check
 python -m pytest -q tests/test_demo_evidence_contract.py
 python -m pytest -q tests/test_final_demo_video_evidence.py
 python ops/verify_final_demo_video_evidence.py \
@@ -169,3 +170,5 @@ separate owner authorization.
 
 
 Capture-packet validation on 2026-10-26: local targeted suite PASS 28/28 across packet, contract and final-video gates. The packet performs no AWS call and does not claim recorded media or review.
+
+Storyboard validation on 2026-10-26: deterministic offline HTML PASS with six ordered segments / 180 seconds; SHA-256 `661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090`. Related local gate suite PASS 33/33. The storyboard makes no AWS call and remains `PREPARED_NOT_RECORDED` / `NOT_RUN`.

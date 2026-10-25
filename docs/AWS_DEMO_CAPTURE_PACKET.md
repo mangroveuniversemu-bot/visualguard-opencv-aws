@@ -10,16 +10,26 @@ action outside the claim.
 
 ## Before recording
 
-1. Run `python ops/verify_demo_capture_packet.py`. It must return `PASS`,
+1. Run `python ops/verify_demo_capture_packet.py` and
+   `python ops/render_demo_storyboard.py --check`. Both must return `PASS`.
+   Open `evidence/VISUALGUARD_AWS_DEMO_STORYBOARD001.html` locally and record
+   that offline file instead of opening AWS Console or copying raw logs.
+2. The packet probe must report
    `secret_patterns_detected=0`, `recording=NOT_RUN`, and
    `independent_review=NOT_RUN`.
-2. Close AWS Console tabs, browser developer tools, password managers and
+3. Close AWS Console tabs, browser developer tools, password managers and
    terminals containing environment values. Do not show account headers, role
    ARNs, cookies, signed URLs, request headers or `.env` values.
-3. Record only a local render of the capture packet, local replay, and the
+4. Record only the checked-in storyboard, local replay, and the
    sanitized AWS evidence. Keep the required overlay visible for each segment.
-4. Use the six segments in packet order. Their durations total exactly 180
+5. Use the six segments in storyboard order. Their durations total exactly 180
    seconds. Do not upgrade the bounded claim.
+
+The storyboard is deterministic and binds the capture packet and contract
+digests. It deliberately omits the 12-digit GitHub job identifier and raw AWS
+evidence body from the recording surface. Regenerate it only with
+`python ops/render_demo_storyboard.py`, then commit the exact output and rerun
+the `--check` gate.
 
 ## After recording
 
