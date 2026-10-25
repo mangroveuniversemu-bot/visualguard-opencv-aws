@@ -4,7 +4,7 @@
   "competition": "OpenCV AI Competition 2026, powered by AWS",
   "official_rules_url": "https://opencv26.devpost.com/",
   "target_platform": "AWS",
-  "stage": "PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED",
+  "stage": "SOURCE_IMPORTED_AND_LOCALLY_VERIFIED",
   "source_imported": true,
   "deployment_completed": true,
   "schedules_enabled": false,
@@ -173,5 +173,6 @@
     "physical_action": "NONE",
     "evidence_without_terminal_lf_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
     "byte_normalization_note": "The checked-in JSON ends with one LF. The earlier a86e... digest is the same payload without that terminal LF."
-  }
+  },
+  "stage_note": "Private AWS synthetic execution is tracked separately in aws_execution_evidence; source_ready remains backward-compatible with the fail-closed deployment preflight."
 }
