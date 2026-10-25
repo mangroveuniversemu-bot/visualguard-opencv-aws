@@ -9,9 +9,9 @@
   "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "VISUALGUARD_AWS_EXECUTION_READBACK_20261026",
-  "parent_commit": "3442e3aa0e8d6003c538ecd2045cd65b2e697710",
-  "current_cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT002",
+  "parent_checkpoint": "CHECK141_VISUALGUARD_AWS_DEMO_CONTRACT002_CI_CLOSURE",
+  "parent_commit": "d3034ba6a0945210a5a24cbe3609f174d8901fd4",
+  "current_cut": "VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -121,7 +121,9 @@
     "aws_deploy_kit_targeted_tests": "PASS 4/4 plus 5 subtests (fake AWS runner; no AWS call)",
     "hosted_ci_scene_endpoint": "PASS run 39808657344 at b3049dd98ba243c81ab62d4aaa8b741b7639c282",
     "aws_execution": "PASS private Lambda synthetic inputs; run 40223113044",
-    "aws_evidence_head_ci": "PASS run 40224824470 (test + container jobs)"
+    "aws_evidence_head_ci": "PASS run 40224824470 (test + container jobs)",
+    "capture_packet_targeted_tests": "PASS 9/9; bounded packet + 8 fail-closed controls",
+    "capture_packet_gate": "PASS; 180 seconds; 6 segments; 2 artifacts; secret_patterns_detected=0"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
@@ -148,9 +150,9 @@
     "Human operator records the final video and a distinct reviewer verifies it"
   ],
   "next_steps": [
-    "Record the six-segment 180-second v002 storyboard without exposing credentials.",
-    "Have a distinct human reviewer bind the final media bytes to contract v002.",
-    "Request separate owner approval before any public Function URL or competition submission."
+    "A human operator records the six-segment 180-second v002 storyboard from local repository surfaces only.",
+    "A distinct human reviewer verifies the same final media bytes and the credential-exposure boundary.",
+    "Request separate owner approval before any public Function URL, further paid AWS operation, or competition submission."
   ],
   "aws_execution_evidence": {
     "status": "AWS_PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
@@ -174,5 +176,16 @@
     "evidence_without_terminal_lf_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
     "byte_normalization_note": "The checked-in JSON ends with one LF. The earlier a86e... digest is the same payload without that terminal LF."
   },
-  "stage_note": "Private AWS synthetic execution is tracked separately in aws_execution_evidence; source_ready remains backward-compatible with the fail-closed deployment preflight."
+  "stage_note": "Private AWS synthetic execution is tracked separately in aws_execution_evidence; source_ready remains backward-compatible with the fail-closed deployment preflight.",
+  "demo_capture_packet": {
+    "status": "PREPARED_NOT_RECORDED",
+    "path": "evidence/VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002.json",
+    "runbook": "docs/AWS_DEMO_CAPTURE_PACKET.md",
+    "capture_surface": "LOCAL_REPOSITORY_RENDER_ONLY",
+    "aws_console_capture_allowed": false,
+    "secrets_required": false,
+    "schema_v2_receipt_templates": true,
+    "recording": "NOT_RUN",
+    "independent_review": "NOT_RUN"
+  }
 }

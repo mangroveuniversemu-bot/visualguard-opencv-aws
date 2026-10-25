@@ -35,10 +35,13 @@ Current cut: `VISUALGUARD_DEMO_EVIDENCE_CONTRACT002`.
   evidence is bound in `evidence/AWS_EXECUTION_20261026_40223113044.json`.
   No public endpoint, live camera or physical action is claimed.
 - **Final video.** Contract v002 binds the AWS evidence and remains
-  `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`.
+  `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`. The credential-safe
+  capture packet fixes the receipt templates to verifier-compatible schema v2
+  and forbids recording AWS account, role, network-header or signed-URL surfaces.
 
 Docs: `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
-`docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`.
+`docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`,
+`docs/AWS_DEMO_CAPTURE_PACKET.md`.
 
 ## Reproduce
 
@@ -74,6 +77,7 @@ python ops/opencv5_judging_negative_control_matrix.py
 python ops/aws_deployment_preflight.py \
   --output evidence/CHECK129_AWS_DEPLOYMENT_PREFLIGHT.json
 python ops/verify_demo_evidence_contract.py
+python ops/verify_demo_capture_packet.py
 python -m pytest -q tests/test_demo_evidence_contract.py
 python -m pytest -q tests/test_final_demo_video_evidence.py
 python ops/verify_final_demo_video_evidence.py \
@@ -163,3 +167,5 @@ provisioning, competition submission, or automatic merge still requires
 separate owner authorization.
 
 
+
+Capture-packet validation on 2026-10-26: local targeted suite PASS 28/28 across packet, contract and final-video gates. The packet performs no AWS call and does not claim recorded media or review.

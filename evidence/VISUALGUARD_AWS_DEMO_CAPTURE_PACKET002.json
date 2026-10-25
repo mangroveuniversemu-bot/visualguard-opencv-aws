@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "cut": "VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002",
+  "status": "PREPARED_NOT_RECORDED",
+  "provenance": "DERIVED",
+  "parent_head": "d3034ba6a0945210a5a24cbe3609f174d8901fd4",
+  "capture_surface": "LOCAL_REPOSITORY_RENDER_ONLY",
+  "aws_console_capture_allowed": false,
+  "browser_network_panel_allowed": false,
+  "secrets_required": false,
+  "bound_artifacts": [
+    {
+      "path": "evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json",
+      "sha256": "10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30"
+    },
+    {
+      "path": "evidence/AWS_EXECUTION_20261026_40223113044.json",
+      "sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0"
+    }
+  ],
+  "allowed_public_identifiers": {
+    "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "evidence_commit": "3442e3aa0e8d6003c538ecd2045cd65b2e697710",
+    "workflow_run": 40223113044,
+    "workflow_job": 121258766517,
+    "artifact_id": 12610292181,
+    "artifact_sha256": "8c3e70164fe27368a1f10fb8616c2055c27d4a081374822c1d40db2702859ae6",
+    "image_digest": "sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+    "supplemental_request_id": "5e91ad05-2270-4828-b1dc-619fc4ebdd62"
+  },
+  "claim_boundary": {
+    "aws": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
+    "public_endpoint": "NOT_AUTHORIZED",
+    "camera": "NOT_RUN",
+    "field_accuracy": "NOT_ESTABLISHED",
+    "physical_action": "NONE",
+    "action_executed": false,
+    "reserved_concurrency": "UNAVAILABLE_FOR_ACCOUNT"
+  },
+  "capture_segments": [
+    {"id": "problem_and_scope", "duration_seconds": 20, "surface": "LOCAL_SLIDE_OR_TERMINAL", "required_overlay": "PRIVATE AWS / SYNTHETIC INPUT / NO ACTION EXECUTED"},
+    {"id": "opencv5_clear_path", "duration_seconds": 30, "surface": "LOCAL_REPLAY", "required_overlay": "SYNTHETIC REPLAY — CAMERA NOT RUN"},
+    {"id": "negative_controls", "duration_seconds": 45, "surface": "LOCAL_EVIDENCE_RENDER", "required_overlay": "FIXED SYNTHETIC CASES — NOT FIELD ACCURACY"},
+    {"id": "bounded_follow_up", "duration_seconds": 25, "surface": "LOCAL_REPLAY", "required_overlay": "PLANNED FOLLOW-UP ONLY — ACTION_EXECUTED=FALSE"},
+    {"id": "aws_disclosure", "duration_seconds": 40, "surface": "LOCAL_REDACTED_EVIDENCE_RENDER", "required_overlay": "PRIVATE AWS_IAM LAMBDA — SYNTHETIC INPUT"},
+    {"id": "falsifier_and_next_gate", "duration_seconds": 20, "surface": "LOCAL_SLIDE_OR_TERMINAL", "required_overlay": "NO PUBLIC URL / LIVE CAMERA / PHYSICAL ACTION"}
+  ],
+  "redaction_gate": {
+    "forbidden_surfaces": [
+      "AWS_CONSOLE_ACCOUNT_HEADER",
+      "AWS_CONSOLE_ROLE_SWITCHER",
+      "BROWSER_NETWORK_HEADERS",
+      "SIGNED_URL_QUERY_STRING",
+      "ENVIRONMENT_VARIABLE_VALUES",
+      "COOKIE_OR_LOCAL_STORAGE",
+      "FULL_IAM_ROLE_ARN"
+    ],
+    "scan_scope": "PACKET_AND_FINAL_RECEIPTS",
+    "credentials_visible_must_equal": false
+  },
+  "operator_receipt_template": "evidence/final-demo-video-evidence-receipt.template.json",
+  "reviewer_receipt_template": "evidence/final-demo-video-review-receipt.template.json",
+  "recording": "NOT_RUN",
+  "independent_review": "NOT_RUN"
+}
