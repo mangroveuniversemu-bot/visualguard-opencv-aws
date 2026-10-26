@@ -1,17 +1,25 @@
 # VisualGuard — OpenCV 5 on AWS
 
-Private engineering repository for **OpenCV AI Competition 2026, powered by
-AWS**.
+Project repository for **OpenCV AI Competition 2026, powered by AWS**.
 
 ## Current status
 
 **PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED** on `claude/practical-ride-st6n28`.
-A private `AWS_IAM` Lambda in `us-east-1` was deployed and invoked from
-source commit `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live camera, an
-independently operated witness, a recorded video and physical action remain
-`NOT_RUN` / `NONE`.
+A private `AWS_IAM` Lambda in `us-east-1` was deployed from source commit
+`832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live-camera integration and
+physical action remain `NOT_RUN` / `NONE`; real-world alarm accuracy is not
+established. The public owner-review film is separate from the AWS evidence
+contract and has not been byte-bound or independently reviewed under CHECK146.
 
-Current cut: `VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001`.
+Current public owner-review film: [VisualGuard | Two Views. One Next Step.](https://youtu.be/AEDHXknTBy8)
+(2:20). It combines 2026-10-04 exhibition footage, labelled AI-generated
+illustration, edited captures of the local application using synthetic inputs,
+and saved private AWS execution evidence. It does not show live-camera
+inference or physical equipment control.
+
+The 180-second storyboard and CHECK146 video gate are historical preparation
+artifacts; CHECK146 verifies its six bound evidence files, four saved AWS
+cases and eight local negative controls, not this newer film or field accuracy.
 
 - **OpenCV 5 workload.** `vision/scene_analysis.py` analyses 640×480
   two-view frames. Quality gates (Sobel/Laplacian sharpness, `calcHist`
@@ -29,15 +37,23 @@ Current cut: `VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001`.
   executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
   and `lambda` targets. A read-only local container and hosted CI both pass
   the 9-check smoke test.
+- **Hosted verification.** Existing GitHub Actions run `40249719964` at
+  baseline `b85ebb0873cf030ab95fd32c1d886df59bf74c86` passed 268 tests and
+  116 subtests. Local Windows review results are separate and are not the hosted
+  run.
+- **CHECK146 evidence index.** Reverification passed for six bound artifacts,
+  four saved AWS cases and eight local negative controls. This verifies saved
+  evidence consistency, not source authenticity, current-film review or field
+  performance.
 - **AWS (private synthetic execution verified).** The OIDC workflow deployed
   an `AWS_IAM` Lambda and invoked health, alarm and clear synthetic cases;
   an AWS Console invocation added the empty-views negative control. The
   evidence is bound in `evidence/AWS_EXECUTION_20261026_40223113044.json`.
   No public endpoint, live camera or physical action is claimed.
-- **Final video.** Contract v002 binds the AWS evidence and remains
-  `PREPARED_NOT_RECORDED` / `PREPARED_NOT_REVIEWED`. The credential-safe
-  capture packet fixes the receipt templates to verifier-compatible schema v2
-  and forbids recording AWS account, role, network-header or signed-URL surfaces.
+- **Video evidence boundary.** The public 2:20 film is available at the link
+  above. It is not bound to the older 180-second CHECK146 storyboard contract,
+  and it has no independent reviewer receipt. The older contract remains
+  pending; its templates do not describe the newer public film.
 
 Docs: `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
 `docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`,
@@ -110,14 +126,14 @@ The preflight exits `2` while blocked and `0` only after every static gate plus
 both read-only AWS checks pass. See `.env.example` for variable names; keep
 values in an authorized runtime or secret store, never in the repository.
 
-Fresh local results on 2026-10-15: final-video gate targeted tests 8/8 and
+Historical checkpoint (2026-10-15): final-video gate targeted tests 8/8 and
 scoped branch full suite 214/214 plus 66 subtests; changed-file Ruff, format
-check, compileall, JSON parsing, and the underlying demo-contract probe pass.
-The historical missing-video probe returned `VIDEO_MISSING` with exit 2. No
-final video or independent review has since been supplied. Contract v002 remains
-six segments at exactly 180 seconds and now binds the private AWS synthetic
-execution while live camera, public endpoint and physical action remain
-`NOT_RUN` / `NOT_AUTHORIZED` / `NONE`.
+check, compileall, JSON parsing, and the underlying demo-contract probe passed.
+The missing-video probe returned `VIDEO_MISSING` at that checkpoint. A separate
+2:20 owner-review film was produced later, but it is not byte-bound to CHECK146
+or independently reviewed. Contract v002 still describes a 180-second, six-
+segment storyboard and private AWS synthetic evidence. Live-camera use and
+physical action remain `NOT_RUN` / `NONE`.
 See
 `evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json`.
 Hosted GitHub Actions run `38654945975` / job `116162376099` passed the
@@ -158,7 +174,7 @@ Reserved concurrency 2 was rejected by the account quota and is not configured.
 - Passing the final-video gate would prove only that reviewed video bytes match
   the bounded local-plus-private-AWS synthetic contract. It would not prove
   field accuracy, source authenticity, live camera, public availability or
-  physical action. The prepared templates do not prove a video was recorded.
+  physical action. The older receipt templates do not establish a byte-bound review of the newer public film.
 
 ## Deployment gate
 
@@ -171,4 +187,4 @@ separate owner authorization.
 
 Capture-packet validation on 2026-10-26: local targeted suite PASS 28/28 across packet, contract and final-video gates. The packet performs no AWS call and does not claim recorded media or review.
 
-Storyboard validation on 2026-10-26: deterministic offline HTML PASS with six ordered segments / 180 seconds; SHA-256 `661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090`. Related local gate suite PASS 33/33. The storyboard makes no AWS call and remains `PREPARED_NOT_RECORDED` / `NOT_RUN`.
+Storyboard validation on 2026-10-26: the deterministic offline storyboard (separate from the later public film) passed with six ordered segments / 180 seconds; SHA-256 `661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090`. Related local gate suite PASS 33/33. The storyboard makes no AWS call and remains `PREPARED_NOT_RECORDED` / `NOT_RUN`.
