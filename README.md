@@ -32,11 +32,21 @@ cases and eight local negative controls, not this newer film or field accuracy.
   misses. The naive red-count baseline scores 50% with 60 unsafe misses;
   the legacy brightness baseline scores 31.85% with 76. Known failure:
   round red stickers false-stop 30/30. See `docs/TECHNICAL_REPORT.md`.
-- **Endpoint.** `service/app.py` serves a demo page and `POST /v1/inspect`.
-  Each response returns the decision, the planned follow-up (never
+- **Endpoint.** `service/app.py` serves an English judge UI at `/` and
+  `POST /v1/inspect` from the same host. The page reads `/healthz` and
+  `/v1/samples`, displays the reported OpenCV/runtime connection, and uses
+  same-origin requests, so judges need no account or AWS credentials once the
+  already-approved public endpoint is deployed. Public AWS mode will use a
+  DynamoDB-backed
+  global limit of five `/v1/inspect` POST attempts per Taiwan calendar day;
+  malformed POSTs consume a slot, and health/sample GETs do not. A failed quota
+  store blocks inference. Each response returns the decision,
+  the planned follow-up (never
   executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
-  and `lambda` targets. A read-only local container and hosted CI both pass
-  the 9-check smoke test.
+  and `lambda` targets. Public AWS smoke validation is deliberately limited to
+  one inference request so it preserves the shared daily quota. The public AWS
+  rollout is pending the DynamoDB table and the Lambda role's single-table
+  `UpdateItem` permission.
 - **Hosted verification.** Existing GitHub Actions run `40249719964` at
   baseline `b85ebb0873cf030ab95fd32c1d886df59bf74c86` passed 268 tests and
   116 subtests. Local Windows review results are separate and are not the hosted
