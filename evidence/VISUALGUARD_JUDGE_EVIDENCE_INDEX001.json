@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "cut": "VISUALGUARD_JUDGE_EVIDENCE_INDEX001",
+  "status": "VERIFIED_INDEX_VIDEO_NOT_RECORDED",
+  "provenance": "DERIVED",
+  "source_head": "83817bbff5c614b13d819828c872c743a0b4b079",
+  "evidence_mode": "EXISTING_PRIVATE_AWS_SYNTHETIC_PLUS_LOCAL_REVIEW_INDEX",
+  "claim_boundary": {
+    "aws": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
+    "opencv": "5.0.0",
+    "public_endpoint": "NOT_AUTHORIZED",
+    "camera": "NOT_RUN",
+    "field_accuracy": "NOT_ESTABLISHED",
+    "physical_action": "NONE",
+    "action_executed": false,
+    "reserved_concurrency": "UNAVAILABLE_FOR_ACCOUNT",
+    "video": "PREPARED_NOT_RECORDED",
+    "independent_review": "PREPARED_NOT_REVIEWED",
+    "competition_submission": "NOT_RUN"
+  },
+  "required_artifacts": [
+    {
+      "path": "evidence/AWS_EXECUTION_20261026_40223113044.json",
+      "role": "PRIVATE_AWS_EXECUTION_RECEIPT",
+      "sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0"
+    },
+    {
+      "path": "evidence/CHECK126_JUDGING_NEGATIVE_CONTROL_MATRIX.json",
+      "role": "LOCAL_OPENCV_NEGATIVE_CONTROL_MATRIX",
+      "sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d"
+    },
+    {
+      "path": "evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json",
+      "role": "DEMO_CLAIM_CONTRACT",
+      "sha256": "10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30"
+    },
+    {
+      "path": "evidence/VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002.json",
+      "role": "CREDENTIAL_SAFE_CAPTURE_PACKET",
+      "sha256": "2c9d8baa0ebcb8e8049e650ae0077ef8ceb7ea1ad360d3147da35a8ef551c856"
+    },
+    {
+      "path": "evidence/VISUALGUARD_AWS_DEMO_STORYBOARD001.html",
+      "role": "DETERMINISTIC_LOCAL_STORYBOARD",
+      "sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090"
+    },
+    {
+      "path": "evidence/CHECK136_VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001.json",
+      "role": "FINAL_VIDEO_FAIL_CLOSED_GATE",
+      "sha256": "62ee4349eb935ba7a4f3ac650a40d9f81a83a2c2acea23c683680283a56c0031"
+    }
+  ],
+  "aws_receipt": {
+    "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "evidence_commit": "3442e3aa0e8d6003c538ecd2045cd65b2e697710",
+    "workflow_run": 40223113044,
+    "workflow_job": 121258766517,
+    "artifact_id": 12610292181,
+    "artifact_sha256": "8c3e70164fe27368a1f10fb8616c2055c27d4a081374822c1d40db2702859ae6",
+    "image_digest": "sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+    "cloudwatch_report_count": 3,
+    "supplemental_request_id": "5e91ad05-2270-4828-b1dc-619fc4ebdd62"
+  },
+  "demonstrated_cases": {
+    "private_aws": [
+      "healthz_http_200_opencv_5_0_0",
+      "alarm_stop_hold_automation",
+      "clear_review_queue_human_review",
+      "empty_views_request_view_request_new_capture"
+    ],
+    "local_synthetic_negative_controls": [
+      "alarm",
+      "calibration_drift",
+      "clear",
+      "consequence_mismatch",
+      "missing_view",
+      "occluded",
+      "stale",
+      "version_drift"
+    ]
+  },
+  "verification": {
+    "command": "python ops/verify_judge_evidence_index.py",
+    "fail_closed_on": [
+      "artifact_digest_drift",
+      "required_artifact_omission",
+      "aws_receipt_drift",
+      "unsafe_claim_upgrade",
+      "reserved_concurrency_overclaim",
+      "video_or_review_overclaim"
+    ]
+  },
+  "next_gate": {
+    "blocked_reason": "Final video bytes, a completed operator receipt, and a distinct reviewer receipt are absent.",
+    "resume_condition": "Record the six storyboard segments, bind exact video bytes in the operator receipt, obtain a distinct reviewer receipt, then run ops/verify_final_demo_video_evidence.py.",
+    "next_action": "HUMAN_RECORD_AND_REVIEW_EXISTING_STORYBOARD"
+  }
+}
