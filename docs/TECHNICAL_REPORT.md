@@ -4,7 +4,7 @@
 
 ## Current status
 
-VisualGuard is an OpenCV 5 two-view inspection prototype with a shared Python core, a local HTTP viewer, and a private AWS Lambda container deployed from ECR. The AWS Function URL requires AWS_IAM. The system returns REVIEW, STOP, or REQUEST_VIEW and a planned follow-up; it does not execute equipment commands. No actuator is connected.
+VisualGuard is an OpenCV 5 two-view inspection prototype with a shared Python core, a local HTTP viewer, and a private AWS Lambda container deployed from ECR. The AWS Function URL currently requires AWS_IAM. A no-login public rollout is approved but pending setup of the shared daily-quota table and its scoped runtime permission. The system returns REVIEW, STOP, or REQUEST_VIEW and a planned follow-up; it does not execute equipment commands. No actuator is connected.
 
 The public 2:20 owner-review film is at https://youtu.be/AEDHXknTBy8. The Devpost submission is still a draft. The film is not byte-bound to the older CHECK146 video contract and has no independent reviewer receipt. CHECK146 verifies six bound evidence files, four saved AWS cases, and eight local negative controls; it does not verify this newer film or field accuracy.
 
@@ -22,7 +22,7 @@ All returned plans set action_executed=false; physical_action=NONE.
 
 ## Architecture and OpenCV method
 
-The same Python/OpenCV 5 inspection core serves the local HTTP application and the containerized Lambda image. GitHub OIDC provides short-lived deployment credentials. ECR stores the Lambda image; CloudWatch records executions. AWS and local replay ledgers are per environment.
+The same Python/OpenCV 5 inspection core serves the local HTTP application and the containerized Lambda image. GitHub OIDC provides short-lived deployment credentials. ECR stores the Lambda image; CloudWatch records executions. AWS and local replay ledgers are per environment. The approved public path will use an on-demand DynamoDB table for a global five-request-per-Taiwan-day counter, with only `dynamodb:UpdateItem` permission on that table.
 
 For each 640x480 BGR view, vision/scene_analysis.py measures directional sharpness (Sobel with Laplacian as a secondary metric), exposure (histogram and clipping), and dark low-texture occlusion. It detects red regions with two HSV bands, morphology, contour geometry, and brightness checks. A fusion step chooses a decision from both views and checks freshness, source IDs, capture IDs, buffer separation, and the durable replay ledger. Pipeline configuration is hashed into each capture envelope.
 
@@ -46,13 +46,13 @@ The film combines archived machinery footage as context, AI-generated illustrati
 
 ## AWS and software verification
 
-Four saved AWS invocations cover health, alarm, clear, and missing-view behavior. They used synthetic or empty inputs. The deployed Lambda source is 832b1b4; the workflow record is 40223113044; evidence is stored in evidence/AWS_EXECUTION_20261026_40223113044.json. The endpoint remains AWS_IAM-protected and is not a public judge endpoint. No additional AWS invocation is claimed by this report update.
+Four saved AWS invocations cover health, alarm, clear, and missing-view behavior. They used synthetic or empty inputs. The deployed Lambda source is 832b1b4; the workflow record is 40223113044; evidence is stored in evidence/AWS_EXECUTION_20261026_40223113044.json. The endpoint remains AWS_IAM-protected and is not yet a public judge endpoint. The new quota code passes 21 focused local tests and 12 subtests; this is not hosted CI or AWS evidence. No public AWS deployment or quota-table execution is claimed by this report update. The five-per-day limit blocks additional OpenCV work but is not a dollar cap because rejected public requests still invoke Lambda and attempt a conditional DynamoDB write.
 
 Hosted GitHub Actions run 40249719964 at audited baseline b85ebb0 reports 268 tests and 116 subtests passed. Separate local Windows verification reports 266 passed, 2 POSIX-only skipped, and 116 subtests. These results refer to their recorded revisions and environments; this document update did not rerun them.
 
 ## Limits and responsible use
 
-All controlled evaluation inputs are synthetic and the generator and detector share an author. Archived exhibition images have no alarm ground truth. Red-indicator color and shape can be confused by round stickers. Field accuracy, camera-origin verification, human acceptance, globally shared replay protection, an independently administered monotonic witness, and physical action have not been demonstrated. Keep a person in control and do not connect this prototype to equipment without separate engineering and safety validation.
+All controlled evaluation inputs are synthetic and the generator and detector share an author. Archived exhibition images have no alarm ground truth. Red-indicator color and shape can be confused by round stickers. Field accuracy, camera-origin verification, human acceptance, globally shared replay protection, an independently administered monotonic witness, and physical action have not been demonstrated. The daily quota is global only for inference attempts; capture replay protection remains per Lambda instance. Keep a person in control and do not connect this prototype to equipment without separate engineering and safety validation.
 
 ## Reproduce locally
 

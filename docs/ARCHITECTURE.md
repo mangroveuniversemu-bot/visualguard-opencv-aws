@@ -12,10 +12,11 @@ flowchart LR
     UI["Browser demo page<br/>GET /"]
     Agent["Workflow / agent client<br/>POST /v1/inspect"]
   end
-  subgraph AWS["AWS (prepared, NOT_RUN)"]
-    URL["Lambda Function URL<br/>AWS_IAM by default"]
+  subgraph AWS["AWS (private synthetic path verified; public rollout pending)"]
+    URL["Lambda Function URL<br/>AWS_IAM now; approved public mode pending rollout"]
     subgraph Lambda["Lambda container image (ECR, immutable digest)"]
       Core["service.app.Service.handle<br/>decode, size limits, structured log"]
+      Quota[("DynamoDB shared counter<br/>5 POST attempts per Asia/Taipei day")]
       Pipe["vision.scene_analysis<br/>OpenCV 5 quality gates + indicator detection"]
       Fuse["two-view fusion<br/>alarm wins, then unusable views block"]
       Ledger[("capture replay ledger<br/>SQLite in /tmp, per instance")]
@@ -30,7 +31,7 @@ flowchart LR
   end
   UI --> URL
   Agent --> URL
-  URL --> Core --> Pipe --> Fuse --> Plan
+  URL --> Core --> Quota --> Pipe --> Fuse --> Plan
   Pipe --- Ledger
   Core --> CW
   GH --> OIDC --> ECR --> Lambda
@@ -71,8 +72,13 @@ line (no image data).
 ## Trust boundaries and limits
 
 - Replay protection is per Lambda execution environment (SQLite in `/tmp`).
-  Concurrent instances do not share it; a shared store (for example
-  DynamoDB conditional writes) would be needed for global replay protection.
+  Concurrent instances do not share it; the DynamoDB table is only the global
+  daily inference quota, not the replay ledger.
+- The daily quota uses an atomic conditional DynamoDB update and caps
+  `/v1/inspect` POST attempts at five across all visitors, resetting at
+  midnight Asia/Taipei. Invalid POST bodies consume a slot; health and sample
+  GETs do not. If DynamoDB is unavailable, inference fails closed with 503.
+  The quota does not cap Lambda invocations or provide a hard dollar ceiling.
 - `execution_environment` in responses is self-reported. The Lambda Runtime
   Interface Emulator sets the same variables locally, so only AWS-side
   evidence (CloudWatch `REPORT` lines, `aws lambda invoke` results) counts.

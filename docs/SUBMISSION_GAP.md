@@ -5,7 +5,7 @@ Snapshot: 2026-10-27 (Asia/Taipei). This file tracks evidence and remaining judg
 **Project:** VisualGuard — Two Views. One Next Step.  
 **Solo team display name:** YOUNG-FU  
 **Current submission state:** Devpost draft; not submitted.  
-**Current code branch:** claude/practical-ride-st6n28. The repository is still private while GitHub requires the owner to re-authenticate before changing visibility.
+**Current code branch:** claude/practical-ride-st6n28. The repository is public. The public AWS judge endpoint is approved but not yet deployed.
 
 ## Deadline and official requirements
 
@@ -18,14 +18,14 @@ The official final-entry checklist asks for a technical report; a public or priv
 | Requirement | Evidence now | Remaining gate |
 |---|---|---|
 | OpenCV 5 image analysis | Full-frame two-view quality checks and red-indicator detection are documented in README and TECHNICAL_REPORT.md. | Evaluation uses generated inputs; field accuracy is unverified. |
-| AWS component | Private AWS_IAM Lambda in us-east-1. Four recorded health, alarm, clear, and missing-view invocations use synthetic or empty inputs. Evidence: evidence/AWS_EXECUTION_20261026_40223113044.json; workflow 40223113044; deployed source 832b1b4. | No public judge endpoint. Arrange judge access or a live screen-share; do not share AWS credentials. |
+| AWS component | Private AWS_IAM Lambda in us-east-1. Four recorded health, alarm, clear, and missing-view invocations use synthetic or empty inputs. Evidence: evidence/AWS_EXECUTION_20261026_40223113044.json; workflow 40223113044; deployed source 832b1b4. | Public endpoint rollout is pending the shared DynamoDB quota table and its single-table Lambda permission. |
 | Architecture | docs/ARCHITECTURE.md contains the system and workflow diagram. | Confirm the rendered diagram is visible in the judge’s browsing context. |
 | Technical report | docs/TECHNICAL_REPORT.md describes the implementation, AWS execution, evaluation, failures, limits, and reproduction steps. | None for document presence; reviewer acceptance is not claimed. |
 | Evaluation | 540 generated pairs; 94.26% exact-decision agreement. Known failure: 30/30 round red-sticker cases produced false STOP; one motion-blur case was misrouted. | Synthetic results only; no ground-truth factory or camera evaluation. |
 | Dependencies and instructions | Pinned requirement files, Docker targets, deployment runbook, and reproduction commands are in the repository. | A fresh clean-machine install was not re-run during this documentation update. |
-| Code access | The project is on claude/practical-ride-st6n28. Devpost permits a private repository if judges can access it. | Repo remains private. Owner-approved public visibility change is waiting on GitHub’s owner re-authentication, or arrange another judge-access route. |
+| Code access | The project is public on claude/practical-ride-st6n28. | Read the published source and CI results back before final form review. |
 | Demo video | Public 2:20 owner-review film: https://youtu.be/AEDHXknTBy8. | Before submission, verify the actual film visibly covers the solo team, working app, architecture, and principal results. It is not independently reviewed or bound to the older CHECK146 video contract. |
-| Live demonstration | Local HTTP viewer and private IAM-protected Lambda are available. | No public endpoint; arrange a screen-share or judge access before the deadline. |
+| Live demonstration | Local HTTP viewer and private IAM-protected Lambda are available. | Deploy and verify the approved no-login Lambda page after the quota resource is authorized and configured. |
 | Devpost entry | Draft project: https://devpost.com/software/visualguard-two-views-one-next-step. Title, story, diagram, repository link, video, and tags have been prepared. | Final form review and submission are reserved for the owner. |
 | Special tracks | No COOL-on-Graviton performance claim is made. | Do not claim COOL eligibility without verified Graviton execution and comparative measurements. Agentic Vision eligibility also needs evidence that a visual result drives a subsequent plan, tool call, action, or human-approval request. |
 
@@ -42,9 +42,10 @@ The official final-entry checklist asks for a technical report; a public or priv
 ## Finalization checklist
 
 - [ ] Recheck the deadline and required fields on the live Devpost page.
-- [ ] Resolve judge access to the private repository and private AWS demo, either through owner-approved access or an arranged screen-share.
+- [ ] Verify the public repository branch and CI checks.
+- [ ] Deploy and verify the no-login AWS judge page with the shared five-per-day inference limit.
 - [ ] Watch the full video against the four required items: team, working application, architecture, and principal results.
 - [ ] Confirm the final draft links point to the intended branch, evidence, and video.
 - [ ] Owner reviews the final form and submits it.
 
-No code, AWS configuration, or main branch was changed as part of this readiness update.
+This source update changes the existing feature branch only; it does not change AWS configuration or submit the Devpost entry.
