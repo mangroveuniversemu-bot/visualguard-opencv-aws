@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "pages": 5,
+  "rendered_pages_visually_inspected": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "overlap_or_clipping_found": false,
+  "source_links_on_last_page": 3,
+  "files": [
+    {
+      "file": "VisualGuard-Technical-Report.pdf",
+      "bytes": 5195223,
+      "sha256": "979869f4dfb4b2c6a0b745744f634b920abbdf968bdf3c4068b50e89732a16d4"
+    },
+    {
+      "file": "Devpost-draft-en.txt",
+      "bytes": 5055,
+      "sha256": "cc48a039b579f6c7a497d6d78a06a4578c9e7b5800e31f16f19762db54881b1f"
+    },
+    {
+      "file": "judge-demo-instructions.txt",
+      "bytes": 3929,
+      "sha256": "de6abf95a14404f7ea9d1e4487aa0e178bd2caff44265075be8a62026aba9ca5"
+    }
+  ],
+  "scope": "Document layout and factual alignment with saved evidence; not field validation or publication approval",
+  "peer_content_review": "PASS after removing invented project-origin chronology from Devpost Inspiration",
+  "service_cli_verification": {
+    "host_argument_supported": true,
+    "port_argument_supported": true,
+    "source": "service/app.py lines 368-369"
+  }
+}

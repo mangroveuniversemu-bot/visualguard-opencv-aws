@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "url": "http://127.0.0.1:8768/",
+  "video_sha256": "f3861cee2c05a08d1ffc94a1d8f7e77e8d0d9e2bc857f31ec349877f2b0d5aed",
+  "initial_playback": {
+    "currentTime": 20.604595,
+    "duration": 139.791667,
+    "error": null,
+    "height": 1080,
+    "paused": false,
+    "readyState": 4,
+    "source": "http://127.0.0.1:8768/VisualGuard-YOUNG-FU-final-review.mp4",
+    "width": 1920
+  },
+  "chapter_seek": {
+    "currentTime": 61.96,
+    "duration": 139.791667,
+    "error": null,
+    "height": 1080,
+    "paused": false,
+    "readyState": 4,
+    "seekable": [
+      [
+        0,
+        139.791667
+      ]
+    ],
+    "width": 1920
+  },
+  "pause_after_progress": {
+    "currentTime": 73.682764,
+    "duration": 139.791667,
+    "error": null,
+    "paused": true,
+    "readyState": 4
+  },
+  "submission_copy_link": "OPENED_AND_READ",
+  "chapter_navigation": "PASS",
+  "observed_at_utc": "2026-10-26T16:34:08.489Z"
+}

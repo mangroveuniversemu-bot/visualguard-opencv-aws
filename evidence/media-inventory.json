@@ -1,0 +1,373 @@
+{
+  "source_folder": "D:\\AWSXOPENCV",
+  "selection": "Filenames dated 20261004; original source files not modified",
+  "video_count": 5,
+  "photo_count": 22,
+  "total_duration_seconds": 304.988156,
+  "videos": [
+    {
+      "filename": "video_20261004_110004.mp4",
+      "source_path": "D:\\AWSXOPENCV\\video_20261004_110004.mp4",
+      "bytes": 143678741,
+      "duration_seconds": 65.789967,
+      "video": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "8430000/281957"
+      },
+      "rotation": [],
+      "creation_time": "2026-10-04T03:01:11.000000Z",
+      "has_audio": true,
+      "mtime": "2026-10-04T11:01:12",
+      "frames": [
+        {
+          "time_seconds": 9.868,
+          "thumbnail": "video_20261004_110004-1.jpg"
+        },
+        {
+          "time_seconds": 32.895,
+          "thumbnail": "video_20261004_110004-2.jpg"
+        },
+        {
+          "time_seconds": 55.921,
+          "thumbnail": "video_20261004_110004-3.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "video_20261004_110112.mp4",
+      "source_path": "D:\\AWSXOPENCV\\video_20261004_110112.mp4",
+      "bytes": 223046950,
+      "duration_seconds": 102.150667,
+      "video": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "2297250/76613"
+      },
+      "rotation": [
+        -90
+      ],
+      "creation_time": "2026-10-04T03:02:55.000000Z",
+      "has_audio": true,
+      "mtime": "2026-10-04T11:02:55",
+      "frames": [
+        {
+          "time_seconds": 15.323,
+          "thumbnail": "video_20261004_110112-1.jpg"
+        },
+        {
+          "time_seconds": 51.075,
+          "thumbnail": "video_20261004_110112-2.jpg"
+        },
+        {
+          "time_seconds": 86.828,
+          "thumbnail": "video_20261004_110112-3.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "video_20261004_110302.mp4",
+      "source_path": "D:\\AWSXOPENCV\\video_20261004_110302.mp4",
+      "bytes": 136626135,
+      "duration_seconds": 62.6574,
+      "video": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "9400000/313287"
+      },
+      "rotation": [
+        -90
+      ],
+      "creation_time": "2026-10-04T03:04:05.000000Z",
+      "has_audio": true,
+      "mtime": "2026-10-04T11:04:06",
+      "frames": [
+        {
+          "time_seconds": 9.399,
+          "thumbnail": "video_20261004_110302-1.jpg"
+        },
+        {
+          "time_seconds": 31.329,
+          "thumbnail": "video_20261004_110302-2.jpg"
+        },
+        {
+          "time_seconds": 53.259,
+          "thumbnail": "video_20261004_110302-3.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "video_20261004_110410.mp4",
+      "source_path": "D:\\AWSXOPENCV\\video_20261004_110410.mp4",
+      "bytes": 35415532,
+      "duration_seconds": 16.298811,
+      "video": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "5501250/183347"
+      },
+      "rotation": [
+        -90
+      ],
+      "creation_time": "2026-10-04T03:04:27.000000Z",
+      "has_audio": true,
+      "mtime": "2026-10-04T11:04:27",
+      "frames": [
+        {
+          "time_seconds": 2.445,
+          "thumbnail": "video_20261004_110410-1.jpg"
+        },
+        {
+          "time_seconds": 8.149,
+          "thumbnail": "video_20261004_110410-2.jpg"
+        },
+        {
+          "time_seconds": 13.854,
+          "thumbnail": "video_20261004_110410-3.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "video_20261004_110643.mp4",
+      "source_path": "D:\\AWSXOPENCV\\video_20261004_110643.mp4",
+      "bytes": 127180111,
+      "duration_seconds": 58.091311,
+      "video": {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "77580000/2614109"
+      },
+      "rotation": [],
+      "creation_time": "2026-10-04T03:07:42.000000Z",
+      "has_audio": true,
+      "mtime": "2026-10-04T11:07:42",
+      "frames": [
+        {
+          "time_seconds": 8.714,
+          "thumbnail": "video_20261004_110643-1.jpg"
+        },
+        {
+          "time_seconds": 29.046,
+          "thumbnail": "video_20261004_110643-2.jpg"
+        },
+        {
+          "time_seconds": 49.378,
+          "thumbnail": "video_20261004_110643-3.jpg"
+        }
+      ]
+    }
+  ],
+  "photos": [
+    {
+      "filename": "IMG_20261004_110442.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:04:42"
+    },
+    {
+      "filename": "IMG_20261004_110509.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:05:09"
+    },
+    {
+      "filename": "IMG_20261004_110514.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:05:14"
+    },
+    {
+      "filename": "IMG_20261004_110526.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:05:26"
+    },
+    {
+      "filename": "IMG_20261004_111029.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:10:29"
+    },
+    {
+      "filename": "IMG_20261004_114404.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 11:44:04"
+    },
+    {
+      "filename": "IMG_20261004_120122.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 12:01:22"
+    },
+    {
+      "filename": "IMG_20261004_120715.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 12:07:15"
+    },
+    {
+      "filename": "IMG_20261004_132154.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:21:54"
+    },
+    {
+      "filename": "IMG_20261004_132255.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:22:55"
+    },
+    {
+      "filename": "IMG_20261004_132339.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:23:39"
+    },
+    {
+      "filename": "IMG_20261004_132341.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:23:41"
+    },
+    {
+      "filename": "IMG_20261004_132443.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:24:43"
+    },
+    {
+      "filename": "IMG_20261004_132507.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:25:07"
+    },
+    {
+      "filename": "IMG_20261004_133400.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:34:00"
+    },
+    {
+      "filename": "IMG_20261004_134717.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:47:17"
+    },
+    {
+      "filename": "IMG_20261004_134723.jpg",
+      "size": [
+        4608,
+        2592
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 13:47:23"
+    },
+    {
+      "filename": "IMG_20261004_140044.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 14:00:44"
+    },
+    {
+      "filename": "IMG_20261004_140048.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 14:00:48"
+    },
+    {
+      "filename": "IMG_20261004_140151.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 14:01:51"
+    },
+    {
+      "filename": "IMG_20261004_140157.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 14:01:57"
+    },
+    {
+      "filename": "IMG_20261004_140247.jpg",
+      "size": [
+        2592,
+        4608
+      ],
+      "datetime_original": null,
+      "datetime": "2026:10:04 14:02:47"
+    }
+  ],
+  "other_mp4_files_excluded": [
+    "Engineer_avoids_camera_lens_obst…_1080p_20261026111216.mp4",
+    "Engineer_holding_tablet_with_grid_1080p_20261026111446.mp4",
+    "Engineer_inspecting_industrial_c…_1080p_20261026110125.mp4",
+    "Engineer_taps_screen_for_review_1080p_20261026112004.mp4",
+    "Female_engineer_inspecting_indus…_1080p_20261026110000.mp4"
+  ],
+  "evidence_scope": "Archived owner-provided exhibition media; camera provenance not independently authenticated; no inference or AWS execution claimed by this inventory"
+}

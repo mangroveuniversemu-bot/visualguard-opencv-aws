@@ -1,0 +1,1742 @@
+{
+  "config": {
+    "lamp_max_area": 15360,
+    "lamp_min_area": 150,
+    "lamp_min_aspect": 0.7,
+    "lamp_min_fill": 0.75,
+    "lamp_min_mean_value": 170,
+    "max_bright_clipped_fraction": 0.25,
+    "max_dark_clipped_fraction": 0.5,
+    "max_mean_gray": 200.0,
+    "min_mean_gray": 35.0,
+    "min_sharpness": 60.0,
+    "min_visible_fraction": 0.8,
+    "occlusion_cell": 40,
+    "occlusion_max_cell_mean": 30.0,
+    "occlusion_max_cell_std": 6.0,
+    "red_hue_high_min": 170,
+    "red_hue_low_max": 10,
+    "red_min_saturation": 100,
+    "red_min_value": 150
+  },
+  "cut": "VISUALGUARD_OPENCV5_SCENE_PIPELINE_EVAL001",
+  "dev": {
+    "frames": 360,
+    "methods": {
+      "ablation_no_quality_gate": {
+        "acceptable_rate": 0.5556,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 70,
+            "STOP": 0
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 50,
+            "STOP": 10
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 50
+          }
+        },
+        "exact_accuracy": 0.5556,
+        "failure_modes": [
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          }
+        ],
+        "false_stop_count": 10,
+        "false_stop_rate": 0.0909,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 39.342,
+          "p95": 60.043
+        },
+        "pairs": 180,
+        "per_scenario_exact": {
+          "alarm_defocus": "10/10",
+          "alarm_lamp_occluded": "0/10",
+          "alarm_red_both_views": "10/10",
+          "alarm_red_jpeg": "10/10",
+          "alarm_red_sensor_noise": "10/10",
+          "alarm_red_side_only": "10/10",
+          "alarm_underexposed": "0/10",
+          "normal_defocus": "0/10",
+          "normal_green_clear": "10/10",
+          "normal_green_with_glare": "10/10",
+          "normal_green_with_red_sticker": "10/10",
+          "normal_lamp_off_clear": "10/10",
+          "normal_lens_occluded": "0/10",
+          "normal_motion_blur": "0/10",
+          "normal_overexposed": "0/10",
+          "normal_round_red_sticker": "0/10",
+          "normal_underexposed": "0/10",
+          "normal_unlit_red_lamp": "10/10"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 20,
+        "unsafe_miss_rate": 0.2857
+      },
+      "baseline_legacy_brightness": {
+        "acceptable_rate": 0.3333,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 30,
+            "STOP": 40
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 20,
+            "STOP": 40
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 10,
+            "STOP": 40
+          }
+        },
+        "exact_accuracy": 0.3333,
+        "failure_modes": [
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_defocus"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_clear"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_glare"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          }
+        ],
+        "false_stop_count": 80,
+        "false_stop_rate": 0.7273,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 1000009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 0.201,
+          "p95": 0.364
+        },
+        "pairs": 180,
+        "per_scenario_exact": {
+          "alarm_defocus": "0/10",
+          "alarm_lamp_occluded": "0/10",
+          "alarm_red_both_views": "10/10",
+          "alarm_red_jpeg": "10/10",
+          "alarm_red_sensor_noise": "10/10",
+          "alarm_red_side_only": "10/10",
+          "alarm_underexposed": "0/10",
+          "normal_defocus": "0/10",
+          "normal_green_clear": "0/10",
+          "normal_green_with_glare": "0/10",
+          "normal_green_with_red_sticker": "0/10",
+          "normal_lamp_off_clear": "10/10",
+          "normal_lens_occluded": "0/10",
+          "normal_motion_blur": "0/10",
+          "normal_overexposed": "0/10",
+          "normal_round_red_sticker": "0/10",
+          "normal_underexposed": "0/10",
+          "normal_unlit_red_lamp": "10/10"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 30,
+        "unsafe_miss_rate": 0.4286
+      },
+      "baseline_naive_red": {
+        "acceptable_rate": 0.5,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 70,
+            "STOP": 0
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 40,
+            "STOP": 20
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 50
+          }
+        },
+        "exact_accuracy": 0.5,
+        "failure_modes": [
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          }
+        ],
+        "false_stop_count": 20,
+        "false_stop_rate": 0.1818,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 1070009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 2.425,
+          "p95": 2.738
+        },
+        "pairs": 180,
+        "per_scenario_exact": {
+          "alarm_defocus": "10/10",
+          "alarm_lamp_occluded": "0/10",
+          "alarm_red_both_views": "10/10",
+          "alarm_red_jpeg": "10/10",
+          "alarm_red_sensor_noise": "10/10",
+          "alarm_red_side_only": "10/10",
+          "alarm_underexposed": "0/10",
+          "normal_defocus": "0/10",
+          "normal_green_clear": "10/10",
+          "normal_green_with_glare": "10/10",
+          "normal_green_with_red_sticker": "0/10",
+          "normal_lamp_off_clear": "10/10",
+          "normal_lens_occluded": "0/10",
+          "normal_motion_blur": "0/10",
+          "normal_overexposed": "0/10",
+          "normal_round_red_sticker": "0/10",
+          "normal_underexposed": "0/10",
+          "normal_unlit_red_lamp": "10/10"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 20,
+        "unsafe_miss_rate": 0.2857
+      },
+      "pipeline": {
+        "acceptable_rate": 0.9444,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 70,
+            "REVIEW": 0,
+            "STOP": 0
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 50,
+            "STOP": 10
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 50
+          }
+        },
+        "exact_accuracy": 0.9444,
+        "failure_modes": [
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          }
+        ],
+        "false_stop_count": 10,
+        "false_stop_rate": 0.0909,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 1090009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 39.323,
+          "p95": 52.385
+        },
+        "pairs": 180,
+        "per_scenario_exact": {
+          "alarm_defocus": "10/10",
+          "alarm_lamp_occluded": "10/10",
+          "alarm_red_both_views": "10/10",
+          "alarm_red_jpeg": "10/10",
+          "alarm_red_sensor_noise": "10/10",
+          "alarm_red_side_only": "10/10",
+          "alarm_underexposed": "10/10",
+          "normal_defocus": "10/10",
+          "normal_green_clear": "10/10",
+          "normal_green_with_glare": "10/10",
+          "normal_green_with_red_sticker": "10/10",
+          "normal_lamp_off_clear": "10/10",
+          "normal_lens_occluded": "10/10",
+          "normal_motion_blur": "10/10",
+          "normal_overexposed": "10/10",
+          "normal_round_red_sticker": "0/10",
+          "normal_underexposed": "10/10",
+          "normal_unlit_red_lamp": "10/10"
+        },
+        "request_view_recall_on_degraded": 1.0,
+        "unsafe_miss_count": 0,
+        "unsafe_miss_rate": 0.0
+      }
+    },
+    "pairs": 180,
+    "per_scenario": 10,
+    "scenario_count": 18,
+    "split": "dev"
+  },
+  "evidence_mode": "SYNTHETIC_SCENE_EVALUATION",
+  "generator_version": "visualguard-synthetic-panel-v1",
+  "limitations": [
+    "All frames are procedurally rendered; metrics do not establish field accuracy.",
+    "The same author wrote the generator and the detector; held-out seeds and wider ranges reduce but do not remove that coupling.",
+    "Latency is measured in-process on the evaluation host, without network or AWS overhead."
+  ],
+  "live_state": {
+    "aws": "NOT_RUN",
+    "camera": "NOT_RUN",
+    "physical_action": "NONE"
+  },
+  "provenance": "DERIVED",
+  "runtime": {
+    "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+    "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+    "machine": "x86_64",
+    "opencv_version": "5.0.0",
+    "package": "opencv-python-headless",
+    "package_version": "5.0.0.93",
+    "pipeline_version": "opencv5-scene-v1",
+    "python": "3.13.16"
+  },
+  "scenarios": [
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_green_clear",
+      "note": "Lit green indicator, both views usable."
+    },
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_lamp_off_clear",
+      "note": "Indicator off, both views usable."
+    },
+    {
+      "acceptable": [
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "STOP",
+      "name": "alarm_red_both_views",
+      "note": "Lit red alarm indicator visible in both views."
+    },
+    {
+      "acceptable": [
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "STOP",
+      "name": "alarm_red_side_only",
+      "note": "Alarm indicator is only in frame for the side view."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW",
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "STOP",
+      "name": "alarm_red_sensor_noise",
+      "note": "Alarm under moderate sensor noise."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW",
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "STOP",
+      "name": "alarm_red_jpeg",
+      "note": "Alarm after aggressive JPEG compression."
+    },
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_green_with_glare",
+      "note": "Specular glare: bright but unsaturated; brightness trap."
+    },
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_green_with_red_sticker",
+      "note": "Rectangular red label: red but not lamp-shaped; colour trap."
+    },
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_unlit_red_lamp",
+      "note": "Unlit red lens: red hue but not emitting."
+    },
+    {
+      "acceptable": [
+        "REVIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REVIEW",
+      "name": "normal_round_red_sticker",
+      "note": "Known-hard: round bright red non-emissive object."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REQUEST_VIEW",
+      "name": "normal_defocus",
+      "note": "One view is badly out of focus."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REQUEST_VIEW",
+      "name": "normal_motion_blur",
+      "note": "One view has heavy motion blur."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REQUEST_VIEW",
+      "name": "normal_underexposed",
+      "note": "One view is severely underexposed."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REQUEST_VIEW",
+      "name": "normal_overexposed",
+      "note": "One view is washed out and clipped."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW"
+      ],
+      "alarm_present": false,
+      "expected": "REQUEST_VIEW",
+      "name": "normal_lens_occluded",
+      "note": "A dark object covers a large part of one lens."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW",
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "REQUEST_VIEW",
+      "name": "alarm_lamp_occluded",
+      "note": "The only view of the alarm lamp is covered; must not REVIEW."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW",
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "REQUEST_VIEW",
+      "name": "alarm_underexposed",
+      "note": "The only view of the alarm lamp is severely underexposed."
+    },
+    {
+      "acceptable": [
+        "REQUEST_VIEW",
+        "STOP"
+      ],
+      "alarm_present": true,
+      "expected": "STOP",
+      "name": "alarm_defocus",
+      "note": "Alarm visible but both views out of focus."
+    }
+  ],
+  "schema_version": 1,
+  "source_commit": "b3049dd98ba243c81ab62d4aaa8b741b7639c282",
+  "test": {
+    "frames": 1080,
+    "methods": {
+      "ablation_no_quality_gate": {
+        "acceptable_rate": 0.5556,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 210,
+            "STOP": 0
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 150,
+            "STOP": 30
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 150
+          }
+        },
+        "exact_accuracy": 0.5556,
+        "failure_modes": [
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          }
+        ],
+        "false_stop_count": 30,
+        "false_stop_rate": 0.0909,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 41.024,
+          "p95": 56.679
+        },
+        "pairs": 540,
+        "per_scenario_exact": {
+          "alarm_defocus": "30/30",
+          "alarm_lamp_occluded": "0/30",
+          "alarm_red_both_views": "30/30",
+          "alarm_red_jpeg": "30/30",
+          "alarm_red_sensor_noise": "30/30",
+          "alarm_red_side_only": "30/30",
+          "alarm_underexposed": "0/30",
+          "normal_defocus": "0/30",
+          "normal_green_clear": "30/30",
+          "normal_green_with_glare": "30/30",
+          "normal_green_with_red_sticker": "30/30",
+          "normal_lamp_off_clear": "30/30",
+          "normal_lens_occluded": "0/30",
+          "normal_motion_blur": "0/30",
+          "normal_overexposed": "0/30",
+          "normal_round_red_sticker": "0/30",
+          "normal_underexposed": "0/30",
+          "normal_unlit_red_lamp": "30/30"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 60,
+        "unsafe_miss_rate": 0.2857
+      },
+      "baseline_legacy_brightness": {
+        "acceptable_rate": 0.337,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 88,
+            "STOP": 122
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 48,
+            "STOP": 132
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 26,
+            "STOP": 124
+          }
+        },
+        "exact_accuracy": 0.3185,
+        "failure_modes": [
+          {
+            "count": 20,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_defocus"
+          },
+          {
+            "count": 23,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 1,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_red_jpeg"
+          },
+          {
+            "count": 1,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_red_sensor_noise"
+          },
+          {
+            "count": 4,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_red_side_only"
+          },
+          {
+            "count": 27,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 5,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 25,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 29,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_clear"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_glare"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker"
+          },
+          {
+            "count": 10,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_lamp_off_clear"
+          },
+          {
+            "count": 3,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 27,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 4,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 26,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 26,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          },
+          {
+            "count": 4,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_underexposed"
+          },
+          {
+            "count": 3,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_unlit_red_lamp"
+          }
+        ],
+        "false_stop_count": 244,
+        "false_stop_rate": 0.7394,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_green_clear",
+            "seed": 2000009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 0.215,
+          "p95": 0.387
+        },
+        "pairs": 540,
+        "per_scenario_exact": {
+          "alarm_defocus": "10/30",
+          "alarm_lamp_occluded": "0/30",
+          "alarm_red_both_views": "30/30",
+          "alarm_red_jpeg": "29/30",
+          "alarm_red_sensor_noise": "29/30",
+          "alarm_red_side_only": "26/30",
+          "alarm_underexposed": "0/30",
+          "normal_defocus": "0/30",
+          "normal_green_clear": "1/30",
+          "normal_green_with_glare": "0/30",
+          "normal_green_with_red_sticker": "0/30",
+          "normal_lamp_off_clear": "20/30",
+          "normal_lens_occluded": "0/30",
+          "normal_motion_blur": "0/30",
+          "normal_overexposed": "0/30",
+          "normal_round_red_sticker": "0/30",
+          "normal_underexposed": "0/30",
+          "normal_unlit_red_lamp": "27/30"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 76,
+        "unsafe_miss_rate": 0.3619
+      },
+      "baseline_naive_red": {
+        "acceptable_rate": 0.5,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 209,
+            "STOP": 1
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 120,
+            "STOP": 60
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 150
+          }
+        },
+        "exact_accuracy": 0.5,
+        "failure_modes": [
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_lamp_occluded"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "alarm_underexposed"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_defocus"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_lens_occluded"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 29,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 1,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_overexposed"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          },
+          {
+            "count": 30,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_underexposed"
+          }
+        ],
+        "false_stop_count": 61,
+        "false_stop_rate": 0.1848,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_green_with_red_sticker",
+            "seed": 2070009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 2.916,
+          "p95": 3.951
+        },
+        "pairs": 540,
+        "per_scenario_exact": {
+          "alarm_defocus": "30/30",
+          "alarm_lamp_occluded": "0/30",
+          "alarm_red_both_views": "30/30",
+          "alarm_red_jpeg": "30/30",
+          "alarm_red_sensor_noise": "30/30",
+          "alarm_red_side_only": "30/30",
+          "alarm_underexposed": "0/30",
+          "normal_defocus": "0/30",
+          "normal_green_clear": "30/30",
+          "normal_green_with_glare": "30/30",
+          "normal_green_with_red_sticker": "0/30",
+          "normal_lamp_off_clear": "30/30",
+          "normal_lens_occluded": "0/30",
+          "normal_motion_blur": "0/30",
+          "normal_overexposed": "0/30",
+          "normal_round_red_sticker": "0/30",
+          "normal_underexposed": "0/30",
+          "normal_unlit_red_lamp": "30/30"
+        },
+        "request_view_recall_on_degraded": 0.0,
+        "unsafe_miss_count": 60,
+        "unsafe_miss_rate": 0.2857
+      },
+      "pipeline": {
+        "acceptable_rate": 0.9426,
+        "confusion_expected_to_decision": {
+          "REQUEST_VIEW": {
+            "REQUEST_VIEW": 209,
+            "REVIEW": 1,
+            "STOP": 0
+          },
+          "REVIEW": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 150,
+            "STOP": 30
+          },
+          "STOP": {
+            "REQUEST_VIEW": 0,
+            "REVIEW": 0,
+            "STOP": 150
+          }
+        },
+        "exact_accuracy": 0.9426,
+        "failure_modes": [
+          {
+            "count": 1,
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "scenario": "normal_motion_blur"
+          },
+          {
+            "count": 30,
+            "decision": "STOP",
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker"
+          }
+        ],
+        "false_stop_count": 30,
+        "false_stop_rate": 0.0909,
+        "first_failure_seeds": [
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 0,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090000
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 1,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090001
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 2,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090002
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 3,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090003
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 4,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090004
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 5,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090005
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 6,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090006
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 7,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090007
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 8,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090008
+          },
+          {
+            "decision": "STOP",
+            "expected": "REVIEW",
+            "index": 9,
+            "reason": "ALARM",
+            "scenario": "normal_round_red_sticker",
+            "seed": 2090009
+          }
+        ],
+        "latency_ms_per_pair": {
+          "median": 41.398,
+          "p95": 55.258
+        },
+        "pairs": 540,
+        "per_scenario_exact": {
+          "alarm_defocus": "30/30",
+          "alarm_lamp_occluded": "30/30",
+          "alarm_red_both_views": "30/30",
+          "alarm_red_jpeg": "30/30",
+          "alarm_red_sensor_noise": "30/30",
+          "alarm_red_side_only": "30/30",
+          "alarm_underexposed": "30/30",
+          "normal_defocus": "30/30",
+          "normal_green_clear": "30/30",
+          "normal_green_with_glare": "30/30",
+          "normal_green_with_red_sticker": "30/30",
+          "normal_lamp_off_clear": "30/30",
+          "normal_lens_occluded": "30/30",
+          "normal_motion_blur": "29/30",
+          "normal_overexposed": "30/30",
+          "normal_round_red_sticker": "0/30",
+          "normal_underexposed": "30/30",
+          "normal_unlit_red_lamp": "30/30"
+        },
+        "request_view_recall_on_degraded": 0.9952,
+        "unsafe_miss_count": 0,
+        "unsafe_miss_rate": 0.0
+      }
+    },
+    "pairs": 540,
+    "per_scenario": 30,
+    "scenario_count": 18,
+    "split": "test"
+  },
+  "threshold_selection": "dev split only; test split held out"
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "prepared_at_utc": "2026-10-26T16:08:56.821427+00:00",
+  "repository_baseline_commit": "b85ebb0873cf030ab95fd32c1d886df59bf74c86",
+  "deployed_aws_source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+  "source_kind": "DOCUMENTATION_REFRESH_OF_PRIOR_LOCAL_WINDOWS_REVIEW_CANDIDATE",
+  "input_archive": {
+    "filename": "VisualGuard-source-review.zip",
+    "source_directory": "visualguard-submission-20261026",
+    "bytes": 373830,
+    "sha256": "da5065eb26d52350150e3dc968eb2b0e753403b837a41b379a45d3766b7f6dbc",
+    "files": 117
+  },
+  "output_archive": {
+    "filename": "VisualGuard-source-review.zip",
+    "bytes": 377583,
+    "sha256": "f07101c2c3a1013f47fb4e836261924916a92a509b1ffd80052c59fd2eeafeea",
+    "files": 119
+  },
+  "changes": {
+    "modified": [
+      "visualguard/README.md"
+    ],
+    "added": [
+      "visualguard/docs/FINAL_REVIEW_STATUS.md",
+      "visualguard/docs/README_HISTORY_PRE_FINAL.md"
+    ],
+    "removed": [],
+    "scope": "Documentation only; no program, test, configuration, deployment or existing evidence change"
+  },
+  "verification": {
+    "status": "PASS",
+    "all_other_original_files_byte_identical": true,
+    "original_non_document_files_checked": 93,
+    "all_non_document_files_byte_identical": true,
+    "existing_evidence_files_checked": 34,
+    "all_existing_evidence_byte_identical": true,
+    "deployment_json_byte_identical": true,
+    "old_readme_preserved_exactly": true,
+    "archive_roundtrip_bytes_match": true,
+    "zip_crc_check": "PASS",
+    "judge_evidence_index_rerun": {
+      "status": "PASS",
+      "artifact_count": 6,
+      "saved_aws_cases": 4,
+      "local_negative_controls": 8,
+      "scope": "Historical evidence consistency, not new movie review"
+    },
+    "readme_relative_links": "PASS"
+  },
+  "prior_local_candidate_changes": {
+    "retained": true,
+    "scope": "Windows temporary-directory helper, SQLite test-fixture closure, portable path formatting and prior documentation/helper files already present in input archive",
+    "new_program_changes_this_step": false,
+    "pushed": false,
+    "remote_ci_for_local_changes": "NOT_RUN",
+    "redeployed": false
+  },
+  "recorded_verification": {
+    "baseline_hosted_ci": {
+      "run": 40249719964,
+      "passed": 268,
+      "subtests_passed": 116
+    },
+    "prior_windows_run": {
+      "passed": 266,
+      "skipped_posix_only": 2,
+      "subtests_passed": 116
+    },
+    "full_tests_rerun_for_documentation_refresh": false
+  },
+  "historical_records_policy": "Preserve original evidence and deployment.json, including historical NOT_RUN and prepared capture states; current narrative is in docs/FINAL_REVIEW_STATUS.md",
+  "current_movie": "Separate supplied artifact VisualGuard-YOUNG-FU-final-review.mp4; consult package manifest for hash and review status",
+  "published": false,
+  "remote_git_writes": false
+}

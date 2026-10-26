@@ -1,0 +1,54 @@
+VISUALGUARD - JUDGE DEMONSTRATION GUIDE
+
+The shortest walkthrough
+1. Open the local application. Select the clear paired sample and inspect: REVIEW.
+2. Select the side-only red indicator sample and inspect: STOP / HOLD_AUTOMATION.
+3. Select the occluded front-view sample and inspect: REQUEST_VIEW.
+4. Supply a usable replacement pair with new capture IDs and inspect again: REVIEW.
+5. Open the saved AWS evidence. Review health, alarm, clear and empty-view results from the recorded deployment.
+
+What each step demonstrates
+The input is a front-and-side synthetic image pair. Pixel-based quality and candidate detection change the planned next step. Human resubmission is the demonstrated follow-up; no camera trigger or equipment command is executed. The local replay viewer reads saved cloud evidence and makes no AWS requests.
+
+Run locally from the source archive
+Use Python 3.12 and a writable project directory.
+python -m pip install -r requirements-vision.txt pytest==9.0.2
+python -m pytest -q
+python -m service.app --host 127.0.0.1 --port 8080
+Open http://127.0.0.1:8080/ in the same machine's browser.
+
+For the supplied Windows review candidate
+Run from a normal local PowerShell terminal in the extracted project directory:
+powershell -File ops/run_windows.ps1 -Action Test -Python python
+powershell -File ops/run_windows.ps1 -Action Serve -Python python -Port 8766
+Open http://127.0.0.1:8766/.
+The helper places SQLite and temporary files under .local and restores the environment when it exits.
+
+Inspect saved evidence
+python ops/verify_aws_recording.py
+python ops/verify_judge_evidence_index.py
+Read evidence/AWS_EXECUTION_20261026_40223113044.json for the recorded AWS deployment and four cases. CHECK146's index verifies six bound files, four AWS cases and eight local negative controls. Its historical video status is not the status of this newly edited review movie.
+
+Reproduce container behavior
+docker build --target http -t visualguard:http .
+docker run --read-only --tmpfs /tmp -p 8080:8080 visualguard:http
+python ops/smoke_test_endpoint.py --base-url http://127.0.0.1:8080
+AWS deployment instructions are in docs/AWS_DEPLOYMENT_RUNBOOK.md. Viewing the saved record does not require AWS credentials or a new deployment.
+
+Versions and results
+Repository baseline: b85ebb0873cf030ab95fd32c1d886df59bf74c86.
+AWS deployed application: 832b1b476ce88e3fa95e83ac5749f64af0f4bd63.
+Existing hosted CI: 268 passed; 116 subtests passed; run 40249719964.
+Local Windows review candidate: 266 passed; 2 POSIX-only skips; 116 subtests passed. These local portability changes have not been redeployed.
+The image-analysis logic is unchanged. The film combines archived exhibition context, labelled AI-generated illustration, synthetic application demonstration and saved AWS records.
+
+Evidence boundary, in one paragraph
+540 synthetic pairs achieved 94.26% exact decision agreement; 210 alarm-containing cases produced no REVIEW outcomes. Thirty round red stickers falsely triggered STOP. Separately, 15 unlabelled archived real images and one crop produced no red candidates. Real-world alarm accuracy remains unmeasured. Four AWS invocations are execution evidence, not a latency or field-accuracy benchmark.
+
+Owner handoff before submission
+Insert the final public/unlisted video link and judge-accessible report link. Grant private repository access or provide the approved archive. Confirm the agreed endpoint access or live screen-share route. Keep a record of the final submitted movie's hash. Current access arrangements and formal submission remain pending YOUNG-FU approval.
+
+Competition: https://opencv26.devpost.com/
+Rules: https://opencv26.devpost.com/rules
+CI: https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964
+AWS execution: https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40223113044

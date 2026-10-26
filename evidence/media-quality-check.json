@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "reviewer_type": "INDEPENDENT_ASSISTANT_MEDIA_QA",
+  "status": "PASS_FOR_OWNER_REVIEW",
+  "video": {
+    "filename": "VisualGuard-YOUNG-FU-final-review.mp4",
+    "sha256": "f3861cee2c05a08d1ffc94a1d8f7e77e8d0d9e2bc857f31ec349877f2b0d5aed",
+    "bytes": 19353660,
+    "duration_seconds": 139.791667,
+    "format": "H264 1920x1080 24fps; AAC 48kHz stereo"
+  },
+  "full_decode": "PASS",
+  "subtitle_check": {
+    "status": "PASS",
+    "cues": 30,
+    "words_whitespace": 273,
+    "non_overlapping": true,
+    "all_cues_within_video": true,
+    "maximum_inter_cue_gap_seconds": 3.513
+  },
+  "audio_check": {
+    "status": "PASS",
+    "mean_volume_db": -21.8,
+    "peak_volume_db": -2.7,
+    "amplitude_clipping_observed": false,
+    "silence_threshold_db": -45,
+    "longest_detected_silence_seconds": 3.619312,
+    "gaps_over_4_5_seconds": 0,
+    "scope": "Decoded track and level/silence analysis; not a human listening acceptance"
+  },
+  "visual_check": {
+    "status": "PASS",
+    "frames_inspected": 18,
+    "scene_count": 14,
+    "timeline_contiguous": true,
+    "all_scene_midpoints_and_extra_transition_points_inspected": true,
+    "text_overlap_or_clipping_found": false,
+    "source_labels": "Archived exhibition / AI concept / synthetic app input / recorded AWS / local archived real-image analysis are distinguished",
+    "resubmission": "63s shows replacement loaded awaiting Inspect; 67s shows actual clear pair results",
+    "closing": "132s AI concept; 135.25s and 137s separate YOUNG-FU author card",
+    "additional_midpoint_frame": 67.458333
+  },
+  "claim_check": {
+    "status": "PASS",
+    "synthetic_metric": "94.26% exact decision agreement on 540 synthetic pairs, not field accuracy",
+    "known_failure": "30/30 round red stickers false STOP disclosed",
+    "real_image_result": "15 archived images no red candidates; alarm accuracy not measured",
+    "aws": "4 recorded calls with synthetic/empty inputs; no new cloud-call claim or unsupported case-to-latency mapping",
+    "physical_action": "Recommendations only; no machine commands claim",
+    "application_capture_type": "Edited actual application captures, not continuous live recording"
+  },
+  "required_fixes": [],
+  "human_content_approval": "PENDING_YOUNG_FU",
+  "human_attestation_fabricated": false,
+  "published": false,
+  "submitted": false
+}

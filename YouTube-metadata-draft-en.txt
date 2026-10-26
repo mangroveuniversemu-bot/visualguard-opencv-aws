@@ -1,0 +1,40 @@
+TITLE
+VisualGuard | Two Views. One Next Step. (OpenCV 5 + AWS)
+
+DESCRIPTION
+One camera angle can miss a warning on the other side of a machine. VisualGuard explores a clearer next step for equipment-panel inspection by combining front and side views with a human-reviewed workflow.
+
+In this 2-minute, 20-second demonstration, see how the prototype recommends REVIEW when evidence is clear, STOP when a side-view warning appears, and REQUEST_VIEW when an image is obstructed. An operator can provide a replacement view and inspect the result again.
+
+CHAPTERS
+00:00 The inspection blind spot
+00:20 Two views, one next step
+00:28 REVIEW, STOP, REQUEST_VIEW
+01:02 Replace a view and inspect again
+01:24 Architecture: local and AWS
+01:35 Recorded AWS execution
+01:47 Synthetic evaluation
+01:59 Archived real-image exploration
+02:10 What comes next
+
+HOW IT WORKS
+The Python application uses OpenCV 5 to assess image quality, find red indicator candidates, and combine two views into a recommended next step. The same inspection core runs locally and in an AWS Lambda container. Recommendations leave the final decision with a person; the prototype does not send commands to equipment.
+
+WHAT WE MEASURED
+Across 540 held-out synthetic image pairs from 18 scenario families, exact decision agreement was 94.26%, compared with 50.00% for a simple red-count baseline. This is agreement on the synthetic scenarios, not real-world accuracy.
+
+Known limits: all 30 round red-sticker cases triggered a false STOP, and one motion-blurred synthetic case returned REVIEW instead of REQUEST_VIEW. In a local exploration of 15 archived exhibition images, no red candidates were returned. Those images have no labelled machine-alarm ground truth, so alarm accuracy was not measured.
+
+The four saved AWS invocations used health, synthetic, or empty-view inputs. No live camera was connected and no equipment commands were issued.
+
+MEDIA NOTES
+The film combines archived footage recorded at a machine exhibition on 4 October 2026, AI-generated illustrative operator scenes, edited captures of the actual local application using synthetic inputs, and saved AWS execution results. The illustrative character is not the entrant. The English narration is synthesized.
+
+Built by YOUNG-FU · Python · OpenCV 5 · AWS Lambda · Amazon ECR · CloudWatch
+
+TAGS
+VisualGuard, OpenCV 5, OpenCV, AWS, AWS Lambda, computer vision, machine vision, industrial inspection, equipment inspection, quality inspection, image processing, human in the loop, synthetic evaluation, visual inspection, factory technology, AI prototype
+
+UPLOAD STATE
+Private for owner review. Do not publish or schedule until YOUNG-FU approves.
+

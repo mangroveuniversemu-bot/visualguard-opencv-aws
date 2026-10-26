@@ -1,0 +1,92 @@
+WEBVTT
+
+00:00:00.450 --> 00:00:04.925
+On a busy production line, a single camera can show only part of the picture.
+
+00:00:07.962 --> 00:00:09.025
+The front looks normal.
+
+00:00:09.338 --> 00:00:10.937
+A warning sits on the other side.
+
+00:00:14.450 --> 00:00:18.362
+A blocked view creates a different problem: the evidence is missing.
+
+00:00:20.950 --> 00:00:22.763
+Meet VisualGuard, by YOUNG-FU.
+
+00:00:23.075 --> 00:00:23.775
+Two views.
+
+00:00:24.100 --> 00:00:26.013
+One clear next step for the operator.
+
+00:00:28.475 --> 00:00:32.088
+Here is the working application, using paired synthetic images.
+
+00:00:32.400 --> 00:00:35.900
+OpenCV checks image quality and red candidates.
+
+00:00:36.212 --> 00:00:40.850
+Usable views with no red candidates lead to a recommendation for human review.
+
+00:00:42.408 --> 00:00:44.246
+Add a red indicator in the side view.
+
+00:00:44.558 --> 00:00:50.196
+VisualGuard changes the recommendation to hold automation, and shows the visual evidence behind it.
+
+00:00:52.421 --> 00:00:56.346
+Block the front view, and the result changes to request new images.
+
+00:00:56.671 --> 00:01:00.221
+The system distinguishes an alarm from evidence it cannot use.
+
+00:01:02.408 --> 00:01:04.171
+The operator supplies a new pair.
+
+00:01:04.483 --> 00:01:07.171
+Inspection runs again and returns to review.
+
+00:01:07.496 --> 00:01:11.471
+People stay in charge; this prototype sends no machine commands.
+
+00:01:13.408 --> 00:01:19.471
+The value is a usable next step: review the evidence, recommend a hold, or request another view.
+
+00:01:19.783 --> 00:01:22.433
+Each recommendation includes its supporting trace.
+
+00:01:24.421 --> 00:01:29.171
+The same OpenCV inspection core runs locally and on AWS Lambda.
+
+00:01:29.483 --> 00:01:33.671
+ECR stores the container, and CloudWatch records cloud execution.
+
+00:01:35.288 --> 00:01:41.138
+Four saved AWS calls demonstrate health, alarm, clear, and missing-view behavior.
+
+00:01:41.462 --> 00:01:45.512
+The review viewer opens those records without requiring cloud credentials.
+
+00:01:47.033 --> 00:01:53.458
+Across five hundred forty synthetic pairs, exact decision agreement was ninety-four point two six percent.
+
+00:01:53.771 --> 00:01:56.508
+All thirty round red stickers caused false stops.
+
+00:01:59.108 --> 00:02:05.958
+Fifteen archived exhibition images produced no red candidates, including a panel with a visible red lamp.
+
+00:02:06.271 --> 00:02:09.596
+Real-image detection remains the next engineering challenge.
+
+00:02:11.158 --> 00:02:11.896
+VisualGuard.
+
+00:02:12.246 --> 00:02:14.558
+From two views to an informed next step.
+
+00:02:14.883 --> 00:02:18.671
+Built by YOUNG-FU with OpenCV five and AWS.
+

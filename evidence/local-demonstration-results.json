@@ -1,0 +1,568 @@
+{
+  "evidence_mode": "LOCAL_SYNTHETIC_REPLAY",
+  "aws_requests": 0,
+  "cases": {
+    "normal_green_clear": {
+      "status": 200,
+      "response": {
+        "decision": "REVIEW",
+        "evidence": {
+          "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+          "capture_replay_ledger_entries": 2,
+          "capture_replay_rowset_sha256": "5ff6022770cfe4447a17e80e0456c89623eca09c685be8e8e7ce551f41f6b940",
+          "capture_replay_status": "RECORDED",
+          "capture_time_source": "SERVER_RECEIVE",
+          "captured_at": 1792958137.7357059,
+          "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+          "input_mode": "CALLER_SUPPLIED_FRAMES",
+          "opencv_version": "5.0.0",
+          "package": "opencv-python-headless",
+          "package_version": "5.0.0.93",
+          "pipeline_version": "opencv5-scene-v1",
+          "received_at": 1792958137.7357059,
+          "view_captured_at": {
+            "front": 1792958137.7357059,
+            "side": 1792958137.7357059
+          }
+        },
+        "execution_environment": {
+          "evidence_class": "SELF_REPORTED",
+          "platform": "LOCAL",
+          "region": ""
+        },
+        "follow_up": {
+          "action_executed": false,
+          "physical_action": "NONE",
+          "planned_action": "QUEUE_HUMAN_REVIEW",
+          "trigger": "HUMAN_REVIEW"
+        },
+        "live_state": {
+          "camera": "NOT_RUN",
+          "physical_action": "NONE"
+        },
+        "physical_action": "NONE",
+        "reason": "HUMAN_REVIEW",
+        "request_id": "9fc5ca752f0545e184ce4f557a837323",
+        "timings_ms": {
+          "analyze": 74.047,
+          "decode": 16.395
+        },
+        "trace": [
+          {
+            "step": "perceive",
+            "summary": {
+              "front": {
+                "failures": [],
+                "lit_red_indicators": 0,
+                "usable": true
+              },
+              "side": {
+                "failures": [],
+                "lit_red_indicators": 0,
+                "usable": true
+              }
+            },
+            "tool": "opencv5_scene_analysis"
+          },
+          {
+            "decision": "REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "step": "decide"
+          },
+          {
+            "action_executed": false,
+            "planned_action": "QUEUE_HUMAN_REVIEW",
+            "requires_human": true,
+            "step": "plan"
+          }
+        ],
+        "views": {
+          "front": {
+            "alarm": false,
+            "analysis_ms": 36.428,
+            "capture_envelope_sha256": "034e755d114ecede5ea8e8e8dd7b9487c0e78b20be55c67eba2918443b158c84",
+            "capture_id": "video-assets-0-front",
+            "detections": [],
+            "frame_sha256": "872d8a9d86fe7c22548b6e6af7960a115462ecdb855e5be6ad355dfa708133d4",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 40.999,
+              "mean_gray": 104.037,
+              "sharpness": 183.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-front-v1"
+          },
+          "side": {
+            "alarm": false,
+            "analysis_ms": 17.414,
+            "capture_envelope_sha256": "701c261ddc1d8d5ce7609bf7d248f4590834f99655c54a92aa526a837952e7ba",
+            "capture_id": "video-assets-0-side",
+            "detections": [],
+            "frame_sha256": "db5258e4d620668c9e5615bd490400d1174563657158acdf58f97163c6cdcf5c",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 30.555,
+              "mean_gray": 107.451,
+              "sharpness": 152.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-side-v1"
+          }
+        }
+      }
+    },
+    "alarm_red_side_only": {
+      "status": 200,
+      "response": {
+        "decision": "STOP",
+        "evidence": {
+          "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+          "capture_replay_ledger_entries": 4,
+          "capture_replay_rowset_sha256": "b4db6368f44d07e375f774042f556c77ee1ce0e8043a1978be2f813dda135e27",
+          "capture_replay_status": "RECORDED",
+          "capture_time_source": "SERVER_RECEIVE",
+          "captured_at": 1792958138.0283852,
+          "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+          "input_mode": "CALLER_SUPPLIED_FRAMES",
+          "opencv_version": "5.0.0",
+          "package": "opencv-python-headless",
+          "package_version": "5.0.0.93",
+          "pipeline_version": "opencv5-scene-v1",
+          "received_at": 1792958138.0283852,
+          "view_captured_at": {
+            "front": 1792958138.0283852,
+            "side": 1792958138.0283852
+          }
+        },
+        "execution_environment": {
+          "evidence_class": "SELF_REPORTED",
+          "platform": "LOCAL",
+          "region": ""
+        },
+        "follow_up": {
+          "action_executed": false,
+          "physical_action": "NONE",
+          "planned_action": "HOLD_AUTOMATION",
+          "trigger": "ALARM"
+        },
+        "live_state": {
+          "camera": "NOT_RUN",
+          "physical_action": "NONE"
+        },
+        "physical_action": "NONE",
+        "reason": "ALARM",
+        "request_id": "de1be795ee124719a036fd5f524a5170",
+        "timings_ms": {
+          "analyze": 57.041,
+          "decode": 16.718
+        },
+        "trace": [
+          {
+            "step": "perceive",
+            "summary": {
+              "front": {
+                "failures": [],
+                "lit_red_indicators": 0,
+                "usable": true
+              },
+              "side": {
+                "failures": [],
+                "lit_red_indicators": 1,
+                "usable": true
+              }
+            },
+            "tool": "opencv5_scene_analysis"
+          },
+          {
+            "decision": "STOP",
+            "reason": "ALARM",
+            "step": "decide"
+          },
+          {
+            "action_executed": false,
+            "planned_action": "HOLD_AUTOMATION",
+            "requires_human": true,
+            "step": "plan"
+          }
+        ],
+        "views": {
+          "front": {
+            "alarm": false,
+            "analysis_ms": 19.153,
+            "capture_envelope_sha256": "41fe742a106d2fa17b2512f2a02872a527eff6cb07a1dd3cd9541f583608b2d1",
+            "capture_id": "video-assets-1-front",
+            "detections": [],
+            "frame_sha256": "df38dda596613227a12c130db104b956867a38c263f5af2225f5bbca60b44760",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 24.162,
+              "mean_gray": 74.717,
+              "sharpness": 98.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-front-v1"
+          },
+          "side": {
+            "alarm": true,
+            "analysis_ms": 19.738,
+            "capture_envelope_sha256": "f1cf26e1c32cb84c6935c8b890ed5fe3e585d4f6a8af7805b59d9cb325a3cae0",
+            "capture_id": "video-assets-1-side",
+            "detections": [
+              {
+                "area": 1056.0,
+                "aspect": 1.0,
+                "bbox": [
+                  323,
+                  193,
+                  37,
+                  37
+                ],
+                "center": [
+                  341.0,
+                  211.0
+                ],
+                "fill": 0.9522,
+                "kind": "LIT_RED_INDICATOR",
+                "mean_value": 236.62
+              }
+            ],
+            "frame_sha256": "4984351d494b0f525c903cbe9bcf7f83c5b6eb5134677a643a0849be0edf3612",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 24.886,
+              "mean_gray": 82.128,
+              "sharpness": 147.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-side-v1"
+          }
+        }
+      }
+    },
+    "normal_lens_occluded": {
+      "status": 200,
+      "response": {
+        "decision": "REQUEST_VIEW",
+        "evidence": {
+          "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+          "capture_replay_ledger_entries": 6,
+          "capture_replay_rowset_sha256": "dd7cba6580b9b59a7ff19cef5c681a4b9c4c36478b108f6037649e2a31285fd3",
+          "capture_replay_status": "RECORDED",
+          "capture_time_source": "SERVER_RECEIVE",
+          "captured_at": 1792958138.3109221,
+          "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+          "input_mode": "CALLER_SUPPLIED_FRAMES",
+          "opencv_version": "5.0.0",
+          "package": "opencv-python-headless",
+          "package_version": "5.0.0.93",
+          "pipeline_version": "opencv5-scene-v1",
+          "received_at": 1792958138.3109221,
+          "view_captured_at": {
+            "front": 1792958138.3109221,
+            "side": 1792958138.3109221
+          }
+        },
+        "execution_environment": {
+          "evidence_class": "SELF_REPORTED",
+          "platform": "LOCAL",
+          "region": ""
+        },
+        "follow_up": {
+          "action_executed": false,
+          "physical_action": "NONE",
+          "planned_action": "REQUEST_NEW_CAPTURE",
+          "trigger": "OCCLUDED_VIEW"
+        },
+        "live_state": {
+          "camera": "NOT_RUN",
+          "physical_action": "NONE"
+        },
+        "physical_action": "NONE",
+        "reason": "OCCLUDED_VIEW",
+        "request_id": "4c20c238b3ea44d197d0befb3df22a92",
+        "timings_ms": {
+          "analyze": 57.03,
+          "decode": 13.92
+        },
+        "trace": [
+          {
+            "step": "perceive",
+            "summary": {
+              "front": {
+                "failures": [
+                  "OCCLUDED_VIEW"
+                ],
+                "lit_red_indicators": 0,
+                "usable": false
+              },
+              "side": {
+                "failures": [],
+                "lit_red_indicators": 0,
+                "usable": true
+              }
+            },
+            "tool": "opencv5_scene_analysis"
+          },
+          {
+            "decision": "REQUEST_VIEW",
+            "reason": "OCCLUDED_VIEW",
+            "step": "decide"
+          },
+          {
+            "action_executed": false,
+            "planned_action": "REQUEST_NEW_CAPTURE",
+            "requires_human": false,
+            "step": "plan"
+          }
+        ],
+        "views": {
+          "front": {
+            "alarm": false,
+            "analysis_ms": 17.469,
+            "capture_envelope_sha256": "84874e180a3baf38d2c6823d654228b11431f4ff0ac125b727aee223781bb3da",
+            "capture_id": "video-assets-2-front",
+            "detections": [],
+            "frame_sha256": "806249fee253b2a3a7e73220890397722b7ca79625ec5f69a127e2ccf5071862",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [
+                "OCCLUDED_VIEW"
+              ],
+              "laplacian_variance": 31.746,
+              "mean_gray": 58.986,
+              "sharpness": 126.0,
+              "usable": false,
+              "visible_fraction": 0.63021
+            },
+            "resized": false,
+            "source_id": "camera-front-v1"
+          },
+          "side": {
+            "alarm": false,
+            "analysis_ms": 21.04,
+            "capture_envelope_sha256": "2502f1a1cf0e2b79fe5f94b5581b696d818f0a0094673aa76ac1b7c6b93256f1",
+            "capture_id": "video-assets-2-side",
+            "detections": [],
+            "frame_sha256": "4289fce8eeacafd0694df95a42c38a11bbbcfdf405567d05f90d8ec9a5f360b4",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 30.91,
+              "mean_gray": 104.49,
+              "sharpness": 145.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-side-v1"
+          }
+        }
+      }
+    },
+    "normal_round_red_sticker": {
+      "status": 200,
+      "response": {
+        "decision": "STOP",
+        "evidence": {
+          "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+          "capture_replay_ledger_entries": 8,
+          "capture_replay_rowset_sha256": "c354a3cc5496a22d81b270744877cd85e9ff287c2e18c854304aead1fcbac8b8",
+          "capture_replay_status": "RECORDED",
+          "capture_time_source": "SERVER_RECEIVE",
+          "captured_at": 1792958138.597498,
+          "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+          "input_mode": "CALLER_SUPPLIED_FRAMES",
+          "opencv_version": "5.0.0",
+          "package": "opencv-python-headless",
+          "package_version": "5.0.0.93",
+          "pipeline_version": "opencv5-scene-v1",
+          "received_at": 1792958138.597498,
+          "view_captured_at": {
+            "front": 1792958138.597498,
+            "side": 1792958138.597498
+          }
+        },
+        "execution_environment": {
+          "evidence_class": "SELF_REPORTED",
+          "platform": "LOCAL",
+          "region": ""
+        },
+        "follow_up": {
+          "action_executed": false,
+          "physical_action": "NONE",
+          "planned_action": "HOLD_AUTOMATION",
+          "trigger": "ALARM"
+        },
+        "live_state": {
+          "camera": "NOT_RUN",
+          "physical_action": "NONE"
+        },
+        "physical_action": "NONE",
+        "reason": "ALARM",
+        "request_id": "b9104cec82f34c1cbd18870ba9bdc2a4",
+        "timings_ms": {
+          "analyze": 63.717,
+          "decode": 18.449
+        },
+        "trace": [
+          {
+            "step": "perceive",
+            "summary": {
+              "front": {
+                "failures": [],
+                "lit_red_indicators": 1,
+                "usable": true
+              },
+              "side": {
+                "failures": [],
+                "lit_red_indicators": 1,
+                "usable": true
+              }
+            },
+            "tool": "opencv5_scene_analysis"
+          },
+          {
+            "decision": "STOP",
+            "reason": "ALARM",
+            "step": "decide"
+          },
+          {
+            "action_executed": false,
+            "planned_action": "HOLD_AUTOMATION",
+            "requires_human": true,
+            "step": "plan"
+          }
+        ],
+        "views": {
+          "front": {
+            "alarm": true,
+            "analysis_ms": 22.33,
+            "capture_envelope_sha256": "6dc7ffad6e50a8781d1530f5cadd262d7aec493682869208fb8212b38c01c1e9",
+            "capture_id": "video-assets-3-front",
+            "detections": [
+              {
+                "area": 632.0,
+                "aspect": 1.0,
+                "bbox": [
+                  582,
+                  102,
+                  29,
+                  29
+                ],
+                "center": [
+                  596.0,
+                  116.0
+                ],
+                "fill": 0.9489,
+                "kind": "LIT_RED_INDICATOR",
+                "mean_value": 220.7
+              }
+            ],
+            "frame_sha256": "1ff5faac270bba817908a37d066b407b6fc9869bf0dbf372d076470a71a351e0",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 26.34,
+              "mean_gray": 88.234,
+              "sharpness": 120.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-front-v1"
+          },
+          "side": {
+            "alarm": true,
+            "analysis_ms": 21.482,
+            "capture_envelope_sha256": "736e6189baa59153140376563d3a718b444bb83db5c6103131be2246751333fe",
+            "capture_id": "video-assets-3-side",
+            "detections": [
+              {
+                "area": 1693.0,
+                "aspect": 1.0,
+                "bbox": [
+                  424,
+                  52,
+                  47,
+                  47
+                ],
+                "center": [
+                  447.1,
+                  75.0
+                ],
+                "fill": 0.9612,
+                "kind": "LIT_RED_INDICATOR",
+                "mean_value": 222.66
+              }
+            ],
+            "frame_sha256": "c549ae5fcd5a546f1a6a9b54212eac484a64a278eaeb6e624d8cca8d337683f8",
+            "original_shape": [
+              480,
+              640
+            ],
+            "quality": {
+              "bright_clipped_fraction": 0.0,
+              "dark_clipped_fraction": 0.0,
+              "failures": [],
+              "laplacian_variance": 23.959,
+              "mean_gray": 71.217,
+              "sharpness": 126.0,
+              "usable": true,
+              "visible_fraction": 1.0
+            },
+            "resized": false,
+            "source_id": "camera-side-v1"
+          }
+        }
+      }
+    }
+  }
+}

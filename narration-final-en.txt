@@ -1,0 +1,30 @@
+VISUALGUARD - FINAL ENGLISH NARRATION
+Author: YOUNG-FU
+
+1. On a busy production line, a single camera can show only part of the picture.
+
+2. The front looks normal. A warning sits on the other side.
+
+3. A blocked view creates a different problem: the evidence is missing.
+
+4. Meet VisualGuard, by YOUNG-FU. Two views. One clear next step for the operator.
+
+5. Here is the working application, using paired synthetic images. OpenCV checks image quality and red candidates. Usable views with no red candidates lead to a recommendation for human review.
+
+6. Add a red indicator in the side view. VisualGuard changes the recommendation to hold automation, and shows the visual evidence behind it.
+
+7. Block the front view, and the result changes to request new images. The system distinguishes an alarm from evidence it cannot use.
+
+8. The operator supplies a new pair. Inspection runs again and returns to review. People stay in charge; this prototype sends no machine commands.
+
+9. The value is a usable next step: review the evidence, recommend a hold, or request another view. Each recommendation includes its supporting trace.
+
+10. The same OpenCV inspection core runs locally and on AWS Lambda. ECR stores the container, and CloudWatch records cloud execution.
+
+11. Four saved AWS calls demonstrate health, alarm, clear, and missing-view behavior. The review viewer opens those records without requiring cloud credentials.
+
+12. Across five hundred forty synthetic pairs, exact decision agreement was ninety-four point two six percent. All thirty round red stickers caused false stops.
+
+13. Fifteen archived exhibition images produced no red candidates, including a panel with a visible red lamp. Real-image detection remains the next engineering challenge.
+
+14. VisualGuard. From two views to an informed next step. Built by YOUNG-FU with OpenCV five and AWS.

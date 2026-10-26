@@ -1,0 +1,115 @@
+{
+  "evidence_mode": "EXPLORATORY_MANUAL_ROI_COMPARISON",
+  "source": "IMG_20261004_110442.jpg",
+  "source_sha256": "4450b3827d5b6ec4a8997f958e0d1e397d8e7f9edb6abdea689b02bdb2240e37",
+  "source_shape": [
+    4608,
+    2592
+  ],
+  "roi_xywh": [
+    650,
+    1100,
+    1936,
+    1452
+  ],
+  "roi_selection": "One manually selected 4:3 area enclosing HMI and physical controls, after viewing the photo; not held-out calibration or automatic localization",
+  "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+  "thresholds_changed": false,
+  "full_frame_result": {
+    "quality": {
+      "sharpness": 212.0,
+      "laplacian_variance": 124.91,
+      "mean_gray": 113.507,
+      "dark_clipped_fraction": 0.00241,
+      "bright_clipped_fraction": 0.00034,
+      "visible_fraction": 1.0,
+      "failures": [],
+      "usable": true
+    },
+    "detections": [],
+    "alarm": false,
+    "frame_sha256": "02cca177e1b30e9466627de4b3a4172b32c53a95b2ce72ae229ead37b21b282e",
+    "analysis_ms": 20.684
+  },
+  "manual_roi_result": {
+    "quality": {
+      "sharpness": 249.0,
+      "laplacian_variance": 118.081,
+      "mean_gray": 123.635,
+      "dark_clipped_fraction": 7e-05,
+      "bright_clipped_fraction": 0.00098,
+      "visible_fraction": 1.0,
+      "failures": [],
+      "usable": true
+    },
+    "detections": [],
+    "alarm": false,
+    "frame_sha256": "298c7038a1ab4adb7e8dcbf74ad48ceecc9244c581f0889950161be1bbb45a98",
+    "analysis_ms": 32.418
+  },
+  "full_frame_red_components_before_shape_filter": [
+    {
+      "area": 484.5,
+      "bbox": [
+        179,
+        12,
+        59,
+        26
+      ],
+      "fill": 0.18332253066191623,
+      "aspect": 0.4406779661016949
+    },
+    {
+      "area": 187.0,
+      "bbox": [
+        284,
+        241,
+        25,
+        12
+      ],
+      "fill": 0.40699461685293314,
+      "aspect": 0.48
+    },
+    {
+      "area": 149.5,
+      "bbox": [
+        152,
+        14,
+        13,
+        24
+      ],
+      "fill": 0.3591434075331031,
+      "aspect": 0.5416666666666666
+    },
+    {
+      "area": 24.0,
+      "bbox": [
+        216,
+        0,
+        9,
+        6
+      ],
+      "fill": 0.4520169451181824,
+      "aspect": 0.6666666666666666
+    },
+    {
+      "area": 10.0,
+      "bbox": [
+        171,
+        26,
+        4,
+        5
+      ],
+      "fill": 0.7488918938891077,
+      "aspect": 0.8
+    }
+  ],
+  "machine_alarm_ground_truth": "UNLABELLED",
+  "full_two_view_decision": "NOT_EVALUATED",
+  "aws_calls": 0,
+  "limitations": [
+    "A red lamp candidate is not a verified machine alarm.",
+    "The emergency-stop button and red printing may also trigger the detector.",
+    "Manual ROI results are exploratory and must not replace whole-frame results or be added to the held-out accuracy metric."
+  ]
+}

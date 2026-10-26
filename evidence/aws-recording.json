@@ -1,0 +1,292 @@
+{
+  "schema_version": 1,
+  "cut": "VISUALGUARD_AWS_EXECUTION_READBACK_20261026",
+  "provenance": "DERIVED",
+  "status": "AWS_PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
+  "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+  "workflow_run": "https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40223113044",
+  "workflow_job": "https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40223113044/job/121258766517",
+  "deployment": {
+    "cut": "VISUALGUARD_AWS_LAMBDA_DEPLOYMENT001",
+    "evidence_mode": "AWS_LAMBDA_EXECUTION_SYNTHETIC_INPUT",
+    "function": "visualguard-inspector",
+    "image_uri": "********2333.dkr.ecr.us-east-1.amazonaws.com/visualguard@sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+    "live_state": {
+      "aws_api": "EXECUTED",
+      "camera": "NOT_RUN",
+      "deployment": "EXECUTED",
+      "endpoint": "DEPLOYED_PRIVATE_AWS_IAM",
+      "physical_action": "NONE"
+    },
+    "preflight": {
+      "action_executed": false,
+      "checks": [
+        {
+          "code": "source_ready",
+          "detail": "Source is imported and locally verified.",
+          "status": "PASS"
+        },
+        {
+          "code": "owner_authorization",
+          "detail": "Explicit owner authorization is present.",
+          "status": "PASS"
+        },
+        {
+          "code": "region_approval",
+          "detail": "Selected region matches the approved region.",
+          "status": "PASS"
+        },
+        {
+          "code": "account_scope",
+          "detail": "A 12-digit expected account is configured.",
+          "status": "PASS"
+        },
+        {
+          "code": "runtime_role_scope",
+          "detail": "Runtime role belongs to the expected account.",
+          "status": "PASS"
+        },
+        {
+          "code": "deployment_target",
+          "detail": "Deployment target is lambda-container.",
+          "status": "PASS"
+        },
+        {
+          "code": "cost_scope",
+          "detail": "Cost scope is existing-budget.",
+          "status": "PASS"
+        },
+        {
+          "code": "artifact_binding",
+          "detail": "A lowercase SHA-256 artifact binding is configured.",
+          "status": "PASS"
+        },
+        {
+          "code": "aws_cli",
+          "detail": "AWS CLI is available.",
+          "status": "PASS"
+        },
+        {
+          "code": "caller_identity",
+          "detail": "Caller identity matches the expected account.",
+          "status": "PASS"
+        },
+        {
+          "code": "runtime_role_readback",
+          "detail": "Runtime role readback matches the configured ARN.",
+          "status": "PASS"
+        }
+      ],
+      "commands_run": [
+        "aws --version",
+        "aws sts get-caller-identity",
+        "aws iam get-role"
+      ],
+      "cut": "VISUALGUARD_AWS_DEPLOYMENT_PREFLIGHT001",
+      "evidence_mode": "AWS_READ_ONLY_PREFLIGHT",
+      "live_state": {
+        "aws_api": "READ_ONLY_PROBE",
+        "camera": "NOT_RUN",
+        "deployment": "NOT_RUN",
+        "endpoint": "NOT_DEPLOYED",
+        "physical_action": "NONE"
+      },
+      "provenance": "DERIVED",
+      "schema_version": 1,
+      "status": "READY"
+    },
+    "public_url": false,
+    "region": "us-east-1",
+    "schema_version": 1,
+    "source_archive_sha256": "8dd136d00f1a7ea4cdf154a5095ef278ac38d51106348835253bb370ca19f4e6",
+    "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "status": "DEPLOYED_AND_INVOKED",
+    "steps": [
+      {
+        "at": "2026-10-25T18:50:16Z",
+        "status": "CREATED",
+        "step": "ecr_repository"
+      },
+      {
+        "at": "2026-10-25T18:50:41Z",
+        "commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+        "image_digest": "sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+        "step": "image_pushed"
+      },
+      {
+        "at": "2026-10-25T18:50:43Z",
+        "status": "CREATED",
+        "step": "lambda_function"
+      },
+      {
+        "at": "2026-10-25T18:50:53Z",
+        "step": "lambda_ready",
+        "wait_exits": {
+          "function-active-v2": 0,
+          "function-updated-v2": 0
+        }
+      },
+      {
+        "at": "2026-10-25T18:50:53Z",
+        "detail": "aws: [ERROR]: An error occurred (InvalidParameterValueException) when calling the PutFunctionConcurrency operation: Specified ReservedConcurrentExecutions for function decreases account's UnreservedCo",
+        "status": "UNAVAILABLE_FOR_ACCOUNT",
+        "step": "reserved_concurrency"
+      },
+      {
+        "at": "2026-10-25T18:50:55Z",
+        "auth_type": "AWS_IAM",
+        "step": "function_url",
+        "url": "https://zkdmdpnivndaqlsxgm4umbjwjy0akezq.lambda-url.us-east-1.on.aws/"
+      },
+      {
+        "at": "2026-10-25T18:51:02Z",
+        "results": {
+          "healthz": {
+            "cli_exit": 0,
+            "decision": null,
+            "execution_environment": {
+              "evidence_class": "SELF_REPORTED",
+              "platform": "AWS_LAMBDA",
+              "region": "us-east-1"
+            },
+            "planned_action": null,
+            "reason": null,
+            "runtime": {
+              "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+              "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+              "opencv_version": "5.0.0",
+              "package": "opencv-python-headless",
+              "package_version": "5.0.0.93",
+              "pipeline_version": "opencv5-scene-v1"
+            },
+            "status_code": 200
+          },
+          "inspect_alarm": {
+            "cli_exit": 0,
+            "decision": "STOP",
+            "execution_environment": {
+              "evidence_class": "SELF_REPORTED",
+              "platform": "AWS_LAMBDA",
+              "region": "us-east-1"
+            },
+            "planned_action": "HOLD_AUTOMATION",
+            "reason": "ALARM",
+            "runtime": null,
+            "status_code": 200
+          },
+          "inspect_clear": {
+            "cli_exit": 0,
+            "decision": "REVIEW",
+            "execution_environment": {
+              "evidence_class": "SELF_REPORTED",
+              "platform": "AWS_LAMBDA",
+              "region": "us-east-1"
+            },
+            "planned_action": "QUEUE_HUMAN_REVIEW",
+            "reason": "HUMAN_REVIEW",
+            "runtime": null,
+            "status_code": 200
+          }
+        },
+        "step": "lambda_invocations"
+      },
+      {
+        "at": "2026-10-25T18:51:16Z",
+        "count": 3,
+        "lines": [
+          "REPORT RequestId: ee7ce474-1fcc-4f6a-8487-a6a4ecfbd6e2\tDuration: 11.16 ms\tBilled Duration: 3476 ms\tMemory Size: 1024 MB\tMax Memory Used: 94 MB\tInit Duration: 3464.37 ms",
+          "REPORT RequestId: 96499015-fffc-4b68-97a6-010786d2afe2\tDuration: 395.52 ms\tBilled Duration: 396 ms\tMemory Size: 1024 MB\tMax Memory Used: 119 MB",
+          "REPORT RequestId: 18c28691-4427-4dfb-a933-a79cedd28237\tDuration: 173.29 ms\tBilled Duration: 174 ms\tMemory Size: 1024 MB\tMax Memory Used: 119 MB"
+        ],
+        "step": "cloudwatch_report_lines"
+      }
+    ]
+  },
+  "supplemental_negative_control": {
+    "schema_version": 1,
+    "evidence_mode": "AWS_LAMBDA_CONSOLE_INVOCATION",
+    "source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "image_digest": "sha256:78d00e60f73ec608d65c054b220cd1bfaa8293ad752849dff6352aabd9324ddd",
+    "input": {
+      "version": "2.0",
+      "rawPath": "/v1/inspect",
+      "requestContext": {
+        "http": {
+          "method": "POST"
+        }
+      },
+      "body": "{\"views\":{},\"capture_id\":\"aws-missing-views-20261026\"}",
+      "isBase64Encoded": false
+    },
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "X-Request-Id": "597ee256833f47db8982a6ec3be534ca"
+      },
+      "body": "{\"decision\": \"REQUEST_VIEW\", \"evidence\": {\"capture_time_source\": \"SERVER_RECEIVE\", \"received_at\": 1792954488.2025535}, \"execution_environment\": {\"evidence_class\": \"SELF_REPORTED\", \"platform\": \"AWS_LAMBDA\", \"region\": \"us-east-1\"}, \"follow_up\": {\"action_executed\": false, \"physical_action\": \"NONE\", \"planned_action\": \"REQUEST_NEW_CAPTURE\", \"trigger\": \"INCOMPLETE_COVERAGE\"}, \"live_state\": {\"camera\": \"NOT_RUN\", \"physical_action\": \"NONE\"}, \"physical_action\": \"NONE\", \"reason\": \"INCOMPLETE_COVERAGE\", \"request_id\": \"597ee256833f47db8982a6ec3be534ca\", \"timings_ms\": {\"analyze\": 1.443, \"decode\": 0.002}, \"trace\": [{\"step\": \"perceive\", \"summary\": {}, \"tool\": \"opencv5_scene_analysis\"}, {\"decision\": \"REQUEST_VIEW\", \"reason\": \"INCOMPLETE_COVERAGE\", \"step\": \"decide\"}, {\"action_executed\": false, \"planned_action\": \"REQUEST_NEW_CAPTURE\", \"requires_human\": false, \"step\": \"plan\"}], \"views\": {}}",
+      "isBase64Encoded": false
+    },
+    "parsed_body": {
+      "decision": "REQUEST_VIEW",
+      "evidence": {
+        "capture_time_source": "SERVER_RECEIVE",
+        "received_at": 1792954488.2025535
+      },
+      "execution_environment": {
+        "evidence_class": "SELF_REPORTED",
+        "platform": "AWS_LAMBDA",
+        "region": "us-east-1"
+      },
+      "follow_up": {
+        "action_executed": false,
+        "physical_action": "NONE",
+        "planned_action": "REQUEST_NEW_CAPTURE",
+        "trigger": "INCOMPLETE_COVERAGE"
+      },
+      "live_state": {
+        "camera": "NOT_RUN",
+        "physical_action": "NONE"
+      },
+      "physical_action": "NONE",
+      "reason": "INCOMPLETE_COVERAGE",
+      "request_id": "597ee256833f47db8982a6ec3be534ca",
+      "timings_ms": {
+        "analyze": 1.443,
+        "decode": 0.002
+      },
+      "trace": [
+        {
+          "step": "perceive",
+          "summary": {},
+          "tool": "opencv5_scene_analysis"
+        },
+        {
+          "decision": "REQUEST_VIEW",
+          "reason": "INCOMPLETE_COVERAGE",
+          "step": "decide"
+        },
+        {
+          "action_executed": false,
+          "planned_action": "REQUEST_NEW_CAPTURE",
+          "requires_human": false,
+          "step": "plan"
+        }
+      ],
+      "views": {}
+    },
+    "aws_log_tail": "START RequestId: 5e91ad05-2270-4828-b1dc-619fc4ebdd62 Version: $LATEST\n{\"decision\": \"REQUEST_VIEW\", \"event\": \"request\", \"execution_environment\": \"AWS_LAMBDA\", \"latency_ms\": 1.571, \"method\": \"POST\", \"path\": \"/v1/inspect\", \"reason\": \"INCOMPLETE_COVERAGE\", \"request_id\": \"597ee256833f47db8982a6ec3be534ca\", \"status\": 200}\nEND RequestId: 5e91ad05-2270-4828-b1dc-619fc4ebdd62\nREPORT RequestId: 5e91ad05-2270-4828-b1dc-619fc4ebdd62\tDuration: 3.75 ms\tBilled Duration: 4 ms\tMemory Size: 1024 MB\tMax Memory Used: 119 MB\t",
+    "scope": "Empty views object; incomplete coverage control; no camera or physical action",
+    "pass": true
+  },
+  "limitations": [
+    "Synthetic scene inputs only; no live camera or field accuracy validation.",
+    "Function URL requires AWS_IAM; no public judge endpoint was created.",
+    "Physical action remains NONE; planned actions were not executed.",
+    "Reserved concurrency 2 was rejected by the account quota; it was not silently claimed as configured.",
+    "The budget alert is not a hard spending cap.",
+    "No final video, human acceptance, or competition submission receipt is established by these records."
+  ]
+}

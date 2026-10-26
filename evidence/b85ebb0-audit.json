@@ -1,0 +1,77 @@
+{
+  "baseline_commit": "b85ebb0873cf030ab95fd32c1d886df59bf74c86",
+  "hosted_ci": {
+    "run": 40249719964,
+    "test_job": 121338745180,
+    "container_job": 121338745336,
+    "test_status": "SUCCESS",
+    "container_status": "SUCCESS",
+    "passed": 268,
+    "subtests_passed": 116,
+    "duration_seconds": 13.62,
+    "source": "GitHub rendered log readback; b85ebb0-ci-readback.txt"
+  },
+  "windows_candidate": {
+    "passed": 266,
+    "skipped": 2,
+    "subtests_passed": 116,
+    "skips": "Two POSIX directory-fsync probes",
+    "remote_ci_for_local_changes": "NOT_RUN"
+  },
+  "CHECK146": {
+    "repository_path": "evidence/VISUALGUARD_JUDGE_EVIDENCE_INDEX001.json",
+    "index_source_head": "83817bbff5c614b13d819828c872c743a0b4b079",
+    "status": "PASS",
+    "artifacts": [
+      {
+        "path": "evidence/AWS_EXECUTION_20261026_40223113044.json",
+        "role": "PRIVATE_AWS_EXECUTION_RECEIPT",
+        "sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0",
+        "observed_sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0",
+        "match": true
+      },
+      {
+        "path": "evidence/CHECK126_JUDGING_NEGATIVE_CONTROL_MATRIX.json",
+        "role": "LOCAL_OPENCV_NEGATIVE_CONTROL_MATRIX",
+        "sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d",
+        "observed_sha256": "636e95a34888d11e6a9133dcf8ff071170487a369e613b4d59ddda5267bdf40d",
+        "match": true
+      },
+      {
+        "path": "evidence/VISUALGUARD_DEMO_EVIDENCE_CONTRACT001.json",
+        "role": "DEMO_CLAIM_CONTRACT",
+        "sha256": "10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30",
+        "observed_sha256": "10d3f033a3111558cf5ddeb11f2c1dea974aa7f104a4ae9c7621bee9ea81ba30",
+        "match": true
+      },
+      {
+        "path": "evidence/VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002.json",
+        "role": "CREDENTIAL_SAFE_CAPTURE_PACKET",
+        "sha256": "2c9d8baa0ebcb8e8049e650ae0077ef8ceb7ea1ad360d3147da35a8ef551c856",
+        "observed_sha256": "2c9d8baa0ebcb8e8049e650ae0077ef8ceb7ea1ad360d3147da35a8ef551c856",
+        "match": true
+      },
+      {
+        "path": "evidence/VISUALGUARD_AWS_DEMO_STORYBOARD001.html",
+        "role": "DETERMINISTIC_LOCAL_STORYBOARD",
+        "sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
+        "observed_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
+        "match": true
+      },
+      {
+        "path": "evidence/CHECK136_VISUALGUARD_DEMO_VIDEO_FINAL_BYTES_BINDING_GATE001.json",
+        "role": "FINAL_VIDEO_FAIL_CLOSED_GATE",
+        "sha256": "62ee4349eb935ba7a4f3ac650a40d9f81a83a2c2acea23c683680283a56c0031",
+        "observed_sha256": "62ee4349eb935ba7a4f3ac650a40d9f81a83a2c2acea23c683680283a56c0031",
+        "match": true
+      }
+    ],
+    "aws_cases": 4,
+    "local_negative_controls": 8,
+    "scope": "Saved consistency and claim limits, not origin authentication or media review"
+  },
+  "local_changes_pushed": false,
+  "new_aws_calls": 0,
+  "public_release": false,
+  "competition_submission": false
+}

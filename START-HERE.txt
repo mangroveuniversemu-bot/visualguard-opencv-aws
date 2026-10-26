@@ -1,0 +1,19 @@
+VISUALGUARD - FINAL REVIEW PACKAGE
+
+Start with VisualGuard-YOUNG-FU-final-review.mp4 (about 2 minutes 20 seconds).
+The English narration and captions are built into the film; separate SRT/VTT files are also included.
+Open index.html for the local review page, or serve this folder with a local static web server.
+
+Submission materials
+- VisualGuard-Technical-Report.pdf: five-page technical report.
+- Devpost-draft-en.txt: English submission copy; owner handoff links remain to be filled after approval.
+- VisualGuard-source-review.zip: original b85ebb0-based local Windows candidate, with current documentation.
+- judge-demo-instructions.txt: local app and recorded-evidence walkthrough.
+- evidence/: original cloud, synthetic, real-image and test records.
+- asset-and-claim-manifest.json: current movie, narration and media sources.
+- package-manifest.json: SHA-256 file consistency checks for this package.
+
+The film leads with the inspection problem and operator workflow, then presents cloud execution and evaluation.
+AI concept scenes illustrate an operator. Archived exhibition footage supplies physical context. Product steps use actual local app captures with synthetic images. AWS scenes present saved execution evidence.
+
+Current handoff: the final cut has been uploaded privately to the Mangrove-Universe YouTube channel for YOUNG-FU's review. It has not been published or scheduled. Judge-accessible video and code links, live demo access, and formal submission remain pending owner approval. Original cloud evidence, source history and older review cuts are preserved separately.

@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "cut": "v004-story-first-final-review",
+  "author": "YOUNG-FU",
+  "video": {
+    "filename": "VisualGuard-YOUNG-FU-final-review.mp4",
+    "sha256": "f3861cee2c05a08d1ffc94a1d8f7e77e8d0d9e2bc857f31ec349877f2b0d5aed",
+    "size_bytes": 19353660,
+    "duration_seconds": 139.79166666666669
+  },
+  "narration": {
+    "provider": "Microsoft Edge online speech service via third-party edge-tts client",
+    "client_version": "7.3.1",
+    "voice_id": "en-US-AndrewNeural",
+    "synthetic_voice": true,
+    "celebrity_voice_imitation": false,
+    "total_speech_seconds": 114.864,
+    "words_whitespace": 273
+  },
+  "ai_character_clips": true,
+  "generated_character_is_entrant": false,
+  "author_card_separate_from_character": true,
+  "background_music": false,
+  "assets": [
+    {
+      "source_filename": "video_20261004_110004.mp4",
+      "source_sha256": "5bb8430b650161cea322c31ac652e44eedf6f8627586ccd692e004aa031219a7",
+      "category": "ARCHIVED_OWNER_SUPPLIED_EXHIBITION",
+      "scene": "one_angle",
+      "source_start_seconds": 8.0,
+      "film_start_seconds": 0,
+      "film_scene_duration_seconds": 7.5,
+      "notes": "Archived context footage; not the input to a live inspection."
+    },
+    {
+      "source_filename": "Female_engineer_inspecting_indus…_1080p_20261026110000.mp4",
+      "source_sha256": "5b758226c692702ed16828ce18060584b9be109457d7e2ed9f33f917414c0f2e",
+      "category": "AI_GENERATED_CONCEPT",
+      "scene": "hidden_warning",
+      "source_start_seconds": 0.5,
+      "film_start_seconds": 7.5,
+      "film_scene_duration_seconds": 6.5,
+      "notes": "Illustrative operator, not entrant or measured system operation."
+    },
+    {
+      "source_filename": "Engineer_avoids_camera_lens_obst…_1080p_20261026111216.mp4",
+      "source_sha256": "b39655a1d491dbd7e2d5736550d2b5dc1ddaa6cffa70d2bb7bc14405b27dd6bf",
+      "category": "AI_GENERATED_CONCEPT",
+      "scene": "missing_evidence",
+      "source_start_seconds": 0.5,
+      "film_start_seconds": 14.0,
+      "film_scene_duration_seconds": 6.5,
+      "notes": "Illustrative operator, not entrant or measured system operation."
+    },
+    {
+      "source_filename": "Engineer_holding_tablet_with_grid_1080p_20261026111446.mp4",
+      "source_sha256": "2493ac2d9b42690ae2692c8b0b0f64ea821a2f212c013be1c5bc0de42a4d5e60",
+      "category": "AI_GENERATED_CONCEPT",
+      "scene": "replace",
+      "source_start_seconds": 0.4,
+      "film_start_seconds": 61.958333333333336,
+      "film_scene_duration_seconds": 11.0,
+      "notes": "Illustrative operator, not entrant or measured system operation."
+    },
+    {
+      "source_filename": "Engineer_taps_screen_for_review_1080p_20261026112004.mp4",
+      "source_sha256": "11321584d16e760a55fe9f096af86ed169b91b05a81cf7acd69bd0c5f05c2c50",
+      "category": "AI_GENERATED_CONCEPT",
+      "scene": "close",
+      "source_start_seconds": 6.2,
+      "film_start_seconds": 130.70833333333334,
+      "film_scene_duration_seconds": 9.083333333333334,
+      "notes": "Illustrative operator, not entrant or measured system operation."
+    },
+    {
+      "source_filename": "08-clear-detail.png",
+      "source_sha256": "2e6007179b0244dd93cbd61828e9c332b60c2af2089dc8c9b9ccb7f896a12db9",
+      "category": "ACTUAL_LOCAL_APPLICATION_SCREENSHOT_SYNTHETIC_INPUT",
+      "scene": "clear / replace",
+      "notes": "Edited application capture. Replacement-loaded is shown before the new result; not a continuous click recording."
+    },
+    {
+      "source_filename": "04-alarm-detail.png",
+      "source_sha256": "29b10b74ae799324a919fc0b796c09d0a033d0daebefbb090dcd8b7ea5c2e8a3",
+      "category": "ACTUAL_LOCAL_APPLICATION_SCREENSHOT_SYNTHETIC_INPUT",
+      "scene": "alarm",
+      "notes": "Edited application capture. Replacement-loaded is shown before the new result; not a continuous click recording."
+    },
+    {
+      "source_filename": "09-occluded-detail.png",
+      "source_sha256": "9706ad345714cb9885f4f8db5e5739e685f98a19d2d9850e4c3aade97017a693",
+      "category": "ACTUAL_LOCAL_APPLICATION_SCREENSHOT_SYNTHETIC_INPUT",
+      "scene": "occluded",
+      "notes": "Edited application capture. Replacement-loaded is shown before the new result; not a continuous click recording."
+    },
+    {
+      "source_filename": "06-replacement-loaded.png",
+      "source_sha256": "5338bbdef377f080a69d4464e817f78085e9893257164fc6f1bc378b1b83e7aa",
+      "category": "ACTUAL_LOCAL_APPLICATION_SCREENSHOT_SYNTHETIC_INPUT",
+      "scene": "replace",
+      "notes": "Edited application capture. Replacement-loaded is shown before the new result; not a continuous click recording."
+    }
+  ],
+  "claim_summary": {
+    "application_source_baseline": "b85ebb0873cf030ab95fd32c1d886df59bf74c86",
+    "aws_deployed_source": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+    "aws_recorded_invocations": 4,
+    "new_aws_invocations_this_edit": 0,
+    "aws_image_inputs": "SYNTHETIC",
+    "synthetic_test_pairs": 540,
+    "synthetic_exact_decision_agreement": 0.9426,
+    "alarm_to_review_outcomes": {
+      "count": 0,
+      "alarm_containing_synthetic_cases": 210,
+      "not_a_general_detection_recall_claim": true
+    },
+    "round_red_sticker_false_stops": {
+      "count": 30,
+      "cases": 30
+    },
+    "archived_real_image_local_analysis": {
+      "images": 15,
+      "images_with_red_candidates": 0,
+      "alarm_ground_truth_labels": 0,
+      "alarm_accuracy": "NOT_MEASURED",
+      "extra_manual_crop": "One crop of an already-counted image; no red candidates"
+    },
+    "live_camera_integration": "NOT_RUN",
+    "equipment_commands_executed": false
+  },
+  "release": {
+    "owner_review": "PENDING",
+    "published": false,
+    "submitted": false,
+    "judge_video_link": "PENDING_OWNER_APPROVAL",
+    "judge_code_access": "PENDING",
+    "judge_endpoint_or_screenshare": "PENDING"
+  },
+  "historical_evidence_policy": "Historical records are copied byte-for-byte. Their old video/camera states are not overwritten; this edited cut is tracked separately."
+}

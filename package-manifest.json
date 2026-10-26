@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "prepared_at_utc": "2026-10-26T17:05:07.549169+00:00",
+  "cut": "v004-story-first-final-review",
+  "status": "FINAL_CUT_PREPARED_FOR_OWNER_REVIEW",
+  "video_sha256": "f3861cee2c05a08d1ffc94a1d8f7e77e8d0d9e2bc857f31ec349877f2b0d5aed",
+  "file_count": 34,
+  "files": {
+    "architecture.png": {
+      "bytes": 69568,
+      "sha256": "334ff1ccdfc3d2be3cae8c2765645e4275454866903e959266f3b35a2ea69f35"
+    },
+    "asset-and-claim-manifest.json": {
+      "bytes": 6144,
+      "sha256": "af09484c926a56b705ed717ae39ea5fcff1c10f8bacb009ea19f452e4ae9f8c1"
+    },
+    "captions-en.srt": {
+      "bytes": 2877,
+      "sha256": "0ac88e7f556d13aebb0e111548e38c7f0c9590ec2f16856bd598d0a3d7a4b9da"
+    },
+    "captions-en.vtt": {
+      "bytes": 2776,
+      "sha256": "446b4b3b314023a4396577cd30c3486b6b1534719beebbb44660176d9365af8a"
+    },
+    "cover.png": {
+      "bytes": 78964,
+      "sha256": "0b0739c6d72b7f2d0dee857d0aec302978b46b3a9f2a3921a5683634cf75cc4d"
+    },
+    "Devpost-draft-en.txt": {
+      "bytes": 5055,
+      "sha256": "cc48a039b579f6c7a497d6d78a06a4578c9e7b5800e31f16f19762db54881b1f"
+    },
+    "evidence/aws-recording.json": {
+      "bytes": 11649,
+      "sha256": "6f4d06d997b67be292e1cc9ad9febe6e59dddde7e661010e02da459e75d362b0"
+    },
+    "evidence/b85ebb0-audit.json": {
+      "bytes": 3193,
+      "sha256": "97d92a387363f5c8eaa83fa808fe19b526115027f9fa714bd06f926cf9158afb"
+    },
+    "evidence/b85ebb0-ci-readback.txt": {
+      "bytes": 8923,
+      "sha256": "134eeaaa04b6b580f9f3cad94ecb3b9bd68029f89ae5ae8aec6efb5515a7c8d4"
+    },
+    "evidence/browser-playback.json": {
+      "bytes": 931,
+      "sha256": "b16bc5d7f20d2ee9f9b2323829877a048cb435327183c316658f529a95e2e32d"
+    },
+    "evidence/document-quality-check.json": {
+      "bytes": 1112,
+      "sha256": "5ca12ebc6875e937c5fb9c3562d8b5f6291ca8ff7da2306aed4043d1a00da5b8"
+    },
+    "evidence/IMG_20261004_110442-opencv.png": {
+      "bytes": 387322,
+      "sha256": "ff9a818d31172f0939745c7a07140f276b3df8f6b41fcf5258536942ccae3952"
+    },
+    "evidence/local-demonstration-results.json": {
+      "bytes": 19395,
+      "sha256": "5704e9ec90ab56375ee4bc003a0783e9632af63db37c3d56682fb08d3203ba9b"
+    },
+    "evidence/manual-panel-roi-annotated.png": {
+      "bytes": 407005,
+      "sha256": "978e1ef0799aba952a0ac29f6b044fd58b8a1392102200e98d4d856bea2e6fb9"
+    },
+    "evidence/manual-roi-comparison.json": {
+      "bytes": 2904,
+      "sha256": "b67f330d514349667595f4fb64b6c23bc9017c77c1a4c09ae393192a4e11b58d"
+    },
+    "evidence/media-inventory.json": {
+      "bytes": 9343,
+      "sha256": "73a5925a8d02e7a2c072055f8aaf58ef6d96929ac8b88808b0cd016bb08e39bc"
+    },
+    "evidence/media-quality-check.json": {
+      "bytes": 2413,
+      "sha256": "139d379985588988aede117a5b007bc1405e30209a2d93e66bde24ca9deef798"
+    },
+    "evidence/real-camera-local-analysis.json": {
+      "bytes": 24086,
+      "sha256": "b971b01ea10646f85789e4c09d5f1b41cbe5f7eadd9a8cfb60020f47c8cbf3d5"
+    },
+    "evidence/synthetic-evaluation.json": {
+      "bytes": 49482,
+      "sha256": "a16c3e9eaf3c8d1e1312248d0b2178a41d12018660dd8c6ce21816375dfaa65c"
+    },
+    "evidence/VisualGuard-b85ebb0-original.zip": {
+      "bytes": 368277,
+      "sha256": "9557e1182bb46c38c88ad413374f62d98a117c5a85f56426d5be820c77115bee"
+    },
+    "evidence/windows-verification.txt": {
+      "bytes": 407,
+      "sha256": "ad528491cc775f2d05bc2fbc3c7292e06d825cf27022c0d2fee4abe8594fcb56"
+    },
+    "film-contact-sheet.jpg": {
+      "bytes": 509901,
+      "sha256": "a2db4bc58ee1c4bed88924927ec98afb87b9cb80166ba04d64091643974af0da"
+    },
+    "film-timeline.json": {
+      "bytes": 7789,
+      "sha256": "c8ee412def425fdd4900845c05bbb03afef311313cbb411f1806b3d8495cadbd"
+    },
+    "index.html": {
+      "bytes": 19171,
+      "sha256": "a779af980cfb0406dcbf4db6c57e6c02ed443ba6e9562a1f633068eb5433af82"
+    },
+    "judge-demo-instructions.txt": {
+      "bytes": 3929,
+      "sha256": "de6abf95a14404f7ea9d1e4487aa0e178bd2caff44265075be8a62026aba9ca5"
+    },
+    "media-probe.json": {
+      "bytes": 3899,
+      "sha256": "5d1ca74bfffeae184f09508f554a10f063ee250b3b55c5fd32cba732c553a78f"
+    },
+    "narration-final-en.txt": {
+      "bytes": 1892,
+      "sha256": "ad8cbc41d24e5b4e243e30db3d1932233a09024dc6115fad4ddee02d7a780747"
+    },
+    "review-page-preview.png": {
+      "bytes": 22968,
+      "sha256": "f8b95dfe5ae21e75c1d8d9ebe0378eac476569354ef5b35c6cb5051030043827"
+    },
+    "source-provenance.json": {
+      "bytes": 2957,
+      "sha256": "43abb8a811d7794c712f45faeb66b965a4f49550696fbfb58d3a7ae230b71fd6"
+    },
+    "START-HERE.txt": {
+      "bytes": 1613,
+      "sha256": "099766cb1a90d880a2d635e25acda7e5d259e3f5a9c64cff00810d3b48df77a5"
+    },
+    "VisualGuard-source-review.zip": {
+      "bytes": 377583,
+      "sha256": "f07101c2c3a1013f47fb4e836261924916a92a509b1ffd80052c59fd2eeafeea"
+    },
+    "VisualGuard-Technical-Report.pdf": {
+      "bytes": 1663620,
+      "sha256": "e50972016f29b058ca1b402948e8b29d42b192e90322eb8b8ce5d1de7d8c35cc"
+    },
+    "VisualGuard-YOUNG-FU-final-review.mp4": {
+      "bytes": 19353660,
+      "sha256": "f3861cee2c05a08d1ffc94a1d8f7e77e8d0d9e2bc857f31ec349877f2b0d5aed"
+    },
+    "YouTube-metadata-draft-en.txt": {
+      "bytes": 2680,
+      "sha256": "b1e4e0733826d2d13772f1b1e8a899aea4f06a69f73ff2cf4b1c72a23455b906"
+    }
+  },
+  "published": false,
+  "submitted": false
+}

@@ -1,0 +1,655 @@
+{
+  "evidence_mode": "LOCAL_ARCHIVED_REAL_CAMERA_SANITY_CHECK_USER_PROVIDED",
+  "application_source_commit": "832b1b476ce88e3fa95e83ac5749f64af0f4bd63",
+  "review_baseline_commit": "b85ebb0873cf030ab95fd32c1d886df59bf74c86",
+  "runtime": {
+    "opencv_version": "5.0.0",
+    "package": "opencv-python-headless",
+    "package_version": "5.0.0.93",
+    "pipeline_version": "opencv5-scene-v1",
+    "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+    "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)"
+  },
+  "selection": "Three deterministic 15/50/85 percent timestamps in each of the first four direct-capture videos, plus three selected photos; no threshold tuning",
+  "sources": [
+    {
+      "name": "video_20261004_110004.mp4",
+      "sha256": "5bb8430b650161cea322c31ac652e44eedf6f8627586ccd692e004aa031219a7",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_VIDEO",
+      "creation_time": "2026-10-04T03:01:11.000000Z"
+    },
+    {
+      "name": "video_20261004_110112.mp4",
+      "sha256": "ecfe135e9d6371d9e7666e1046545af40f2f5c491b51072d7c66c4c0d45173b8",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_VIDEO",
+      "creation_time": "2026-10-04T03:02:55.000000Z"
+    },
+    {
+      "name": "video_20261004_110302.mp4",
+      "sha256": "8f147efdf6dc548b421103c9cdc8422f95e7a48a1b4dd542c48d630f4f18e9e0",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_VIDEO",
+      "creation_time": "2026-10-04T03:04:05.000000Z"
+    },
+    {
+      "name": "video_20261004_110410.mp4",
+      "sha256": "c98ca4560113e4760983034bf2ee7321f2b210e25988315b6bf33e0b84e53dcb",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_VIDEO",
+      "creation_time": "2026-10-04T03:04:27.000000Z"
+    },
+    {
+      "name": "IMG_20261004_110442.jpg",
+      "sha256": "4450b3827d5b6ec4a8997f958e0d1e397d8e7f9edb6abdea689b02bdb2240e37",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_PHOTO"
+    },
+    {
+      "name": "IMG_20261004_110526.jpg",
+      "sha256": "c489ecc7ce52769406d9dcec8f8fdd1791c33d05ac956ab708e61563fbe7b775",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_PHOTO"
+    },
+    {
+      "name": "IMG_20261004_133400.jpg",
+      "sha256": "6a744c7766b0710a654615e61977c5d9e229347cd8650c1c4a8df2b01260b324",
+      "kind": "OWNER_DECLARED_DIRECT_EXHIBITION_PHOTO"
+    }
+  ],
+  "summary": {
+    "sampled_frames": 15,
+    "direct_videos": 4,
+    "direct_photos": 3,
+    "quality_usable": 15,
+    "frames_with_red_candidates": 0,
+    "quality_failure_counts": {},
+    "machine_alarm_labels": 0,
+    "alarm_accuracy": "NOT_MEASURED",
+    "aws_calls": 0,
+    "physical_action": "NONE"
+  },
+  "observations": [
+    {
+      "id": "video_20261004_110004-1",
+      "source": "video_20261004_110004.mp4",
+      "video_time_seconds": 9.868,
+      "original_shape": [
+        1080,
+        1920
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "b520f6a4e4d457df3366efb4a0178a6b0e339e77cefa0d25a926a71ef3cec896",
+      "module_result": {
+        "quality": {
+          "sharpness": 315.0,
+          "laplacian_variance": 299.131,
+          "mean_gray": 126.341,
+          "dark_clipped_fraction": 0.00081,
+          "bright_clipped_fraction": 9e-05,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "27ea8b9ea5db557248bb89eacd33524ee0aba055e8f7dac9ea33f3a9b71b15c6",
+        "analysis_ms": 79.276
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110004-1-opencv.png",
+      "original_frame_preview": "video_20261004_110004-1-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110004-2",
+      "source": "video_20261004_110004.mp4",
+      "video_time_seconds": 32.895,
+      "original_shape": [
+        1080,
+        1920
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "9261ae8584e3458aac1876bf4178cd072d5474ab2d91986aaa21b56b5858e65f",
+      "module_result": {
+        "quality": {
+          "sharpness": 304.0,
+          "laplacian_variance": 249.259,
+          "mean_gray": 121.665,
+          "dark_clipped_fraction": 0.00113,
+          "bright_clipped_fraction": 0.00013,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "5a59ec784feb749d8c0c869111e9318d9529109d1867665618e11a706e96cf3d",
+        "analysis_ms": 19.968
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110004-2-opencv.png",
+      "original_frame_preview": "video_20261004_110004-2-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110004-3",
+      "source": "video_20261004_110004.mp4",
+      "video_time_seconds": 55.921,
+      "original_shape": [
+        1080,
+        1920
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "592c90831ed5fcecee535aeb5b11b0efb4b0d10ba5ab99f76fe2d48621447b65",
+      "module_result": {
+        "quality": {
+          "sharpness": 318.0,
+          "laplacian_variance": 244.042,
+          "mean_gray": 125.074,
+          "dark_clipped_fraction": 0.00194,
+          "bright_clipped_fraction": 0.00012,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "3b3ab2cd19dbaa8df639a1f61a78a466c81dc70a8578aae766cd5aa8387da52b",
+        "analysis_ms": 23.204
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110004-3-opencv.png",
+      "original_frame_preview": "video_20261004_110004-3-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110112-1",
+      "source": "video_20261004_110112.mp4",
+      "video_time_seconds": 15.323,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "3b0b2cf73fdcb490d8bab9e6a6632592813cd6d54f2305a125a9c71bd0a63131",
+      "module_result": {
+        "quality": {
+          "sharpness": 222.0,
+          "laplacian_variance": 166.403,
+          "mean_gray": 105.722,
+          "dark_clipped_fraction": 0.00019,
+          "bright_clipped_fraction": 0.01063,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "c8a33b4c78c20bedb8b50b77fee7731dbf2711ca2a93191d9be19441faf21de1",
+        "analysis_ms": 21.463
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110112-1-opencv.png",
+      "original_frame_preview": "video_20261004_110112-1-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110112-2",
+      "source": "video_20261004_110112.mp4",
+      "video_time_seconds": 51.075,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "ad5d9417e81a05b3c86ad2e4d13568ce986f4a0613957d17930601ae1b047125",
+      "module_result": {
+        "quality": {
+          "sharpness": 270.0,
+          "laplacian_variance": 323.72,
+          "mean_gray": 101.673,
+          "dark_clipped_fraction": 0.00044,
+          "bright_clipped_fraction": 0.00106,
+          "visible_fraction": 0.99479,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "2e8b5524a70638be1f67e48176a5ec36b69608e782232dc2425a14b93ad51fc6",
+        "analysis_ms": 23.753
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110112-2-opencv.png",
+      "original_frame_preview": "video_20261004_110112-2-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110112-3",
+      "source": "video_20261004_110112.mp4",
+      "video_time_seconds": 86.828,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "ac44ba6dc5dabd80ca84ca9c1ccb8a7712989169c6d7caeb2077ad8793c24426",
+      "module_result": {
+        "quality": {
+          "sharpness": 241.0,
+          "laplacian_variance": 231.901,
+          "mean_gray": 108.192,
+          "dark_clipped_fraction": 0.00041,
+          "bright_clipped_fraction": 0.00355,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "c0ddc91982c5c48f50fa8532eadb37b345f99675e1852f7296f12777e268a69a",
+        "analysis_ms": 22.642
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110112-3-opencv.png",
+      "original_frame_preview": "video_20261004_110112-3-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110302-1",
+      "source": "video_20261004_110302.mp4",
+      "video_time_seconds": 9.399,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "fbe2e73e61cd31e6d4329712576fde6c60edeaed2af1eddc4a46e1457b005e6e",
+      "module_result": {
+        "quality": {
+          "sharpness": 224.0,
+          "laplacian_variance": 154.712,
+          "mean_gray": 110.719,
+          "dark_clipped_fraction": 0.00019,
+          "bright_clipped_fraction": 0.00147,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "32b33e41503b203e480213d82cccfca69cb6756a33a78449a978b499e825c919",
+        "analysis_ms": 20.428
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110302-1-opencv.png",
+      "original_frame_preview": "video_20261004_110302-1-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110302-2",
+      "source": "video_20261004_110302.mp4",
+      "video_time_seconds": 31.329,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "ce86893ebcdff704f4a8b3dea355f6a64eb5d202118dfcbe109c7a8e81157765",
+      "module_result": {
+        "quality": {
+          "sharpness": 271.0,
+          "laplacian_variance": 169.993,
+          "mean_gray": 116.314,
+          "dark_clipped_fraction": 0.00039,
+          "bright_clipped_fraction": 0.00201,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "adb22c7e4d09e9ee1847da51d6807abef12f57e71b168a929fe4f3cc9166cf38",
+        "analysis_ms": 22.189
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110302-2-opencv.png",
+      "original_frame_preview": "video_20261004_110302-2-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110302-3",
+      "source": "video_20261004_110302.mp4",
+      "video_time_seconds": 53.259,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "b1a61c0ae032e95622e685f038c934b43fddd3223bd0288cd923e8f49d47ef87",
+      "module_result": {
+        "quality": {
+          "sharpness": 226.0,
+          "laplacian_variance": 133.167,
+          "mean_gray": 110.255,
+          "dark_clipped_fraction": 5e-05,
+          "bright_clipped_fraction": 0.00096,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "8bb21932ad741d02124ac424faf08bfa8581e08d7c607dabbdc81a867b64b80e",
+        "analysis_ms": 19.677
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110302-3-opencv.png",
+      "original_frame_preview": "video_20261004_110302-3-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110410-1",
+      "source": "video_20261004_110410.mp4",
+      "video_time_seconds": 2.445,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "094ea884954ec7fdf5ed175a09186859244bb195e2491c3e9dcb25a0b805662a",
+      "module_result": {
+        "quality": {
+          "sharpness": 228.0,
+          "laplacian_variance": 135.726,
+          "mean_gray": 124.953,
+          "dark_clipped_fraction": 0.00245,
+          "bright_clipped_fraction": 2e-05,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "74334e2cf1a271c442fa7ab287d0b6f98dbe8b4dd2e1223999664f5d948d7035",
+        "analysis_ms": 19.642
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110410-1-opencv.png",
+      "original_frame_preview": "video_20261004_110410-1-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110410-2",
+      "source": "video_20261004_110410.mp4",
+      "video_time_seconds": 8.149,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "f0d1bf1ee133e62cad7d2e63c96734348ecb265b41df98ca2ead00cdfcf6c0b3",
+      "module_result": {
+        "quality": {
+          "sharpness": 169.0,
+          "laplacian_variance": 42.594,
+          "mean_gray": 124.1,
+          "dark_clipped_fraction": 0.00163,
+          "bright_clipped_fraction": 0.0,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "fcdbce28162d6f88e6c60b921906e0bfa52433817164757005c006f4d378ddba",
+        "analysis_ms": 19.024
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110410-2-opencv.png",
+      "original_frame_preview": "video_20261004_110410-2-frame.jpg"
+    },
+    {
+      "id": "video_20261004_110410-3",
+      "source": "video_20261004_110410.mp4",
+      "video_time_seconds": 13.854,
+      "original_shape": [
+        1920,
+        1080
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": true,
+      "extracted_frame_sha256": "1269ec444162d89399cc2031f1ac10952377605e76f939f6c9a60664ff056f4f",
+      "module_result": {
+        "quality": {
+          "sharpness": 271.0,
+          "laplacian_variance": 111.435,
+          "mean_gray": 102.144,
+          "dark_clipped_fraction": 0.00051,
+          "bright_clipped_fraction": 0.00052,
+          "visible_fraction": 0.99479,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "70dc0eb0d62a9a18cc41685fdc9a427e2969d32f3902092a9ff930d2ced2eec9",
+        "analysis_ms": 17.308
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "video_20261004_110410-3-opencv.png",
+      "original_frame_preview": "video_20261004_110410-3-frame.jpg"
+    },
+    {
+      "id": "IMG_20261004_110442",
+      "source": "IMG_20261004_110442.jpg",
+      "video_time_seconds": null,
+      "original_shape": [
+        4608,
+        2592
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": false,
+      "extracted_frame_sha256": "4450b3827d5b6ec4a8997f958e0d1e397d8e7f9edb6abdea689b02bdb2240e37",
+      "module_result": {
+        "quality": {
+          "sharpness": 212.0,
+          "laplacian_variance": 124.91,
+          "mean_gray": 113.507,
+          "dark_clipped_fraction": 0.00241,
+          "bright_clipped_fraction": 0.00034,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "02cca177e1b30e9466627de4b3a4172b32c53a95b2ce72ae229ead37b21b282e",
+        "analysis_ms": 19.1
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "IMG_20261004_110442-opencv.png",
+      "original_frame_preview": "IMG_20261004_110442-frame.jpg"
+    },
+    {
+      "id": "IMG_20261004_110526",
+      "source": "IMG_20261004_110526.jpg",
+      "video_time_seconds": null,
+      "original_shape": [
+        2592,
+        4608
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": false,
+      "extracted_frame_sha256": "c489ecc7ce52769406d9dcec8f8fdd1791c33d05ac956ab708e61563fbe7b775",
+      "module_result": {
+        "quality": {
+          "sharpness": 293.0,
+          "laplacian_variance": 190.505,
+          "mean_gray": 130.869,
+          "dark_clipped_fraction": 0.0,
+          "bright_clipped_fraction": 0.00794,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "077c06a0956b88ec4c3b2a937711e4c55c7e59dfcd881bce902f92fa13dc7d73",
+        "analysis_ms": 22.519
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "IMG_20261004_110526-opencv.png",
+      "original_frame_preview": "IMG_20261004_110526-frame.jpg"
+    },
+    {
+      "id": "IMG_20261004_133400",
+      "source": "IMG_20261004_133400.jpg",
+      "video_time_seconds": null,
+      "original_shape": [
+        2592,
+        4608
+      ],
+      "module_input_shape": [
+        480,
+        640
+      ],
+      "preprocessing": "Full frame resized to 640x480 with INTER_AREA, same resize as service; aspect ratio is not preserved",
+      "service_raw_dimension_gate_pass": false,
+      "extracted_frame_sha256": "6a744c7766b0710a654615e61977c5d9e229347cd8650c1c4a8df2b01260b324",
+      "module_result": {
+        "quality": {
+          "sharpness": 292.0,
+          "laplacian_variance": 183.973,
+          "mean_gray": 133.526,
+          "dark_clipped_fraction": 0.0,
+          "bright_clipped_fraction": 0.02243,
+          "visible_fraction": 1.0,
+          "failures": [],
+          "usable": true
+        },
+        "detections": [],
+        "alarm": false,
+        "frame_sha256": "6c0b97085c5aacc2fa9d085c12c0c7c17f3bc2f4b52cafa94c4ff194b6ef979b",
+        "analysis_ms": 22.918
+      },
+      "machine_alarm_ground_truth": "UNLABELLED",
+      "annotated_image": "IMG_20261004_133400-opencv.png",
+      "original_frame_preview": "IMG_20261004_133400-frame.jpg"
+    }
+  ],
+  "single_view_api_control": {
+    "http_status": 200,
+    "response": {
+      "decision": "REQUEST_VIEW",
+      "evidence": {
+        "capture_time_source": "SERVER_RECEIVE",
+        "received_at": 1792986557.0421662
+      },
+      "execution_environment": {
+        "evidence_class": "SELF_REPORTED",
+        "platform": "LOCAL",
+        "region": ""
+      },
+      "follow_up": {
+        "action_executed": false,
+        "physical_action": "NONE",
+        "planned_action": "REQUEST_NEW_CAPTURE",
+        "trigger": "INCOMPLETE_COVERAGE"
+      },
+      "live_state": {
+        "camera": "NOT_RUN",
+        "physical_action": "NONE"
+      },
+      "physical_action": "NONE",
+      "reason": "INCOMPLETE_COVERAGE",
+      "request_id": "69fa7fc857024ac48231fb59d05b15ed",
+      "timings_ms": {
+        "analyze": 7.983,
+        "decode": 50.821
+      },
+      "trace": [
+        {
+          "step": "perceive",
+          "summary": {},
+          "tool": "opencv5_scene_analysis"
+        },
+        {
+          "decision": "REQUEST_VIEW",
+          "reason": "INCOMPLETE_COVERAGE",
+          "step": "decide"
+        },
+        {
+          "action_executed": false,
+          "planned_action": "REQUEST_NEW_CAPTURE",
+          "requires_human": false,
+          "step": "plan"
+        }
+      ],
+      "views": {}
+    },
+    "scope": "One actual archived frame submitted as one view; checks incomplete coverage only, not a valid synchronized pair or capture freshness."
+  },
+  "excluded_screen_recording": "video_20261004_110643.mp4 is a camera recording of an exhibition display, not direct capture of the machine in the displayed program",
+  "limitations": [
+    "Camera origin and filming date are user-declared plus file metadata, not independently authenticated.",
+    "Frames from the same video are correlated, not independent test cases.",
+    "No synchronized front/side captures are provided; adjacent or different-angle frames are not paired artificially.",
+    "Quality and red-indicator submodules ran on pixels; no validated machine alarm, winding defect, safety, or field-accuracy claim.",
+    "The fixed 640x480 resize distorts non-4:3 frames, particularly portrait captures.",
+    "No AWS call, PLC control, or public publication was performed."
+  ]
+}

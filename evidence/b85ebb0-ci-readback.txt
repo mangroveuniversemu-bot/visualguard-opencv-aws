@@ -1,0 +1,152 @@
+Browser tab: 3, Title: "Add fail-closed judge evidence index · mangroveuniversemu-bot/visualguard-opencv-aws@b85ebb0", URL: "https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180".
+1 AXWebArea Add fail-closed judge evidence index · mangroveuniversemu-bot/visualguard-opencv-aws@b85ebb0, URL: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180
+	2 container
+		3 link Description: Skip to content, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#start-of-content
+		4 container Global navigation menu
+			5 pop up button Open menu
+			6 link Description: Homepage ( g then d ), Value: github.com/
+			7 container Breadcrumbs
+				8 content list
+					9 container
+						10 link Description: mangroveuniversemu-bot, Value: github.com/mangroveuniversemu-bot
+					11 container
+						12 link Description: visualguard-opencv-aws, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws
+						13 pop up button (collapsed) Switch repository ( alt shift r ), Secondary Actions: Expand
+			14 button Open quick search dialog, type / to search
+				15 text Type 
+				16 text /
+				17 text  to search
+			18 link Description: Chat with Copilot, Value: github.com/copilot
+			19 pop up button (collapsed) Description: Open Copilot…, Secondary Actions: Expand
+			20 pop up button (collapsed) Create new..., Secondary Actions: Expand
+			21 link Description: All issues, Value: github.com/issues
+			22 link Description: All pull requests, Value: github.com/pulls
+			23 link Description: All repositories, Value: github.com/repos
+			24 link Description: You have no unread notifications ( g then n ), Value: github.com/notifications
+			25 pop up button Open user navigation menu
+				26 image User avatar
+			27 heading Repository navigation, Value: 2
+				28 text Repository navigation
+			29 container Repository
+				30 content list
+					31 link Description: Code, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws
+					32 link Description: Issues, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/issues
+					33 link Description: Pull requests, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/pulls
+					34 link Description: Agents, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/agents?author=mangroveuniversemu-bot
+					35 link Description: Actions, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions
+					36 link Description: Projects, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/projects
+					37 link Description: Security and quality, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/security
+					38 link Description: Insights, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/network/dependencies
+					39 link Description: Settings, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/settings
+	40 container repo-content-turbo-frame
+		41 link Description: verify, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/workflows/verify.yml
+		42 image completed successfully: 
+		43 heading Add fail-closed judge evidence index #13, Value: 1
+			44 text Add fail-closed judge evidence index  #13
+		45 button Re-run all jobs
+		46 pop up button (collapsed) Workflow run options, ID: action-menu-0cf6b74e-8335-41f2-ad24-eb0c6d3fd055-button, Secondary Actions: Expand
+		103 container Workflow run
+			104 content list
+				105 link Description: Summary, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964
+				106 heading All jobs, Value: 4
+					107 text All jobs
+				108 pop up button (collapsed) Filter by job status, Secondary Actions: Expand
+				109 content list
+					110 link Description: test, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180
+					111 link Description: container, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745336
+				112 container
+					113 heading Run details, Value: 3
+						114 text Run details
+					115 content list Run details
+						116 link Description: Usage, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/usage
+						117 link Description: Workflow file, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/workflow
+						118 link Description: Lockfile, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/lockfile
+		47 container Check run summary
+			48 container Annotations
+				49 button Open job annotations
+				50 heading Annotations, Value: 2
+					51 text Annotations
+				52 text 1 warning and 1 notice
+			53 container logs
+				54 container
+					55 link Description: test, ID: check-step-header-title, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#logs
+					56 text succeeded 
+					57 container Oct 26, 2026, 8:31 AM GMT+8
+						58 text 1 hour ago
+					59 text  in 31s
+					60 text field (settable) Description: Search, ID: name
+					61 button Re-run this job, ID: icon-button-357aeb40-3244-47f8-a2a9-3c28db30cb8b
+					62 pop up button (collapsed) Show options, Secondary Actions: Expand
+						63 image Show options
+				64 container
+					65 button (collapsed) Set up job 2s, Secondary Actions: Expand
+						66 image
+						119 text Set up job
+						120 text 2s
+					68 button (collapsed) Run actions/checkout@v4 1s, Secondary Actions: Expand
+						69 image
+						121 text Run actions/checkout@v4
+						122 text 1s
+					71 button (collapsed) Run actions/setup-python@v5 3s, Secondary Actions: Expand
+						72 image
+						123 text Run actions/setup-python@v5
+						124 text 3s
+					74 button (collapsed) Install pinned runtime and test tools 6s, Secondary Actions: Expand
+						75 image
+						125 text Install pinned runtime and test tools
+						126 text 6s
+					77 button (collapsed) Verify demo evidence contract 0s, Secondary Actions: Expand
+						78 image
+						127 text Verify demo evidence contract
+						128 text 0s
+					80 button (collapsed) Verify credential-safe capture packet 0s, Secondary Actions: Expand
+						81 image
+						129 text Verify credential-safe capture packet
+						130 text 0s
+					83 button (collapsed) Verify deterministic local demo storyboard 0s, Secondary Actions: Expand
+						84 image
+						131 text Verify deterministic local demo storyboard
+						132 text 0s
+					86 button (collapsed) Verify judge evidence index 0s, Secondary Actions: Expand
+						87 image
+						133 text Verify judge evidence index
+						134 text 0s
+					89 button (collapsed) Check formatting and lint 1s, Secondary Actions: Expand
+						90 image
+						135 text Check formatting and lint
+						136 text 1s
+					145 container check-step-10
+						146 button (expanded) Run test suite 14s, Secondary Actions: Collapse
+							147 image
+							148 text Run test suite
+							149 text 14s
+						150 link Description: 1, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#step:10:1
+						151 button (collapsed) Run python -m pytest -q , Secondary Actions: Expand
+							152 text Run python -m pytest -q
+
+						153 link Description: 11, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#step:10:12
+						154 text .............................................................. [ 23%]
+
+						155 link Description: 12, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#step:10:13
+						156 text ............................................................................................................................................................. [ 81%]
+
+						157 link Description: 13, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#step:10:14
+						158 text .................................................                                                 [100%]
+
+						159 link Description: 14, Value: github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40249719964/job/121338745180#step:10:15
+						160 text 268 passed, 116 subtests passed in 13.62s
+
+					95 button (collapsed) Post Run actions/setup-python@v5 0s, Secondary Actions: Expand
+						96 image
+						139 text Post Run actions/setup-python@v5
+						140 text 0s
+					98 button (collapsed) Post Run actions/checkout@v4 0s, Secondary Actions: Expand
+						99 image
+						141 text Post Run actions/checkout@v4
+						142 text 0s
+					101 button (collapsed) Complete job 0s, Secondary Actions: Expand
+						102 image
+						143 text Complete job
+						144 text 0s
+
+The focused UI element is 146 button (expanded) Run test suite 14s, Secondary Actions: Collapse

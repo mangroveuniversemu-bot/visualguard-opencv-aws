@@ -1,0 +1,52 @@
+PROJECT NAME
+VisualGuard - Two Views. One Next Step.
+
+TAGLINE
+An equipment-panel inspection prototype that turns two images into a clear next step for an operator.
+
+TEAM
+YOUNG-FU - single-person entry; product concept, implementation, evaluation and demonstration.
+
+INSPIRATION
+Equipment panels do not all face the camera. A front view may look normal while a signal sits on the side; an obstructed lens creates a different kind of uncertainty. Archived footage from a machine exhibition shows working winding machines and their side-mounted panels. It makes the inspection problem tangible: can a vision workflow make the next inspection step clearer?
+
+WHAT IT DOES
+VisualGuard checks a front-and-side image pair. OpenCV 5 measures image quality, finds red indicator candidates and combines the two views. It then proposes one of three next steps: REVIEW for human confirmation, STOP to recommend holding automation, or REQUEST_VIEW when the evidence needs replacement.
+
+An operator can supply a new pair and inspect again. The demonstration shows how a side-view signal changes a normal review recommendation, and how replacing an occluded view changes the result. Equipment authority stays with the operator; the service returns a plan rather than sending a machine command.
+
+HOW WE BUILT IT
+The Python/OpenCV core uses Sobel and Laplacian sharpness, histogram exposure, dark-cell occlusion, HSV masks, morphology and contour geometry. Metadata checks and a SQLite replay ledger support the two-view workflow. The ledger is per process or Lambda execution environment.
+
+The local HTTP application and an AWS Lambda container share the inspection core. Amazon ECR stores the container, GitHub OIDC provides deployment access, and CloudWatch records execution. The Lambda Function URL uses AWS_IAM. This lets us demonstrate a real cloud workload while reviewing its saved evidence without issuing fresh cloud calls.
+
+RESULTS
+On 540 held-out synthetic pairs across 18 scenario families, exact decision agreement was 94.26%, versus 50.00% for a naive red-count baseline. None of 210 alarm-containing synthetic cases returned REVIEW; this measures routing behavior rather than universal alarm detection.
+
+Four actual AWS invocations established health, synthetic alarm, synthetic clear and empty-view behavior. Hosted CI at repository baseline b85ebb0 passed 268 tests and 116 subtests. The local Windows review candidate passed 266 tests with two POSIX-only skips and 116 subtests.
+
+CHALLENGES AND WHAT WE LEARNED
+Red shape alone is not enough: all 30 round red sticker cases falsely triggered STOP. One synthetic motion-blur case returned REVIEW instead of REQUEST_VIEW. Our generator and detector share an author, so the synthetic results need independent real-image validation.
+
+We also ran a local exploration on 12 frames from archived exhibition videos and 3 photographs. None produced red candidates; a manual crop of one panel photo also produced none. These images have no labelled machine-alarm ground truth, so they do not establish real-image accuracy. They make the next engineering task concrete: improve the treatment of lamp appearance, reflection, scale and temporal evidence, then test on separately labelled data.
+
+WHAT'S NEXT
+Collect labelled real-camera pairs with equipment context, test lamp geometry and temporal cues on development data, and evaluate on an independent real test set. Then work with an operator to measure whether the review-and-recapture workflow reduces ambiguity in practice.
+
+BUILT WITH
+Python, OpenCV 5, NumPy, SQLite, AWS Lambda, Amazon ECR, Amazon CloudWatch, GitHub Actions, GitHub OIDC, HTML and JavaScript.
+
+MEDIA NOTE
+The video combines the entrant's archived machine-exhibition footage, AI-generated illustrative operator scenes, actual local application captures with synthetic inputs, and saved AWS execution records. The illustrative character is not the entrant. Narration is synthesized. Archived real-image analysis ran locally; the AWS image cases use synthetic inputs.
+
+AWARD PATH
+Overall competition.
+
+OWNER HANDOFF - COMPLETE BEFORE PASTING FINAL SUBMISSION
+Code: https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/tree/claude/practical-ride-st6n28
+This repository is private; arrange judge access or provide the approved source archive.
+Video: VisualGuard-YOUNG-FU-final-review.mp4 - final hosted judge-accessible link to be inserted after approval.
+Report: VisualGuard-Technical-Report.pdf - judge-accessible link to be inserted after approval.
+Demo: arrange a live screen-share or approved working endpoint access; current AWS endpoint is IAM protected.
+Technical versions: repository baseline b85ebb0873cf030ab95fd32c1d886df59bf74c86; deployed AWS source 832b1b476ce88e3fa95e83ac5749f64af0f4bd63. Local Windows reproduction changes are included in the review source archive and are not redeployed or remotely CI-verified.
+The current package is prepared for YOUNG-FU's final review; it has not been published or submitted.
