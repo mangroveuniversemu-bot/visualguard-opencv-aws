@@ -39,9 +39,13 @@ class DailyInferenceQuota:
 
     def claim(self) -> int:
         """Atomically consume one slot and return the number left today."""
-        local_day = datetime.fromtimestamp(
-            float(self.clock()), timezone(timedelta(hours=8), name=QUOTA_TIME_ZONE)
-        ).date().isoformat()
+        local_day = (
+            datetime.fromtimestamp(
+                float(self.clock()), timezone(timedelta(hours=8), name=QUOTA_TIME_ZONE)
+            )
+            .date()
+            .isoformat()
+        )
         try:
             response = self.client.update_item(
                 TableName=self.table_name,
@@ -61,11 +65,7 @@ class DailyInferenceQuota:
                 raise ValueError("quota counter returned an out-of-range value")
             return self.limit - used
         except Exception as error:
-            code = (
-                getattr(error, "response", {})
-                .get("Error", {})
-                .get("Code")
-            )
+            code = getattr(error, "response", {}).get("Error", {}).get("Code")
             if code == "ConditionalCheckFailedException":
                 raise QuotaReached from error
             if isinstance(error, (QuotaReached, QuotaUnavailable)):

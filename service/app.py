@@ -33,7 +33,7 @@ from vision import scene_analysis as sa  # noqa: E402
 from vision.follow_up import plan_follow_up  # noqa: E402
 from vision.opencv5_inspection import VIEW_SOURCE_IDS, CaptureReplayLedger  # noqa: E402
 from vision.synthetic_scenes import SCENARIOS_BY_NAME, render_scene  # noqa: E402
-from service.daily_quota import (
+from service.daily_quota import (  # noqa: E402
     DEFAULT_QUOTA_TABLE,
     QUOTA_LIMIT,
     DailyInferenceQuota,
@@ -208,7 +208,9 @@ class Service:
                         quota_remaining = self.daily_quota.claim()
                     except QuotaReached as error:
                         quota_remaining = 0
-                        raise RequestError(429, "DAILY_INFERENCE_LIMIT_REACHED") from error
+                        raise RequestError(
+                            429, "DAILY_INFERENCE_LIMIT_REACHED"
+                        ) from error
                     except QuotaUnavailable as error:
                         raise RequestError(503, "DAILY_QUOTA_UNAVAILABLE") from error
                 result = self.inspect(body, request_id)
