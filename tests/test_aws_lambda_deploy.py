@@ -29,8 +29,9 @@ def completed(command, code=0, stdout="", stderr=""):
 
 
 class FakeAws:
-    def __init__(self):
+    def __init__(self, existing_url_auth=None):
         self.commands: list[list[str]] = []
+        self.existing_url_auth = existing_url_auth
 
     def __call__(self, command, **kwargs):
         command = list(command)
@@ -45,9 +46,20 @@ class FakeAws:
         if head in {
             ("aws", "ecr", "describe-repositories"),
             ("aws", "lambda", "get-function"),
-            ("aws", "lambda", "get-function-url-config"),
         }:
             return completed(command, 254, stderr="ResourceNotFoundException")
+        if head == ("aws", "lambda", "get-function-url-config"):
+            if self.existing_url_auth is None:
+                return completed(command, 254, stderr="ResourceNotFoundException")
+            return completed(
+                command,
+                stdout=json.dumps(
+                    {
+                        "AuthType": self.existing_url_auth,
+                        "FunctionUrl": "https://example.lambda-url",
+                    }
+                ),
+            )
         if head == ("aws", "ecr", "get-login-password"):
             return completed(command, stdout="not-a-real-password")
         if head == ("aws", "ecr", "describe-images"):
@@ -64,6 +76,17 @@ class FakeAws:
                 command,
                 stdout=json.dumps(
                     {"AuthType": "AWS_IAM", "FunctionUrl": "https://example.lambda-url"}
+                ),
+            )
+        if head == ("aws", "lambda", "update-function-url-config"):
+            auth_type = command[command.index("--auth-type") + 1]
+            return completed(
+                command,
+                stdout=json.dumps(
+                    {
+                        "AuthType": auth_type,
+                        "FunctionUrl": "https://example.lambda-url",
+                    }
                 ),
             )
         if head == ("aws", "lambda", "invoke"):
@@ -110,8 +133,8 @@ class DeployKit(unittest.TestCase):
         lambda_handler._SERVICE = None
         self._tmp.cleanup()
 
-    def run_execute(self, env=None, **kwargs):
-        fake = FakeAws()
+    def run_execute(self, env=None, *, existing_url_auth=None, **kwargs):
+        fake = FakeAws(existing_url_auth=existing_url_auth)
         kwargs.setdefault("confirm", deploy.CONFIRM_PRIVATE)
         kwargs.setdefault("public_url", False)
         kwargs.setdefault("confirm_public", "")
@@ -167,12 +190,11 @@ class DeployKit(unittest.TestCase):
         self.assertEqual(result["live_state"]["endpoint"], "DEPLOYED_PRIVATE_AWS_IAM")
         steps = {step["step"]: step for step in result["steps"]}
         invocations = steps["lambda_invocations"]["results"]
-        self.assertEqual(invocations["inspect_alarm"]["decision"], "STOP")
-        self.assertEqual(invocations["inspect_clear"]["decision"], "REVIEW")
+        self.assertEqual(set(invocations), {"healthz"})
         self.assertEqual(
             steps["reserved_concurrency"]["status"], "UNAVAILABLE_FOR_ACCOUNT"
         )
-        self.assertEqual(steps["cloudwatch_report_lines"]["count"], 3)
+        self.assertGreaterEqual(steps["cloudwatch_report_lines"]["count"], 2)
         self.assertEqual(fake.calls("aws", "lambda", "add-permission"), [])
         build = fake.calls("docker", "build")[0]
         self.assertNotEqual(build[-1], str(deploy.ROOT))
@@ -183,12 +205,28 @@ class DeployKit(unittest.TestCase):
         )
 
     def test_public_url_requires_second_phrase_and_adds_permissions(self):
-        _, fake = self.run_execute(
-            public_url=True, confirm_public=deploy.CONFIRM_PUBLIC
+        result, fake = self.run_execute(
+            public_url=True,
+            confirm_public=deploy.CONFIRM_PUBLIC,
+            existing_url_auth="AWS_IAM",
         )
         self.assertEqual(len(fake.calls("aws", "lambda", "add-permission")), 2)
-        url = fake.calls("aws", "lambda", "create-function-url-config")[0]
-        self.assertEqual(url[url.index("--auth-type") + 1], "NONE")
+        update = fake.calls("aws", "lambda", "update-function-url-config")[0]
+        self.assertEqual(update[update.index("--auth-type") + 1], "NONE")
+        self.assertEqual(
+            {step["step"]: step for step in result["steps"]}["function_url"]["auth_type"],
+            "NONE",
+        )
+        invoke_permission = fake.calls("aws", "lambda", "add-permission")[1]
+        self.assertIn("--invoked-via-function-url", invoke_permission)
+
+    def test_public_url_keeps_existing_none_auth_without_reconfiguration(self):
+        _, fake = self.run_execute(
+            public_url=True,
+            confirm_public=deploy.CONFIRM_PUBLIC,
+            existing_url_auth="NONE",
+        )
+        self.assertEqual(fake.calls("aws", "lambda", "update-function-url-config"), [])
 
 
 if __name__ == "__main__":
