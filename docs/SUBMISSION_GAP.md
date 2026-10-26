@@ -1,43 +1,50 @@
-# Submission gap matrix
+# VisualGuard submission readiness
 
-Snapshot: 2026-10-26. Requirements are taken from search-result summaries of
-the official OpenCV and Devpost pages, which could not be fetched directly
-from this environment. **Re-check them on Devpost before submitting.**
-Reported deadline: 2026-10-26 23:59 PT (unverified).
+Snapshot: 2026-10-27 (Asia/Taipei). This file tracks evidence and remaining judge-access gates; it does not claim the project has been submitted.
 
-| Requirement | Before this cut | Now | Gap / risk |
-|---|---|---|---|
-| OpenCV 5 used for substantive image analysis | threshold + countNonZero on a 24×16 array | full-frame quality gates and indicator detection using 15+ OpenCV ops; `config_sha256` bound | 🟡 synthetic inputs only |
-| Meaningful AWS component | none; preflight blocked | private AWS_IAM Lambda deployed and invoked from `832b1b4`; AWS evidence committed at `3442e3a` | 🟢 synthetic-input AWS execution only |
-| Working web endpoint or live demo | none | HTTP service + private AWS_IAM Lambda; health/alarm/clear/missing-view invocations recorded | 🟡 no public judge URL; public release remains an owner decision |
-| Measurable evaluation + baseline | 8-case routing matrix | 540-pair held-out test, 3 comparators, ablation, failure table | 🟡 synthetic; no field data |
-| Failure cases documented | yes, for ledger internals | vision failures listed in `TECHNICAL_REPORT.md` §4 | 🟢 |
-| Architecture diagram | none | `ARCHITECTURE.md` (system + agent loop, mermaid) | 🟢 |
-| Agentic track: OpenCV output changes a later action | `plan_follow_up` | `/v1/inspect` returns a perceive/decide/plan trace and the planned action | 🟢 planned only; 🟡 no external tool call |
-| Observability | none | three workflow CloudWatch `REPORT` lines plus supplemental RequestId `5e91ad05-2270-4828-b1dc-619fc4ebdd62` | 🟢 for the four synthetic AWS cases only |
-| Human control | action never executed | unchanged | 🟢 |
-| Limitations / responsible use | README | `TECHNICAL_REPORT.md` §6 | 🟢 |
-| Demo video (≤ 5 min, judge-accessible) | 180 s contract, not recorded | v002 binds CHECK126 plus the sanitized AWS execution evidence | 🔴 not recorded or independently reviewed |
-| Team, title, Devpost write-up | — | not started | 🔴 owner |
+**Project:** VisualGuard — Two Views. One Next Step.  
+**Solo team display name:** YOUNG-FU  
+**Current submission state:** Devpost draft; not submitted.  
+**Current code branch:** claude/practical-ride-st6n28. The repository is still private while GitHub requires the owner to re-authenticate before changing visibility.
 
-## Shortest path to an eligible submission
+## Deadline and official requirements
 
-1. Use contract v002 to record the six-segment 180-second demo without
-   exposing AWS credentials or implying live-camera evidence.
-2. A distinct human reviews the final media bytes and runs
-   `ops/verify_final_demo_video_evidence.py`.
-3. Decide private screen-share versus a public judge URL. A public Function
-   URL still requires separate owner approval.
-4. Owner verifies current Devpost rules and submits. Do not repeat the paid
-   deployment under the expired one-time allowance.
+The [competition overview](https://opencv26.devpost.com/) and [rules](https://opencv26.devpost.com/rules) show a deadline of October 26, 2026 at 11:45 p.m. PDT in the page header. The overview body says 11:59 p.m. Pacific Time, a 14-minute difference. Use the earlier cutoff: October 27 at 14:45 Taiwan time. Recheck the live Devpost page immediately before submission.
 
-## Demo v002 storyboard (contract prepared, video not recorded)
+The official final-entry checklist asks for a technical report; a public or private judge-accessible repository/archive; pinned dependencies and build, deployment, and test instructions; an architecture diagram; a working web endpoint or arranged live screen-share; a public or unlisted video no longer than five minutes showing the team, working application, architecture, and principal results; and appropriate evaluation evidence with failures or limitations.
 
-| s | Segment | Shows | Evidence |
-|---|---|---|---|
-| 0–20 | Problem and scope | bounded decisions; nothing is executed | `TECHNICAL_REPORT.md` §1 |
-| 20–50 | OpenCV clear path | fixed synthetic clear pair → REVIEW | CHECK126 |
-| 50–95 | Negative controls | eight-case local matrix, all action_executed=false | CHECK126 |
-| 95–120 | Bounded follow-up | review, recapture or hold; no physical action | CHECK126 |
-| 120–160 | AWS | private Lambda health/alarm/clear/missing-view plus REPORT lines | AWS execution evidence |
-| 160–180 | Limits | private only, reserved concurrency unavailable, no camera/field result | AWS execution evidence |
+## Current readiness
+
+| Requirement | Evidence now | Remaining gate |
+|---|---|---|
+| OpenCV 5 image analysis | Full-frame two-view quality checks and red-indicator detection are documented in README and TECHNICAL_REPORT.md. | Evaluation uses generated inputs; field accuracy is unverified. |
+| AWS component | Private AWS_IAM Lambda in us-east-1. Four recorded health, alarm, clear, and missing-view invocations use synthetic or empty inputs. Evidence: evidence/AWS_EXECUTION_20261026_40223113044.json; workflow 40223113044; deployed source 832b1b4. | No public judge endpoint. Arrange judge access or a live screen-share; do not share AWS credentials. |
+| Architecture | docs/ARCHITECTURE.md contains the system and workflow diagram. | Confirm the rendered diagram is visible in the judge’s browsing context. |
+| Technical report | docs/TECHNICAL_REPORT.md describes the implementation, AWS execution, evaluation, failures, limits, and reproduction steps. | None for document presence; reviewer acceptance is not claimed. |
+| Evaluation | 540 generated pairs; 94.26% exact-decision agreement. Known failure: 30/30 round red-sticker cases produced false STOP; one motion-blur case was misrouted. | Synthetic results only; no ground-truth factory or camera evaluation. |
+| Dependencies and instructions | Pinned requirement files, Docker targets, deployment runbook, and reproduction commands are in the repository. | A fresh clean-machine install was not re-run during this documentation update. |
+| Code access | The project is on claude/practical-ride-st6n28. Devpost permits a private repository if judges can access it. | Repo remains private. Owner-approved public visibility change is waiting on GitHub’s owner re-authentication, or arrange another judge-access route. |
+| Demo video | Public 2:20 owner-review film: https://youtu.be/AEDHXknTBy8. | Before submission, verify the actual film visibly covers the solo team, working app, architecture, and principal results. It is not independently reviewed or bound to the older CHECK146 video contract. |
+| Live demonstration | Local HTTP viewer and private IAM-protected Lambda are available. | No public endpoint; arrange a screen-share or judge access before the deadline. |
+| Devpost entry | Draft project: https://devpost.com/software/visualguard-two-views-one-next-step. Title, story, diagram, repository link, video, and tags have been prepared. | Final form review and submission are reserved for the owner. |
+| Special tracks | No COOL-on-Graviton performance claim is made. | Do not claim COOL eligibility without verified Graviton execution and comparative measurements. Agentic Vision eligibility also needs evidence that a visual result drives a subsequent plan, tool call, action, or human-approval request. |
+
+## Evidence links
+
+- [Repository](https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/tree/claude/practical-ride-st6n28)
+- [README](https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/blob/claude/practical-ride-st6n28/README.md)
+- [Architecture](https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/blob/claude/practical-ride-st6n28/docs/ARCHITECTURE.md)
+- [Technical report](https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/blob/claude/practical-ride-st6n28/docs/TECHNICAL_REPORT.md)
+- [AWS execution evidence](https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/blob/claude/practical-ride-st6n28/evidence/AWS_EXECUTION_20261026_40223113044.json)
+- [Owner-review video](https://youtu.be/AEDHXknTBy8)
+- [Devpost draft](https://devpost.com/software/visualguard-two-views-one-next-step)
+
+## Finalization checklist
+
+- [ ] Recheck the deadline and required fields on the live Devpost page.
+- [ ] Resolve judge access to the private repository and private AWS demo, either through owner-approved access or an arranged screen-share.
+- [ ] Watch the full video against the four required items: team, working application, architecture, and principal results.
+- [ ] Confirm the final draft links point to the intended branch, evidence, and video.
+- [ ] Owner reviews the final form and submits it.
+
+No code, AWS configuration, or main branch was changed as part of this readiness update.
