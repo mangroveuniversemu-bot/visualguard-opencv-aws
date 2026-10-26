@@ -31,7 +31,6 @@ import subprocess
 import sys
 import tempfile
 import time
-import uuid
 from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
 
@@ -123,8 +122,9 @@ def plan(environ: Mapping[str, str], *, public_url: bool) -> dict[str, object]:
         "--architectures x86_64  # or update-function-code if it exists",
         f"aws lambda put-function-concurrency --function-name {FUNCTION_NAME} "
         f"--reserved-concurrent-executions {RESERVED_CONCURRENCY}  # best effort",
-        f"aws lambda create-function-url-config --function-name {FUNCTION_NAME} "
-        f"--auth-type {'NONE' if public_url else 'AWS_IAM'}",
+        f"aws lambda create-function-url-config OR update-function-url-config "
+        f"--function-name {FUNCTION_NAME} --auth-type "
+        f"{'NONE' if public_url else 'AWS_IAM'}",
     ]
     if public_url:
         commands += [
@@ -133,11 +133,12 @@ def plan(environ: Mapping[str, str], *, public_url: bool) -> dict[str, object]:
             "--principal '*' --function-url-auth-type NONE",
             f"aws lambda add-permission --function-name {FUNCTION_NAME} "
             "--statement-id public-url-invoke --action lambda:InvokeFunction "
-            "--principal '*'  # verify current AWS Function URL permission rules",
+            "--principal '*' --invoked-via-function-url",
         ]
     commands += [
         f"aws lambda invoke --function-name {FUNCTION_NAME} "
-        "--payload <Function URL event: GET /healthz, POST /v1/inspect>",
+        "--payload <Function URL event: GET /healthz> "
+        "# consumes no inference slot",
         f"aws logs filter-log-events --log-group-name /aws/lambda/{FUNCTION_NAME} "
         "--filter-pattern REPORT",
     ]
@@ -150,19 +151,26 @@ def plan(environ: Mapping[str, str], *, public_url: bool) -> dict[str, object]:
             "ecr_repository": REPOSITORY,
             "lambda_function": FUNCTION_NAME,
             "runtime_role": role,
+            "daily_quota_table": "visualguard-daily-quota",
+            "daily_inference_limit": 5,
+            "daily_limit_timezone": "Asia/Taipei",
             "function_url_auth": "NONE (public)" if public_url else "AWS_IAM (private)",
         },
         "cost_controls": [
             f"memory {MEMORY_MB} MB, timeout {TIMEOUT_SECONDS} s",
             f"reserved concurrency {RESERVED_CONCURRENCY} where the account allows it",
+            "5 /v1/inspect POST attempts/day enforced by conditional DynamoDB updates",
+            "the daily inference limit is not a hard cap on public Lambda request charges",
+            "successful DynamoDB writes at the limit: about USD 0.0001 per 30 days in us-east-1",
             "ECR lifecycle keeps 3 images; tags immutable",
             "no provisioned concurrency, no NAT, no load balancer, no always-on compute",
             "owner budget alert is a prerequisite (set in AWS Billing)",
         ],
         "cost_estimate": (
-            "ESTIMATE, verify on AWS pricing pages: low-traffic judging usually "
-            "fits the Lambda free tier; ECR storage for one ~0.5 GB image is "
-            "about USD 0.05 per month beyond any free allowance."
+            "At 5 successful 1 KB DynamoDB updates/day in us-east-1, the shared "
+            "quota writes are about USD 0.0001 per 30-day month at the current "
+            "on-demand rate, before storage and failed conditional requests. This "
+            "does not cap Lambda charges from repeated public requests."
         ),
         "public_release": public_url,
         "commands": commands,
@@ -443,6 +451,18 @@ def execute(
         )
     else:
         url_config_json = json.loads(url_config.stdout)
+        desired_auth_type = "NONE" if public_url else "AWS_IAM"
+        if url_config_json.get("AuthType") != desired_auth_type:
+            url_config_json = _aws(
+                runner,
+                region,
+                "lambda",
+                "update-function-url-config",
+                "--function-name",
+                FUNCTION_NAME,
+                "--auth-type",
+                desired_auth_type,
+            )
     if public_url:
         for sid, action, extra in (
             (
@@ -450,7 +470,11 @@ def execute(
                 "lambda:InvokeFunctionUrl",
                 ["--function-url-auth-type", "NONE"],
             ),
-            ("public-url-invoke", "lambda:InvokeFunction", []),
+            (
+                "public-url-invoke",
+                "lambda:InvokeFunction",
+                ["--invoked-via-function-url"],
+            ),
         ):
             runner(
                 [
@@ -479,30 +503,9 @@ def execute(
         url=url_config_json.get("FunctionUrl"),
     )
 
-    from ops.smoke_test_endpoint import _pair_body  # local import: needs cv2
-
-    run_id = uuid.uuid4().hex[:12]
     invocations = {}
     with tempfile.TemporaryDirectory() as tmp:
-        for name, event in (
-            ("healthz", _function_url_event("GET", "/healthz")),
-            (
-                "inspect_alarm",
-                _function_url_event(
-                    "POST",
-                    "/v1/inspect",
-                    _pair_body("alarm_red_side_only", f"aws-{run_id}-alarm"),
-                ),
-            ),
-            (
-                "inspect_clear",
-                _function_url_event(
-                    "POST",
-                    "/v1/inspect",
-                    _pair_body("normal_green_clear", f"aws-{run_id}-clear"),
-                ),
-            ),
-        ):
+        for name, event in (("healthz", _function_url_event("GET", "/healthz")),):
             payload = Path(tmp) / f"{name}.json"
             payload.write_text(json.dumps(event), encoding="utf-8")
             out = Path(tmp) / f"{name}.out.json"
@@ -567,12 +570,7 @@ def execute(
         time.sleep(5)
     step("cloudwatch_report_lines", count=len(report_lines), lines=report_lines[-5:])
 
-    passed = (
-        invocations["inspect_alarm"]["decision"] == "STOP"
-        and invocations["inspect_clear"]["decision"] == "REVIEW"
-        and invocations["healthz"]["status_code"] == 200
-        and bool(report_lines)
-    )
+    passed = invocations["healthz"]["status_code"] == 200 and bool(report_lines)
     evidence = {
         "schema_version": 1,
         "cut": "VISUALGUARD_AWS_LAMBDA_DEPLOYMENT001",

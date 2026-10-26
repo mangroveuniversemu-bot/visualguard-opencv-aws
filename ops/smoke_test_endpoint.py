@@ -1,10 +1,10 @@
 """Exercise a running VisualGuard endpoint and record what it actually returned.
 
-The same script is meant for the local container and, once authorized, the
-AWS endpoint, so both produce comparable evidence. It sends synthetic sample
-pairs, a capture-ID substitution, and a malformed request, then checks that
-each decision and planned follow-up matches the fail-closed contract. It
-never asserts where the endpoint runs; the caller records that separately.
+The local mode sends the full synthetic sample matrix, a capture-ID
+substitution, and a malformed request. The public AWS mode deliberately sends
+one synthetic inference, checks the global daily-quota headers, and verifies
+the public page, health route, and sample catalog without consuming the daily
+allowance during read-only checks.
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ CASES = (
 )
 
 
-def _request(base: str, method: str, path: str, body: bytes | None = None):
+def _request_bytes(base: str, method: str, path: str, body: bytes | None = None):
     request = urllib.request.Request(
         base.rstrip("/") + path,
         data=body,
@@ -48,10 +48,19 @@ def _request(base: str, method: str, path: str, body: bytes | None = None):
     try:
         with urllib.request.urlopen(request, timeout=60) as response:
             status, payload = response.status, response.read()
+            content_type = response.headers.get("Content-Type", "")
+            response_headers = {key.lower(): value for key, value in response.headers.items()}
     except urllib.error.HTTPError as error:
         status, payload = error.code, error.read()
+        content_type = error.headers.get("Content-Type", "")
+        response_headers = {key.lower(): value for key, value in error.headers.items()}
     elapsed = round((time.perf_counter() - started) * 1000.0, 1)
-    return status, json.loads(payload), elapsed
+    return status, content_type, payload, elapsed, response_headers
+
+
+def _request(base: str, method: str, path: str, body: bytes | None = None):
+    status, content_type, payload, elapsed, headers = _request_bytes(base, method, path, body)
+    return status, json.loads(payload), elapsed, content_type, headers
 
 
 def _pair_body(name: str, batch: str) -> bytes:
@@ -69,24 +78,55 @@ def _pair_body(name: str, batch: str) -> bytes:
     return json.dumps({"views": views}).encode()
 
 
-def run(base: str) -> dict[str, object]:
+def run(base: str, *, expected_environment: str | None = None) -> dict[str, object]:
     checks = []
 
     def check(name, passed, **detail):
         checks.append({"check": name, "status": "PASS" if passed else "FAIL", **detail})
 
-    status, health, elapsed = _request(base, "GET", "/healthz")
+    status, health, elapsed, _, _ = _request(base, "GET", "/healthz")
+    environment = (health.get("execution_environment") or {}).get("platform")
     check(
         "healthz",
-        status == 200 and health.get("runtime_matches_contract") is True,
+        status == 200
+        and health.get("runtime_matches_contract") is True
+        and (expected_environment is None or environment == expected_environment),
         http_status=status,
         latency_ms=elapsed,
         runtime=health.get("runtime"),
-        execution_environment=health.get("execution_environment"),
+        execution_environment=environment,
+        expected_environment=expected_environment,
+    )
+    status, content_type, page, elapsed, _ = _request_bytes(base, "GET", "/")
+    html = page.decode("utf-8", errors="replace")
+    check(
+        "public_ui",
+        status == 200
+        and "text/html" in content_type.lower()
+        and '<html lang="en">' in html
+        and "VisualGuard Inspector" in html
+        and 'fetch("/healthz")' in html
+        and 'fetch("/v1/samples")' in html
+        and 'fetch("/v1/inspect"' in html,
+        http_status=status,
+        content_type=content_type,
+        latency_ms=elapsed,
+        same_origin_api=True,
+    )
+    status, samples, elapsed, _, _ = _request(base, "GET", "/v1/samples")
+    check(
+        "public_ui_sample_catalog",
+        status == 200 and len(samples.get("samples", [])) == 8,
+        http_status=status,
+        latency_ms=elapsed,
+        sample_count=len(samples.get("samples", [])),
     )
     run_id = uuid.uuid4().hex[:12]
-    for name, decision, action in CASES:
-        status, result, elapsed = _request(
+    public_aws = expected_environment == "AWS_LAMBDA"
+    cases = CASES[:1] if public_aws else CASES
+    quota_evidence = None
+    for name, decision, action in cases:
+        status, result, elapsed, _, headers = _request(
             base, "POST", "/v1/inspect", _pair_body(name, f"{run_id}-{name}")
         )
         check(
@@ -102,32 +142,57 @@ def run(base: str) -> dict[str, object]:
             planned_action=result.get("follow_up", {}).get("planned_action"),
             server_analyze_ms=result.get("timings_ms", {}).get("analyze"),
         )
-    status, result, elapsed = _request(
-        base,
-        "POST",
-        "/v1/inspect",
-        _pair_body("alarm_red_both_views", f"{run_id}-normal_green_clear"),
-    )
-    check(
-        "negative:capture_id_substitution",
-        result.get("reason") == "CAPTURE_ID_REPLAY_MISMATCH"
-        and result.get("decision") == "STOP",
-        http_status=status,
-        latency_ms=elapsed,
-        decision=result.get("decision"),
-        reason=result.get("reason"),
-    )
-    status, result, elapsed = _request(base, "POST", "/v1/inspect", b"{not json")
-    check(
-        "negative:malformed_json",
-        status == 400
-        and result.get("decision") == "STOP"
-        and result.get("follow_up", {}).get("planned_action") == "HOLD_AUTOMATION",
-        http_status=status,
-        latency_ms=elapsed,
-        decision=result.get("decision"),
-        reason=result.get("reason"),
-    )
+        if public_aws:
+            try:
+                limit = int(headers.get("x-daily-quota-limit", ""))
+                remaining = int(headers.get("x-daily-quota-remaining", ""))
+                quota_passed = limit == 5 and 0 <= remaining < limit
+            except ValueError:
+                limit, remaining, quota_passed = None, None, False
+            quota_evidence = {
+                "check": "shared_daily_quota",
+                "status": "PASS" if quota_passed else "FAIL",
+                "limit": limit,
+                "remaining_after_smoke": remaining,
+                "timezone": headers.get("x-daily-quota-reset-timezone"),
+                "inspection_requests_used_by_this_smoke": 1,
+            }
+            check(
+                "shared_daily_quota",
+                quota_passed
+                and quota_evidence["timezone"] == "Asia/Taipei",
+                limit=limit,
+                remaining_after_smoke=remaining,
+                timezone=quota_evidence["timezone"],
+                inspection_requests_used_by_this_smoke=1,
+            )
+    if not public_aws:
+        status, result, elapsed, _, _ = _request(
+            base,
+            "POST",
+            "/v1/inspect",
+            _pair_body("alarm_red_both_views", f"{run_id}-normal_green_clear"),
+        )
+        check(
+            "negative:capture_id_substitution",
+            result.get("reason") == "CAPTURE_ID_REPLAY_MISMATCH"
+            and result.get("decision") == "STOP",
+            http_status=status,
+            latency_ms=elapsed,
+            decision=result.get("decision"),
+            reason=result.get("reason"),
+        )
+        status, result, elapsed, _, _ = _request(base, "POST", "/v1/inspect", b"{not json")
+        check(
+            "negative:malformed_json",
+            status == 400
+            and result.get("decision") == "STOP"
+            and result.get("follow_up", {}).get("planned_action") == "HOLD_AUTOMATION",
+            http_status=status,
+            latency_ms=elapsed,
+            decision=result.get("decision"),
+            reason=result.get("reason"),
+        )
     passed = all(item["status"] == "PASS" for item in checks)
     return {
         "schema_version": 1,
@@ -136,6 +201,8 @@ def run(base: str) -> dict[str, object]:
         "run_id": run_id,
         "status": "PASS" if passed else "FAIL",
         "checks": checks,
+        "quota_evidence": quota_evidence,
+        "inspection_requests_used": 1 if public_aws else len(CASES) + 2,
         "physical_action": "NONE",
     }
 
@@ -143,9 +210,13 @@ def run(base: str) -> dict[str, object]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--base-url", required=True)
+    parser.add_argument(
+        "--expected-environment",
+        help="Require the runtime reported by /healthz (for example AWS_LAMBDA)",
+    )
     parser.add_argument("--output", help="Optional JSON evidence path")
     args = parser.parse_args()
-    report = run(args.base_url)
+    report = run(args.base_url, expected_environment=args.expected_environment)
     rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.output:
         Path(args.output).write_text(rendered, encoding="utf-8")
