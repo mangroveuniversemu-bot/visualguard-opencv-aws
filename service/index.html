@@ -48,17 +48,21 @@
   ol.trace { padding-left: 20px; margin: 6px 0; }
   code { font-size: 12px; overflow-wrap: anywhere; }
   .error { color: var(--stop); }
+  .connection { display: inline-block; border: 1px solid var(--border);
+    border-radius: 999px; padding: 3px 9px; font-size: 12px; }
 </style>
 </head>
 <body>
 <main>
   <h1>VisualGuard Inspector</h1>
   <div class="muted">OpenCV 5 two-view inspection that turns vision evidence into a bounded next step.</div>
+  <div class="connection" id="connection" role="status" aria-live="polite">Checking service connection...</div>
   <div class="banner">
     Planned actions are never executed: there is no camera, actuator or external call behind this page.
     Samples are synthetic renders, not field data. Uploaded images are analysed in memory and not stored;
     only their SHA-256 digests enter the replay ledger.
   </div>
+  <div class="muted" id="quota">Public AWS allowance: five inspections per day, shared by all visitors; resets at midnight Asia/Taipei.</div>
 
   <section class="panel" aria-labelledby="input-h">
     <h2 id="input-h" style="font-size:16px;margin:0 0 8px">Input</h2>
@@ -111,6 +115,23 @@ async function loadSamples() {
     const option = document.createElement("option");
     option.value = name; option.textContent = name.replaceAll("_", " ");
     $("sample").appendChild(option);
+  }
+}
+
+async function checkConnection() {
+  try {
+    const response = await fetch("/healthz");
+    const health = await response.json();
+    if (!response.ok || health.runtime_matches_contract !== true) {
+      throw new Error("Runtime contract check failed");
+    }
+    const version = health.runtime?.opencv_version || "OpenCV 5";
+    const platform = health.execution_environment?.platform || "Unknown runtime";
+    const label = platform === "AWS_LAMBDA" ? "AWS Lambda" : platform;
+    $("connection").textContent = "Connected · " + version + " · " + label;
+  } catch (error) {
+    $("connection").textContent = "Service connection failed · " + error.message;
+    $("connection").className = "connection error";
   }
 }
 
@@ -202,6 +223,11 @@ $("run").addEventListener("click", async () => {
     const response = await fetch("/v1/inspect", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
     });
+    const quotaLimit = response.headers.get("X-Daily-Quota-Limit");
+    const quotaRemaining = response.headers.get("X-Daily-Quota-Remaining");
+    if (quotaLimit !== null && quotaRemaining !== null) {
+      $("quota").textContent = "AWS inspections remaining today: " + quotaRemaining + " of " + quotaLimit + " (shared by all visitors; resets at midnight Asia/Taipei).";
+    }
     const result = await response.json();
     if (!response.ok && !result.decision) throw new Error(result.error || response.status);
     render(result.trace ? result : { ...result, trace: [], views: {} });
@@ -212,6 +238,7 @@ $("run").addEventListener("click", async () => {
 });
 
 loadSamples().catch((error) => setStatus("Could not list samples: " + error.message, true));
+checkConnection();
 </script>
 </body>
 </html>

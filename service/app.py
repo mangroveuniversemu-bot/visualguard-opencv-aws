@@ -33,6 +33,13 @@ from vision import scene_analysis as sa  # noqa: E402
 from vision.follow_up import plan_follow_up  # noqa: E402
 from vision.opencv5_inspection import VIEW_SOURCE_IDS, CaptureReplayLedger  # noqa: E402
 from vision.synthetic_scenes import SCENARIOS_BY_NAME, render_scene  # noqa: E402
+from service.daily_quota import (
+    DEFAULT_QUOTA_TABLE,
+    QUOTA_LIMIT,
+    DailyInferenceQuota,
+    QuotaReached,
+    QuotaUnavailable,
+)
 
 MAX_BODY_BYTES = 8 * 1024 * 1024
 MIN_IMAGE_SIDE = 160
@@ -132,15 +139,29 @@ def sample_payload(name: str) -> dict[str, object]:
 
 
 class Service:
-    def __init__(self, ledger_path: str | Path, clock=time.time):
+    def __init__(self, ledger_path: str | Path, clock=time.time, daily_quota=None):
         Path(ledger_path).parent.mkdir(parents=True, exist_ok=True)
         self.ledger = CaptureReplayLedger(ledger_path)
         self.clock = clock
+        self.daily_quota = daily_quota
         self._log_lock = threading.Lock()
 
     @classmethod
     def from_env(cls) -> Service:
-        return cls(os.environ.get("VISUALGUARD_LEDGER_PATH", DEFAULT_LEDGER_PATH))
+        quota = None
+        if os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+            import boto3
+
+            quota = DailyInferenceQuota(
+                boto3.client("dynamodb", region_name=os.environ.get("AWS_REGION")),
+                table_name=os.environ.get(
+                    "VISUALGUARD_DAILY_QUOTA_TABLE", DEFAULT_QUOTA_TABLE
+                ),
+            )
+        return cls(
+            os.environ.get("VISUALGUARD_LEDGER_PATH", DEFAULT_LEDGER_PATH),
+            daily_quota=quota,
+        )
 
     def close(self) -> None:
         self.ledger.close()
@@ -161,6 +182,7 @@ class Service:
         request_id = uuid.uuid4().hex
         route = path.split("?", 1)[0]
         decision = reason = None
+        quota_remaining = None
         try:
             if method == "GET" and route == "/":
                 status, content_type, payload = 200, "text/html", INDEX_HTML.encode()
@@ -181,6 +203,14 @@ class Service:
                     raise RequestError(405, "METHOD_NOT_ALLOWED")
                 if body_too_large or len(body) > MAX_BODY_BYTES:
                     raise RequestError(413, "BODY_TOO_LARGE")
+                if self.daily_quota is not None:
+                    try:
+                        quota_remaining = self.daily_quota.claim()
+                    except QuotaReached as error:
+                        quota_remaining = 0
+                        raise RequestError(429, "DAILY_INFERENCE_LIMIT_REACHED") from error
+                    except QuotaUnavailable as error:
+                        raise RequestError(503, "DAILY_QUOTA_UNAVAILABLE") from error
                 result = self.inspect(body, request_id)
                 decision, reason = result["decision"], result["reason"]
                 status, content_type, payload = (
@@ -221,6 +251,11 @@ class Service:
             "X-Content-Type-Options": "nosniff",
             "X-Request-Id": request_id,
         }
+        if self.daily_quota is not None:
+            headers["X-Daily-Quota-Limit"] = str(QUOTA_LIMIT)
+            if quota_remaining is not None:
+                headers["X-Daily-Quota-Remaining"] = str(quota_remaining)
+            headers["X-Daily-Quota-Reset-Timezone"] = "Asia/Taipei"
         return status, headers, payload
 
     @staticmethod
