@@ -44,9 +44,9 @@ Overall competition.
 
 OWNER HANDOFF - COMPLETE BEFORE PASTING FINAL SUBMISSION
 Code: https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/tree/claude/practical-ride-st6n28
-This repository is private; arrange judge access or provide the approved source archive.
-Video: VisualGuard-YOUNG-FU-final-review.mp4 - final hosted judge-accessible link to be inserted after approval.
-Report: VisualGuard-Technical-Report.pdf - judge-accessible link to be inserted after approval.
-Demo: arrange a live screen-share or approved working endpoint access; current AWS endpoint is IAM protected.
+Public repository: Yes (public review branch claude/practical-ride-st6n28; baseline b85ebb0)
+Video: Insert YouTube unlisted/public URL (or reference hosted VisualGuard-YOUNG-FU-final-review.mp4)
+Report: VisualGuard-Technical-Report.pdf (attached to Devpost submission and accessible at https://mangroveuniversemu-bot.github.io/visualguard-opencv-aws/VisualGuard-Technical-Report.pdf)
+Demo / Try it out: https://mangroveuniversemu-bot.github.io/visualguard-opencv-aws/
+Demo note: Interactive web-based OpenCV 5 dual-view inspection on synthetic scenarios and recorded AWS execution replay; zero cloud credentials or local installation required for judges.
 Technical versions: repository baseline b85ebb0873cf030ab95fd32c1d886df59bf74c86; deployed AWS source 832b1b476ce88e3fa95e83ac5749f64af0f4bd63. Local Windows reproduction changes are included in the review source archive and are not redeployed or remotely CI-verified.
-The current package is prepared for YOUNG-FU's final review; it has not been published or submitted.
