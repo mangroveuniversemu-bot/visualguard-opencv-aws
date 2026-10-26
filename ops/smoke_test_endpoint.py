@@ -49,7 +49,9 @@ def _request_bytes(base: str, method: str, path: str, body: bytes | None = None)
         with urllib.request.urlopen(request, timeout=60) as response:
             status, payload = response.status, response.read()
             content_type = response.headers.get("Content-Type", "")
-            response_headers = {key.lower(): value for key, value in response.headers.items()}
+            response_headers = {
+                key.lower(): value for key, value in response.headers.items()
+            }
     except urllib.error.HTTPError as error:
         status, payload = error.code, error.read()
         content_type = error.headers.get("Content-Type", "")
@@ -59,7 +61,9 @@ def _request_bytes(base: str, method: str, path: str, body: bytes | None = None)
 
 
 def _request(base: str, method: str, path: str, body: bytes | None = None):
-    status, content_type, payload, elapsed, headers = _request_bytes(base, method, path, body)
+    status, content_type, payload, elapsed, headers = _request_bytes(
+        base, method, path, body
+    )
     return status, json.loads(payload), elapsed, content_type, headers
 
 
@@ -159,8 +163,7 @@ def run(base: str, *, expected_environment: str | None = None) -> dict[str, obje
             }
             check(
                 "shared_daily_quota",
-                quota_passed
-                and quota_evidence["timezone"] == "Asia/Taipei",
+                quota_passed and quota_evidence["timezone"] == "Asia/Taipei",
                 limit=limit,
                 remaining_after_smoke=remaining,
                 timezone=quota_evidence["timezone"],
@@ -182,7 +185,9 @@ def run(base: str, *, expected_environment: str | None = None) -> dict[str, obje
             decision=result.get("decision"),
             reason=result.get("reason"),
         )
-        status, result, elapsed, _, _ = _request(base, "POST", "/v1/inspect", b"{not json")
+        status, result, elapsed, _, _ = _request(
+            base, "POST", "/v1/inspect", b"{not json"
+        )
         check(
             "negative:malformed_json",
             status == 400
