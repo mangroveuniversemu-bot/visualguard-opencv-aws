@@ -1,43 +1,43 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VisualGuard — Final review</title>
+<title>VisualGuard — Demo and evidence</title>
 <style>
 :root{--paper:#f4f5f2;--ink:#0c1015;--muted:#5c6771;--teal:#187f70;--line:#d9dfdb}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:Segoe UI,Arial,sans-serif}a{color:inherit}header,main,footer{max-width:1160px;margin:auto;padding:0 30px}header{height:94px;display:flex;align-items:center;justify-content:space-between}.brand{font-size:24px;font-weight:700;letter-spacing:-.7px}.edition{font-size:12px;letter-spacing:1.5px;color:var(--teal);font-weight:700}.hero{padding:35px 0 30px;display:grid;grid-template-columns:1fr 330px;align-items:end;gap:45px}.hero h1{font-size:clamp(44px,6.5vw,78px);line-height:1.04;letter-spacing:-3px;margin:0;font-weight:600}.hero h1 span{color:var(--teal)}.hero p{font-size:17px;line-height:1.7;color:var(--muted);margin:0 0 4px}.film{border-radius:20px;overflow:hidden;background:var(--ink);box-shadow:0 18px 55px #15312b12}video{display:block;width:100%;aspect-ratio:16/9}.film-meta{padding:19px 23px;display:flex;justify-content:space-between;align-items:center;gap:14px;color:#bac7cb;font-size:14px}.film-meta strong{color:#f3f5f4;font-weight:500}.play{border:0;border-radius:24px;padding:12px 23px;background:#54ddc5;color:#0c1015;font:600 14px Segoe UI,Arial;cursor:pointer}.chapters{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0 38px}.chapters button{border:1px solid var(--line);background:transparent;border-radius:20px;padding:9px 15px;color:var(--muted);cursor:pointer;font:14px Segoe UI,Arial}.chapters button:hover{border-color:var(--teal);color:var(--teal)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;padding:24px 0 50px}.step small{font-size:12px;letter-spacing:1px;color:var(--muted)}.step h2{font-size:29px;font-weight:600;margin:13px 0 7px}.step p{color:var(--muted);font-size:16px;line-height:1.6;margin:0}.documents{border-top:1px solid var(--line);padding-top:35px}.documents h2{font-size:30px;letter-spacing:-.7px;margin:0 0 22px}.doc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.doc{display:flex;justify-content:space-between;align-items:center;text-decoration:none;background:white;border-radius:15px;padding:23px 24px;transition:transform .15s}.doc:hover{transform:translateY(-2px)}.doc strong{display:block;font-size:17px;font-weight:600}.doc small{display:block;color:var(--muted);margin-top:6px}.arrow{font-size:25px;color:var(--teal)}details{border-top:1px solid var(--line);margin-top:35px;padding:23px 0}summary{cursor:pointer;font-size:17px;font-weight:600}.evidence{padding:20px 0;font-size:15px;line-height:1.7;color:var(--muted)}table{border-collapse:collapse;width:100%;margin:12px 0 25px}td{border-bottom:1px solid var(--line);padding:12px 8px;vertical-align:top}td:first-child{color:var(--ink);width:30%}.evidence a{color:var(--teal)}footer{padding-top:30px;padding-bottom:40px;display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}#play-status{color:#bac7cb}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #41bda6;outline-offset:4px}@media(max-width:720px){header,main,footer{padding-left:20px;padding-right:20px}.hero{grid-template-columns:1fr;gap:23px}.hero h1{letter-spacing:-2px}.steps{grid-template-columns:1fr;gap:28px}.doc-grid{grid-template-columns:1fr}.film-meta{flex-wrap:wrap}.edition{letter-spacing:.4px}.chapters{gap:6px}}
 .interactive-demo{border:1px solid #d7e3dd;border-radius:20px;background:#fff;padding:28px;margin:0 0 36px;box-shadow:0 12px 38px #15312b0a}.demo-kicker{font-size:11px;letter-spacing:1.4px;color:var(--teal);font-weight:700}.interactive-demo h2{font-size:30px;letter-spacing:-.8px;margin:8px 0}.demo-intro{max-width:820px;color:var(--muted);font-size:15px;line-height:1.65;margin:0 0 18px}.demo-status{font-size:13px;color:var(--muted);padding:11px 13px;border-radius:10px;background:#f2f5f2;margin-bottom:15px}.demo-cases{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.demo-case{min-height:75px;text-align:left;color:var(--ink);background:#f6f7f5;border:1px solid var(--line);border-radius:12px;padding:13px;cursor:pointer}.demo-case:hover,.demo-case:focus-visible{border-color:var(--teal);background:#f0f8f5}.demo-case strong,.demo-case small{display:block}.demo-case strong{font-size:14px}.demo-case small{font-size:12px;line-height:1.4;color:var(--muted);margin-top:4px}.demo-output{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}.demo-result-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.demo-result-head strong{font-size:24px}.demo-chip{display:inline-block;padding:5px 10px;border-radius:8px;font-size:12px;font-weight:700;background:#ecf0ed;color:#26332e}.demo-chip.REVIEW{background:#e4f4e9;color:#1d6b3a}.demo-chip.STOP{background:#fde8e6;color:#a5251c}.demo-chip.REQUEST_VIEW{background:#fff3d6;color:#8a5a00}.demo-note{font-size:13px;line-height:1.6;color:var(--muted);margin:8px 0 12px}.demo-meta{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:10px 0}.demo-meta code{color:var(--ink)}.demo-retry{border:1px solid var(--teal);border-radius:22px;background:#eef8f4;color:#126858;padding:10px 16px;font-weight:600;cursor:pointer}.demo-trace{font-size:13px;line-height:1.55;color:var(--muted);padding-left:21px;overflow-wrap:anywhere;word-break:break-word}.demo-images{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.demo-images figure{background:#fafbf9;padding:10px;border:1px solid var(--line);border-radius:12px}.demo-images img{display:block;width:100%;height:auto;border-radius:7px}.demo-images figcaption{font-size:12px;color:var(--muted);margin-top:6px}.demo-json{overflow:auto;max-height:300px;background:#f7f8f7;padding:12px;border-radius:10px;font-size:11px}@media(max-width:720px){.interactive-demo{padding:19px}.demo-cases{grid-template-columns:1fr 1fr}.demo-images{grid-template-columns:1fr}}
-</style>
+button{touch-action:manipulation}button:disabled{opacity:.6;cursor:wait}.demo-meta code{overflow-wrap:anywhere}.doc>span{min-width:0}.doc small{line-height:1.5}video{background:#0c1015}@media(max-width:380px){header,main,footer{padding-left:14px;padding-right:14px}.edition{font-size:10px}.interactive-demo{padding:14px}.demo-cases{grid-template-columns:1fr}.chapters button{min-height:44px}.play,.demo-retry{min-height:44px}footer{gap:16px;flex-wrap:wrap}}</style>
 </head>
 <body>
-<header><div class="brand">VisualGuard</div><div class="edition">YOUNG-FU · FINAL REVIEW</div></header>
+<header><div class="brand">VisualGuard</div><div class="edition">YOUNG-FU · DEMO &amp; EVIDENCE</div></header>
 <main>
-<section class="hero"><h1>Two views.<br><span>One next step.</span></h1><p>從現場盲區，到清楚的巡檢建議。<br>先看故事，再看操作與證據。</p></section>
-<section class="film"><video id="film" controls preload="metadata" poster="cover.png"><source src="VisualGuard-YOUNG-FU-final-review.mp4" type="video/mp4"></video><div class="film-meta"><div><strong>2:20 · English narration &amp; captions</strong><br><span id="play-status">實拍 × AI 情境 × 實際應用畫面</span></div><button class="play" id="play">播放影片</button></div></section>
-<nav class="chapters" aria-label="影片章節"><button data-time="0">00:00 現場痛點</button><button data-time="20.5">00:20 解決方案</button><button data-time="28">00:28 三種回應</button><button data-time="61.96">01:02 人工補拍</button><button data-time="83.96">01:24 技術架構</button><button data-time="94.75">01:35 驗證與下一步</button></nav>
+<section class="hero"><h1>Two views.<br><span>One next step.</span></h1><p>From inspection blind spots to a clear next step.<br>Watch the film, explore the cases, and inspect the evidence.</p></section>
+<section class="film"><video id="film" controls preload="metadata" poster="cover.png"><source src="VisualGuard-YOUNG-FU-final-review.mp4" type="video/mp4"><track kind="captions" src="captions-en.vtt" srclang="en" label="English" default></video><div class="film-meta"><div><strong>2:20 · English narration &amp; captions</strong><br><span id="play-status">Exhibition footage · labelled AI illustration · application captures</span></div><button class="play" id="play">Play film</button></div></section>
+<nav class="chapters" aria-label="Film chapters"><button data-time="0">00:00 The problem</button><button data-time="20.5">00:20 The approach</button><button data-time="28">00:28 Three responses</button><button data-time="61.96">01:02 Human resubmission</button><button data-time="83.96">01:24 Architecture</button><button data-time="94.75">01:35 Results and next steps</button></nav>
 <section class="interactive-demo" id="interactive-demo" aria-labelledby="demo-title">
-<div class="demo-kicker">LOCAL OPENCV 5 · SYNTHETIC CASES</div><h2 id="demo-title">親自跑一次檢查</h2>
-<p class="demo-intro">若本機檢查服務正在執行，按下案例會即時產生合成雙視角影像並跑 OpenCV；否則按鈕會回放已保存的本機案例結果。頁面會標明目前模式。兩種模式都不呼叫 AWS、不連接相機，也不執行設備控制；AWS 執行紀錄另列於下方證據。</p>
-<div class="demo-status" id="demo-status" role="status" aria-live="polite">正在檢查本機 OpenCV 服務…</div>
-<div class="demo-cases" role="group" aria-label="合成測試案例">
-<button class="demo-case" type="button" data-sample="normal_green_clear"><strong>清晰正常</strong><small>預期 REVIEW · 雙視角可用</small></button>
-<button class="demo-case" type="button" data-sample="alarm_red_side_only"><strong>側面警報</strong><small>預期 STOP · 警示只出現在側面</small></button>
-<button class="demo-case" type="button" data-sample="normal_lens_occluded"><strong>視角遭遮擋</strong><small>預期 REQUEST_VIEW · 需要新視角</small></button>
-<button class="demo-case" type="button" data-sample="normal_round_red_sticker"><strong>已知失敗案例</strong><small>圓形紅貼紙 · 誤報 STOP</small></button>
+<div class="demo-kicker">LOCAL OPENCV 5 · SYNTHETIC CASES</div><h2 id="demo-title">Explore four inspection cases</h2>
+<p class="demo-intro">On this public page, select a case to replay a saved local OpenCV result. No installation or login is needed. If this same page is served by the local inspection service, it can generate synthetic image pairs and run OpenCV there instead; the status below identifies the mode. Neither mode calls AWS, connects to a camera, or controls equipment. Four recorded private AWS invocations are linked in the evidence section below; a public AWS inference endpoint is not available here.</p>
+<div class="demo-status" id="demo-status" role="status" aria-live="polite">Checking whether a local OpenCV service is available…</div>
+<div class="demo-cases" role="group" aria-label="Synthetic inspection cases">
+<button class="demo-case" type="button" data-sample="normal_green_clear"><strong>Clear normal pair</strong><small>Expected REVIEW · both views usable</small></button>
+<button class="demo-case" type="button" data-sample="alarm_red_side_only"><strong>Side-only alarm</strong><small>Expected STOP · red indicator in side view</small></button>
+<button class="demo-case" type="button" data-sample="normal_lens_occluded"><strong>Occluded view</strong><small>Expected REQUEST_VIEW · replacement view needed</small></button>
+<button class="demo-case" type="button" data-sample="normal_round_red_sticker"><strong>Known failure</strong><small>Round red sticker · false STOP</small></button>
 </div>
 <div class="demo-output" id="demo-output" hidden aria-live="polite">
-<div class="demo-result-head"><span class="demo-chip" id="demo-decision-chip"></span><strong id="demo-decision"></strong><span class="demo-meta">原因 <code id="demo-reason"></code></span></div>
+<div class="demo-result-head"><span class="demo-chip" id="demo-decision-chip"></span><strong id="demo-decision"></strong><span class="demo-meta">Reason <code id="demo-reason"></code></span></div>
 <p class="demo-note" id="demo-note"></p>
-<div class="demo-meta"><span>建議後續：<code id="demo-action"></code></span><span>實際執行：<code id="demo-executed"></code></span><span>執行位置：<code id="demo-platform">LOCAL</code></span></div>
-<button class="demo-retry" id="demo-retry" type="button" hidden>人工補交清晰合成視角並重測</button>
-<p class="demo-note" id="demo-retry-note" hidden>此按鈕代表操作員選擇另一組清晰合成影像後再執行檢查；不是自動觸發真實相機。</p>
+<div class="demo-meta"><span>Planned next step: <code id="demo-action"></code></span><span>Action executed: <code id="demo-executed"></code></span><span>Recorded runtime: <code id="demo-platform">LOCAL</code></span></div>
+<button class="demo-retry" id="demo-retry" type="button" hidden>Resubmit a clear synthetic pair</button>
+<p class="demo-note" id="demo-retry-note" hidden>This button represents a human selecting a clear synthetic replacement pair. In replay mode it loads the saved clear result; it does not trigger a real camera.</p>
 <ol class="demo-trace" id="demo-trace"></ol><div class="demo-images" id="demo-images"></div>
-<details><summary>查看本次回應 JSON</summary><pre class="demo-json" id="demo-json"></pre></details>
+<details><summary>View response JSON</summary><pre class="demo-json" id="demo-json"></pre></details>
 </div>
 </section>
-<section class="steps"><div class="step"><small>01 / REVIEW</small><h2>證據清楚，交給人判斷。</h2><p>雙視角可用且沒有紅色候選時，建議人工覆核。</p></div><div class="step"><small>02 / STOP</small><h2>側面警示，改變下一步。</h2><p>紅色候選會改變建議，並保留相應的視覺證據。</p></div><div class="step"><small>03 / REQUEST VIEW</small><h2>看不清，就補一個視角。</h2><p>操作員提供新影像，再次檢查，完成覆核流程。</p></div></section>
-<section class="documents"><h2>投稿資料</h2><div class="doc-grid"><a class="doc" href="VisualGuard-Technical-Report.pdf"><span><strong>技術報告</strong><small>6 頁 · 問題、產品、架構、驗證</small></span><span class="arrow">↗</span></a><a class="doc" href="Devpost-draft-en.txt"><span><strong>英文投稿文案</strong><small>Devpost 欄位內容與最後交付資訊</small></span><span class="arrow">↗</span></a><a class="doc" href="VisualGuard-source-review.zip" download><span><strong>原始碼與重現套件</strong><small>保留來源版本與既有驗證紀錄</small></span><span class="arrow">↓</span></a><a class="doc" href="judge-demo-instructions.txt"><span><strong>評審操作指南</strong><small>從正常、警示到補拍的五步展示</small></span><span class="arrow">↗</span></a></div></section>
-<details><summary>查看驗證證據與素材來源</summary><div class="evidence"><table><tr><td>AWS 實測</td><td>4 次已保存呼叫：健康、合成警報、合成正常、空視角。<a href="evidence/aws-recording.json">執行紀錄</a></td></tr><tr><td>合成評估</td><td>540 組，94.26% 決策一致率。30 個圓形紅貼紙全部誤報 STOP。<a href="evidence/synthetic-evaluation.json">完整評估</a></td></tr><tr><td>展場影像探索</td><td>15 張歷史影像沒有紅色候選；警報準確率尚未測量。<a href="evidence/real-camera-local-analysis.json">本機分析</a></td></tr><tr><td>工程驗證</td><td>b85ebb0 的既有 CI：268 項測試及 116 個子測試通過。<a href="evidence/b85ebb0-ci-readback.txt">CI 讀回</a></td></tr><tr><td>影片來源</td><td>2026/10/04 展場實拍、生成情境角色、合成輸入的實際應用截圖、保存的 AWS 紀錄。生成角色與作者片尾分開；影片中的新鏡頭操作為示意，應用操作是剪輯的實際截圖。</td></tr></table><p>本審閱頁讀取本機檔案，不會呼叫 AWS。<a href="asset-and-claim-manifest.json">素材與主張清單</a> · <a href="package-manifest.json">檔案驗證清單</a> · <a href="captions-en.srt" download>英文字幕</a></p></div></details>
-</main><footer><span>Built by YOUNG-FU · OpenCV 5 + AWS</span><span>本機最終審閱版 · 待確認發布</span></footer>
+<section class="steps"><div class="step"><small>01 / REVIEW</small><h2>Clear evidence, human review.</h2><p>When both views are usable and no red candidate is found, the next step is human review.</p></div><div class="step"><small>02 / STOP</small><h2>A side-view warning changes the plan.</h2><p>A red candidate changes the proposed next step, with the visual evidence retained in the result.</p></div><div class="step"><small>03 / REQUEST VIEW</small><h2>An unclear view needs replacement.</h2><p>A human supplies another image pair for inspection. The replay demonstrates this sequence with saved synthetic results.</p></div></section>
+<section class="documents"><h2>Project materials</h2><div class="doc-grid"><a class="doc" href="VisualGuard-Technical-Report.pdf"><span><strong>Technical report</strong><small>6 pages · problem, product, architecture and evaluation</small></span><span class="arrow">↗</span></a><a class="doc" href="Devpost-draft-en.txt"><span><strong>Submission text snapshot</strong><small>English project story and handoff information</small></span><span class="arrow">↗</span></a><a class="doc" href="VisualGuard-source-review.zip" download><span><strong>Source review archive</strong><small>Versioned snapshot with existing verification records</small></span><span class="arrow">↓</span></a><a class="doc" href="judge-demo-instructions.txt"><span><strong>Judge walkthrough</strong><small>Five steps: normal, warning and human resubmission</small></span><span class="arrow">↗</span></a></div></section>
+<details><summary>Inspect verification evidence and media sources</summary><div class="evidence"><table><tr><td>Private AWS execution</td><td>Four saved private invocations: health, synthetic alarm, synthetic clear and empty views. <a href="evidence/aws-recording.json">Execution record</a></td></tr><tr><td>Synthetic evaluation</td><td>540 generated pairs; 94.26% exact decision agreement. All 30 round red-sticker cases falsely triggered STOP. <a href="evidence/synthetic-evaluation.json">Full evaluation</a></td></tr><tr><td>Archived exhibition images</td><td>No red candidates were found in 15 archived images; real-world alarm accuracy remains unmeasured. <a href="evidence/real-camera-local-analysis.json">Local analysis</a></td></tr><tr><td>Engineering verification</td><td>Archive baseline b85ebb0: 268 tests and 116 subtests passed in the saved CI record. <a href="evidence/b85ebb0-ci-readback.txt">Saved CI readback</a></td></tr><tr><td>Film sources</td><td>Exhibition footage from October 4, 2026; AI-generated illustrative characters; actual application captures using synthetic inputs; and saved AWS records. Generated characters are distinct from the credited author. The new-camera sequence is illustrative; application interactions use edited actual captures.</td></tr></table><p>This page reads saved evidence and makes no AWS requests. <a href="asset-and-claim-manifest.json">Asset and claim manifest</a> · <a href="package-manifest.json">File verification manifest</a> · <a href="captions-en.srt" download>English captions</a></p></div></details>
+</main><footer><span>Built by YOUNG-FU · OpenCV 5 + AWS</span><span>Synthetic replay · private AWS evidence</span></footer>
 <script>
 const film=document.getElementById('film');
 const playButton=document.getElementById('play');
@@ -49,10 +49,10 @@ const demoRetryNote=document.getElementById('demo-retry-note');
 let localServiceReady=false;
 let savedDemo=null;
 const savedCaseLabels={
-  normal_green_clear:{expected:'REVIEW',note:'清晰雙視角正常案例。'},
-  alarm_red_side_only:{expected:'STOP',note:'紅色警示只出現在側面視角。'},
-  normal_lens_occluded:{expected:'REQUEST_VIEW',note:'正面鏡頭遭遮擋，需要補交視角。'},
-  normal_round_red_sticker:{expected:'REVIEW',note:'已知失敗案例：非警示紅貼紙被誤判。'}
+  normal_green_clear:{expected:'REVIEW',note:'Clear, usable synthetic view pair'},
+  alarm_red_side_only:{expected:'STOP',note:'Synthetic red indicator appears only in the side view'},
+  normal_lens_occluded:{expected:'REQUEST_VIEW',note:'Synthetic front view is occluded; a replacement is requested'},
+  normal_round_red_sticker:{expected:'REVIEW',note:'Known failure: a non-alarm red sticker is misclassified'}
 };
 function demoText(id,value){document.getElementById(id).textContent=String(value??'');}
 function setDemoBusy(busy){demoButtons.forEach(button=>button.disabled=busy);demoRetry.disabled=busy;}
@@ -65,7 +65,7 @@ function renderDemo(result,sample,retry=false){
   demoText('demo-action',result.follow_up?.planned_action||'NONE');
   demoText('demo-executed',result.follow_up?.action_executed??false);
   demoText('demo-platform',result.execution_environment?.platform||'LOCAL');
-  demoText('demo-note',`${sample.note||sample.scenario}. 合成標籤：${sample.expected||'未提供'}。${retry?'由操作員重新選取清晰合成案例後重測。':''}`);
+  demoText('demo-note',`${sample.note||sample.scenario}. Generator label: ${sample.expected||'not provided'}. ${retry?'A human selected a clear synthetic replacement pair.':''}`);
   demoRetry.hidden=decision!=='REQUEST_VIEW';demoRetryNote.hidden=decision!=='REQUEST_VIEW';
   const trace=document.getElementById('demo-trace');trace.replaceChildren();
   for(const step of result.trace||[]){const item=document.createElement('li');item.textContent=`${step.step}: ${JSON.stringify(step)}`;trace.appendChild(item);}
@@ -73,9 +73,9 @@ function renderDemo(result,sample,retry=false){
   for(const [view,data] of Object.entries(result.views||{})){
     if(!data.annotated_png_base64)continue;
     const figure=document.createElement('figure');const image=document.createElement('img');
-    image.alt=`${view} 合成視角與 OpenCV 標記`;
+    image.alt=`${view} synthetic view with OpenCV annotations`;
     image.src='data:image/png;base64,'+data.annotated_png_base64;
-    const caption=document.createElement('figcaption');caption.textContent=`${view} 視角 · ${data.quality?.usable?'可用':'不可用'} · 紅色候選 ${data.detections?.length??0}`;
+    const caption=document.createElement('figcaption');caption.textContent=`${view} view · ${data.quality?.usable?'usable':'unusable'} · red candidates ${data.detections?.length??0}`;
     figure.append(image,caption);images.appendChild(figure);
   }
   const safeResult=JSON.parse(JSON.stringify(result));
@@ -83,7 +83,7 @@ function renderDemo(result,sample,retry=false){
   document.getElementById('demo-json').textContent=JSON.stringify(safeResult,null,2);
 }
 async function runDemo(name,retry=false){
-  setDemoBusy(true);demoStatus.textContent='正在本機產生合成案例並執行 OpenCV 5…';
+  setDemoBusy(true);demoStatus.textContent='Loading the synthetic inspection case…';
   try{
     let result,sample;
     if(localServiceReady){
@@ -102,28 +102,28 @@ async function runDemo(name,retry=false){
       result=entry.response;sample={scenario:name,...(savedCaseLabels[name]||{})};
     }
     renderDemo(result,sample,retry);
-    demoStatus.textContent=localServiceReady?`本機即時 OpenCV 檢查完成 · ${result.timings_ms?.analyze??'?'} ms · 未呼叫 AWS。`:'已保存本機 OpenCV 案例回放 · 非本次即時推論 · AWS 呼叫數 0。';
-  }catch(error){demoStatus.textContent=`本機演示服務無法完成檢查：${error.message}。請確認此頁由 VisualGuard 本機審閱伺服器提供。`;demoOutput.hidden=true;}
+    demoStatus.textContent=localServiceReady?`Local OpenCV inspection complete · ${result.timings_ms?.analyze??'?'} ms · no AWS request.`:'Saved local OpenCV replay · not a new inference · AWS requests: 0.';
+  }catch(error){demoStatus.textContent=`Could not load this case: ${error.message}. Please reload the page; the film and linked evidence remain available.`;demoOutput.hidden=true;}
   finally{setDemoBusy(false);}
 }
-playButton.addEventListener('click',()=>{if(!film.paused){film.pause();return;}film.play().catch(()=>{document.getElementById('play-status').textContent='請使用影片控制列播放。';});});
-film.addEventListener('play',()=>{playButton.textContent='暫停影片';});
-film.addEventListener('pause',()=>{playButton.textContent='播放影片';});
-film.addEventListener('ended',()=>{playButton.textContent='重新播放';});
+playButton.addEventListener('click',()=>{if(!film.paused){film.pause();return;}film.play().catch(()=>{document.getElementById('play-status').textContent='Please use the video controls to play the film.';});});
+film.addEventListener('play',()=>{playButton.textContent='Pause film';});
+film.addEventListener('pause',()=>{playButton.textContent='Play film';});
+film.addEventListener('ended',()=>{playButton.textContent='Replay film';});
 document.querySelectorAll('[data-time]').forEach(button=>button.addEventListener('click',()=>{film.currentTime=Number(button.dataset.time);film.play().catch(()=>{});}));
-film.addEventListener('error',()=>{document.getElementById('play-status').textContent='影片讀取失敗，請下載 MP4 檢查。';});
+film.addEventListener('error',()=>{document.getElementById('play-status').textContent='The film could not load. Open or download the MP4 to watch it.';});
 demoButtons.forEach(button=>button.addEventListener('click',()=>runDemo(button.dataset.sample)));
 demoRetry.addEventListener('click',()=>runDemo('normal_green_clear',true));
 fetch('/healthz',{cache:'no-store'}).then(response=>response.json().then(data=>({response,data}))).then(({response,data})=>{
   if(!response.ok||data.status!=='ok')throw new Error('health check failed');
   localServiceReady=true;
-  demoStatus.textContent=`本機即時服務就緒 · OpenCV ${data.runtime?.opencv_version||'5'} · 合成案例只在本機執行，不呼叫 AWS。`;
+  demoStatus.textContent=`Local service ready · OpenCV ${data.runtime?.opencv_version||'5'} · synthetic cases execute locally; no AWS requests.`;
 }).catch(async()=>{
   try{
     const response=await fetch('evidence/local-demonstration-results.json',{cache:'no-store'});savedDemo=await response.json();
     if(savedDemo.evidence_mode!=='LOCAL_SYNTHETIC_REPLAY'||savedDemo.aws_requests!==0)throw new Error('saved evidence boundary mismatch');
-    demoStatus.textContent='本機即時服務未啟動 · 可回放已保存的本機 OpenCV 案例 · 不會呼叫 AWS。';
-  }catch(error){demoStatus.textContent='本機檢查服務與已保存案例都無法讀取；影片仍可播放。';}
+    demoStatus.textContent='Saved replay ready · select a case below · no installation, login or AWS request.';
+  }catch(error){demoStatus.textContent='The local service and saved cases are unavailable. The film and linked evidence remain available.';}
 });
 </script>
 </body></html>
