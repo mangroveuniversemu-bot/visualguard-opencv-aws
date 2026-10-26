@@ -1,0 +1,11 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "UseVisualGuardDailyInferenceQuotaOnly",
+      "Effect": "Allow",
+      "Action": "dynamodb:UpdateItem",
+      "Resource": "arn:aws:dynamodb:${REGION}:${ACCOUNT_ID}:table/visualguard-daily-quota"
+    }
+  ]
+}
