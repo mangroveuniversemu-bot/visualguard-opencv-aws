@@ -214,7 +214,9 @@ class DeployKit(unittest.TestCase):
         update = fake.calls("aws", "lambda", "update-function-url-config")[0]
         self.assertEqual(update[update.index("--auth-type") + 1], "NONE")
         self.assertEqual(
-            {step["step"]: step for step in result["steps"]}["function_url"]["auth_type"],
+            {step["step"]: step for step in result["steps"]}["function_url"][
+                "auth_type"
+            ],
             "NONE",
         )
         invoke_permission = fake.calls("aws", "lambda", "add-permission")[1]

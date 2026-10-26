@@ -109,9 +109,7 @@ class DailyInferenceQuotaTests(unittest.TestCase):
                     self.assertEqual(json.loads(payload)["error"], "INVALID_JSON")
                 self.assertEqual(remaining, [4, 3, 2, 1, 0])
 
-                status, headers, payload = service.handle(
-                    "POST", "/v1/inspect", b"{}"
-                )
+                status, headers, payload = service.handle("POST", "/v1/inspect", b"{}")
                 result = json.loads(payload)
                 self.assertEqual(status, 429)
                 self.assertEqual(result["error"], "DAILY_INFERENCE_LIMIT_REACHED")
@@ -128,7 +126,8 @@ class DailyInferenceQuotaTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp, redirect_stdout(StringIO()):
             service = Service(
-                Path(tmp) / "ledger.sqlite3", daily_quota=DailyInferenceQuota(BrokenClient())
+                Path(tmp) / "ledger.sqlite3",
+                daily_quota=DailyInferenceQuota(BrokenClient()),
             )
             try:
                 status, _, payload = service.handle("POST", "/v1/inspect", b"{}")
