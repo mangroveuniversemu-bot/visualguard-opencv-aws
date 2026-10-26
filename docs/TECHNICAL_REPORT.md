@@ -1,140 +1,75 @@
-# VisualGuard technical report
+# VisualGuard Technical Report
 
-**Competition:** OpenCV AI Competition 2026, powered by AWS.
-**Evidence classes used below:** `SYNTHETIC_SCENE_EVALUATION`,
-`LOCAL_CONTAINER`, `HOSTED_CI`, `LAMBDA_EMULATOR`. No field data, camera or
-AWS execution is reported here; AWS is `NOT_RUN` until the runbook in
-[`AWS_DEPLOYMENT_RUNBOOK.md`](AWS_DEPLOYMENT_RUNBOOK.md) is executed.
+**Snapshot:** 2026-10-27. This report separates verified synthetic/local/AWS evidence from field claims. It is not an independent product or safety review.
 
-## 1. Problem
+## Current status
 
-Automation next to equipment panels should not continue when an alarm
-indicator is lit, and it should not trust a camera view that is blurred,
-badly exposed or blocked. VisualGuard inspects a bound pair of views (front
-and side) and returns one of three bounded decisions. Each decision maps to a
-planned next step that a human or a downstream workflow can act on:
+VisualGuard is an OpenCV 5 two-view inspection prototype with a shared Python core, a local HTTP viewer, and a private AWS Lambda container deployed from ECR. The AWS Function URL requires AWS_IAM. The system returns REVIEW, STOP, or REQUEST_VIEW and a planned follow-up; it does not execute equipment commands. No actuator is connected.
+
+The public 2:20 owner-review film is at https://youtu.be/AEDHXknTBy8. The Devpost submission is still a draft. The film is not byte-bound to the older CHECK146 video contract and has no independent reviewer receipt. CHECK146 verifies six bound evidence files, four saved AWS cases, and eight local negative controls; it does not verify this newer film or field accuracy.
+
+## Problem and intended use
+
+A red indicator in one equipment-panel view can be a real alarm, a misleading red object, or an image that cannot be trusted. VisualGuard compares front and side views, checks image quality, and offers a bounded next step for a human operator. It is a research prototype, not a production safety controller.
 
 | Decision | Planned follow-up | Meaning |
-|---|---|---|
-| `STOP` | `HOLD_AUTOMATION` | lit red indicator seen, or evidence integrity failed |
-| `REQUEST_VIEW` | `REQUEST_NEW_CAPTURE` | a view is unusable or provenance is incomplete |
-| `REVIEW` | `QUEUE_HUMAN_REVIEW` | usable views, no alarm; a person confirms |
+| --- | --- | --- |
+| STOP | HOLD_AUTOMATION | Red-indicator evidence or evidence-integrity failure; no physical stop is issued. |
+| REQUEST_VIEW | REQUEST_NEW_CAPTURE | A view is unusable or provenance is incomplete. |
+| REVIEW | QUEUE_HUMAN_REVIEW | Usable views with no detected alarm; a person confirms. |
 
-The system plans actions but never executes them (`action_executed=false`,
-`physical_action=NONE`).
+All returned plans set action_executed=false; physical_action=NONE.
 
-## 2. Method (OpenCV 5.0.0, `opencv-python-headless==5.0.0.93`)
+## Architecture and OpenCV method
 
-Per 640×480 BGR view (`vision/scene_analysis.py`):
+The same Python/OpenCV 5 inspection core serves the local HTTP application and the containerized Lambda image. GitHub OIDC provides short-lived deployment credentials. ECR stores the Lambda image; CloudWatch records executions. AWS and local replay ledgers are per environment.
 
-1. **Sharpness:** `cvtColor` to grey, `GaussianBlur` 3×3, `Sobel` x and y.
-   The score is the minimum of the per-axis 99th-percentile gradient, so
-   motion blur along one axis is not hidden by sharp edges along the other.
-   `Laplacian` variance is reported as a secondary metric.
-2. **Exposure:** `calcHist` gives mean grey and dark/bright clipped
-   fractions.
-3. **Occlusion:** the grey frame is split into 40×40 cells. Dark cells with
-   low texture count as blocked; visible fraction is measured from pixels,
-   not supplied by the caller.
-4. **Lit red indicator:** HSV `cvtColor`, two-band `inRange` for red hue,
-   `morphologyEx` open then close, `findContours`, then shape and emission
-   tests: area, fill ratio against `minEnclosingCircle`, `boundingRect`
-   aspect, and mean V inside the `drawContours` mask.
-5. **Fusion:** any detection gives `STOP`; otherwise any failed quality gate
-   gives `REQUEST_VIEW` with the first reason in the order underexposed,
-   overexposed, occluded, blurred; otherwise `REVIEW`.
-6. **Provenance:** freshness (5 s), view skew (0.25 s), expected source IDs,
-   unique capture IDs, distinct buffers, and the durable capture replay
-   ledger. A reused capture ID with different bytes gives `STOP`.
+For each 640x480 BGR view, vision/scene_analysis.py measures directional sharpness (Sobel with Laplacian as a secondary metric), exposure (histogram and clipping), and dark low-texture occlusion. It detects red regions with two HSV bands, morphology, contour geometry, and brightness checks. A fusion step chooses a decision from both views and checks freshness, source IDs, capture IDs, buffer separation, and the durable replay ledger. Pipeline configuration is hashed into each capture envelope.
 
-Thresholds live in one `CONFIG` dict whose SHA-256 is part of every capture
-envelope. A changed config gives `STOP / PIPELINE_CONFIG_CHANGED`.
+## Synthetic evaluation and failures
 
-## 3. Evaluation (`evidence/CHECK137_OPENCV5_SCENE_PIPELINE_EVAL.json`)
+The held-out evaluation uses 540 procedurally generated pairs with disjoint test seeds. It measures behavior on this generator, not on factory cameras.
 
-**Data.** `vision/synthetic_scenes.py` renders 18 labelled scenario
-families with OpenCV drawing and filtering: clear, alarm in one or both
-views, noise, JPEG, glare, rectangular and round red stickers, an unlit red
-lens, defocus, motion blur, under- and overexposure, lens occlusion, an
-occluded alarm, an underexposed alarm, and a defocused alarm. Ground truth
-comes from generator parameters. Thresholds were chosen on the `dev` split
-(180 pairs). The `test` split (540 pairs) uses disjoint seeds and wider lamp
-size, background, texture and noise ranges.
+| Method | Exact-decision agreement | Alarm cases routed to REVIEW | False STOP cases |
+| --- | ---: | ---: | ---: |
+| OpenCV 5 pipeline | 94.26% | 0 / 210 | 30 / 330 |
+| Naive red-pixel count | 50.00% | 60 / 210 | 61 / 330 |
+| Legacy brightness baseline | 31.85% | 76 / 210 | 244 / 330 |
 
-**Methods** on identical pairs:
+Ablating image-quality gates reduced agreement to 55.56% and routed 60 / 210 synthetic alarm cases to REVIEW. Two known failures remain: all 30 round red-sticker cases caused a false STOP, and one motion-blur case returned REVIEW instead of REQUEST_VIEW. These figures are synthetic exact-decision results, not real-world accuracy or recall claims.
 
-- `pipeline`: the full method above;
-- `ablation_no_quality_gate`: the same detector without quality gates;
-- `baseline_naive_red`: red-pixel count only;
-- `baseline_legacy_brightness`: the repository's previous grey-threshold
-  pixel count, ported to full frames.
+## Archived exhibition material and video provenance
 
-**Held-out test split, 540 pairs (source commit `b3049dd`):**
+A separate local check examined 15 archived exhibition stills (12 frames from 2026-10-04 videos and 3 photos). It produced no red candidates. These images have no verified alarm labels, are not 15 independent machine trials, and do not establish accuracy or live-camera integration.
 
-| Method | Exact | Unsafe misses (alarm → REVIEW) | False stops | REQUEST_VIEW recall on degraded | Median ms / pair |
-|---|---|---|---|---|---|
-| pipeline | **94.26%** | **0 / 210** | 30 / 330 | **99.52%** | 41.4 |
-| ablation, no quality gate | 55.56% | 60 / 210 | 30 / 330 | 0% | 41.0 |
-| baseline, naive red count | 50.00% | 60 / 210 | 61 / 330 | 0% | 2.9 |
-| baseline, legacy brightness | 31.85% | 76 / 210 | 244 / 330 | 0% | 0.2 |
+The film combines archived machinery footage as context, AI-generated illustrative operator scenes, interface captures using synthetic inputs, and saved private AWS evidence. It does not show live-camera inference or physical equipment control.
 
-The dev split gives the same picture: pipeline 94.44% exact with 0 unsafe
-misses.
+## AWS and software verification
 
-**What the ablation shows.** Without quality gates, the 60 test pairs where
-the only view of a lit alarm is occluded or underexposed become `REVIEW`,
-which is an unsafe miss. With gates they become `REQUEST_VIEW`. Shape tests
-remove the rectangular-sticker and unlit-lens false stops that the
-colour-only baseline produces.
+Four saved AWS invocations cover health, alarm, clear, and missing-view behavior. They used synthetic or empty inputs. The deployed Lambda source is 832b1b4; the workflow record is 40223113044; evidence is stored in evidence/AWS_EXECUTION_20261026_40223113044.json. The endpoint remains AWS_IAM-protected and is not a public judge endpoint. No additional AWS invocation is claimed by this report update.
 
-## 4. Failure cases (kept visible on purpose)
+Hosted GitHub Actions run 40249719964 at audited baseline b85ebb0 reports 268 tests and 116 subtests passed. Separate local Windows verification reports 266 passed, 2 POSIX-only skipped, and 116 subtests. These results refer to their recorded revisions and environments; this document update did not rerun them.
 
-| Case | Result | Why | Status |
-|---|---|---|---|
-| Round bright red non-emissive sticker | **30/30 false `STOP`** | colour + shape cannot tell a red disc from a lit lamp; mean V differs by only ~12 levels on this generator, so a V threshold would overfit | open; fails toward safety |
-| Motion blur, test seed `2110022` | 1/30 `REVIEW` instead of `REQUEST_VIEW` | directional p99 sharpness 80 ≥ 60 while Laplacian variance was 3.8 | open; a combined gate is a candidate, but tuning it on the test split would contaminate the held-out result |
+## Limits and responsible use
 
-Outside the known-hard sticker family the pipeline gets 509/510 test pairs
-exactly right. That number holds on this generator only.
+All controlled evaluation inputs are synthetic and the generator and detector share an author. Archived exhibition images have no alarm ground truth. Red-indicator color and shape can be confused by round stickers. Field accuracy, camera-origin verification, human acceptance, globally shared replay protection, an independently administered monotonic witness, and physical action have not been demonstrated. Keep a person in control and do not connect this prototype to equipment without separate engineering and safety validation.
 
-## 5. Serving and latency
+## Reproduce locally
 
-- `service/app.py` exposes `/healthz`, `/v1/samples`, `/v1/inspect` and a
-  demo page. Inputs are decoded with `cv2.imdecode` and resized to 640×480
-  with `INTER_AREA`. The original shape is recorded.
-- Local read-only container, 9/9 smoke checks
-  (`evidence/CHECK138_LOCAL_CONTAINER_ENDPOINT_SMOKE.json`): about 60–140 ms
-  server analysis per pair on the session host.
-- Hosted CI run `39808657344` (GitHub `ubuntu-latest`) built the HTTP and
-  Lambda images, ran a read-only container and passed the same 9 smoke
-  checks with about 35–60 ms per request.
-- Lambda image through the AWS Runtime Interface Emulator: `REPORT
-  Duration` about 89 ms for an inspect call. This is local emulation, not
-  AWS.
+Use Python 3.12, install requirements-vision.txt and pytest==9.0.2, then run:
 
-## 6. Limitations and responsible use
+- python -m pytest -q
+- python ops/evaluate_scene_pipeline.py --output /tmp/eval.json
+- python -m service.app --host 127.0.0.1 --port 8080
+- python ops/smoke_test_endpoint.py --base-url http://127.0.0.1:8080
 
-- All evaluation frames are synthetic. The same author wrote generator and
-  detector, so held-out seeds reduce the coupling but do not remove it. No
-  claim of field accuracy is made.
-- Red-indicator semantics are an assumption. Real panels use many colours,
-  blink patterns and lens types; deployment would need site-specific
-  calibration data and a review of false-stop cost.
-- The system only plans actions. Any real actuation would need its own
-  safety case, interlocks and human authorization, none of which exist here.
-- Uploaded images are processed in memory. Only digests enter the replay
-  ledger, and logs contain no image data. On Lambda, `/tmp` is ephemeral and
-  per instance.
-- Replay protection is per instance, not global.
+For the read-only HTTP image: docker build --target http -t visualguard:http . then docker run --read-only --tmpfs /tmp -p 8080:8080 visualguard:http.
 
-## 7. Reproduce
+## Evidence references
 
-```bash
-python -m pip install -r requirements-vision.txt pytest==9.0.2 ruff==0.14.13
-python -m pytest -q
-python ops/evaluate_scene_pipeline.py --output /tmp/eval.json
-python -m service.app --port 8080 &   # then open http://127.0.0.1:8080/
-python ops/smoke_test_endpoint.py --base-url http://127.0.0.1:8080
-docker build --target http -t visualguard:http .
-docker run --read-only --tmpfs /tmp -p 8080:8080 visualguard:http
-```
+- docs/ARCHITECTURE.md
+- docs/AWS_DEPLOYMENT_RUNBOOK.md
+- docs/JUDGE_EVIDENCE_INDEX.md
+- evidence/CHECK146_JUDGE_EVIDENCE_INDEX.json
+- evidence/AWS_EXECUTION_20261026_40223113044.json
+- Public owner-review film: https://youtu.be/AEDHXknTBy8
