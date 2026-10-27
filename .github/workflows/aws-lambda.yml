@@ -104,11 +104,11 @@ jobs:
           --confirm DEPLOY_LAMBDA_PRIVATE_URL
           --public-url --confirm-public PUBLIC_URL_APPROVED_BY_OWNER
           --output aws-evidence/deploy.json
-      - name: Smoke test the public URL
+      - name: Read-only public URL check (no inference quota consumed)
         if: steps.mode.outputs.mode == 'deploy-public'
         run: |
           url=$(python -c "import json;d=json.load(open('aws-evidence/deploy.json'));print([s for s in d['steps'] if s['step']=='function_url'][0]['url'])")
-          python ops/smoke_test_endpoint.py --base-url "$url" --output aws-evidence/public-smoke.json
+          python ops/smoke_test_endpoint.py --base-url "$url" --expected-environment AWS_LAMBDA --read-only --output aws-evidence/public-smoke.json
       - name: Upload evidence
         if: always()
         uses: actions/upload-artifact@v4
