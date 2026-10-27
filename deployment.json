@@ -21,7 +21,7 @@
     "camera_accuracy": "NOT_VERIFIED",
     "physical_action": "NONE"
   },
-  "historical_fields_note": "Remaining fields preserve the earlier private storyboard/evidence contract for reproducibility; current public status is recorded above.",
+  "historical_fields_note": "aws_execution_evidence and demo_evidence_contract preserve earlier private/storyboard checkpoints; current endpoint state is recorded in current_public_deployment, endpoint, aws_deploy_kit, aws_preflight, and live_state.",
   "repository": "mangroveuniversemu-bot/visualguard-opencv-aws",
   "competition": "OpenCV AI Competition 2026, powered by AWS",
   "official_rules_url": "https://opencv26.devpost.com/",
@@ -31,9 +31,9 @@
   "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK142_VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002_CI_CLOSURE",
-  "parent_commit": "5a42536a4f93b70d6ea094452f1e6f95c55a8124",
-  "current_cut": "VISUALGUARD_AWS_DEMO_LOCAL_STORYBOARD_RENDER001",
+  "parent_checkpoint": "CHECK156_VISUALGUARD_PUBLIC_AWS_READBACK",
+  "parent_commit": "215f90d3fa76be2088a258d630f65dc836e7f5bb",
+  "current_cut": "VISUALGUARD_PUBLIC_DEPLOYMENT_STATE_CONSISTENCY001",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -49,7 +49,7 @@
     "input_mode": "SYNTHETIC_SCENE"
   },
   "endpoint": {
-    "status": "LOCAL_CONTAINER_AND_HOSTED_CI_VERIFIED",
+    "status": "PUBLIC_AWS_JUDGE_UI_DEPLOYED",
     "routes": [
       "GET /",
       "GET /healthz",
@@ -59,31 +59,34 @@
     "local_container_evidence": "evidence/CHECK138_LOCAL_CONTAINER_ENDPOINT_SMOKE.json",
     "hosted_ci": "PASS run 39808657344 (test + container jobs) at b3049dd98ba243c81ab62d4aaa8b741b7639c282",
     "lambda_runtime_interface_emulator": "PASS (local emulation, not AWS)",
-    "aws_endpoint": "DEPLOYED_PRIVATE_AWS_IAM"
+    "aws_endpoint": "PUBLIC_AWS_FUNCTION_URL",
+    "public_url": "https://zkdmdpnivndaqlsxgm4umbjwjy0akezq.lambda-url.us-east-1.on.aws/",
+    "auth_type": "NONE"
   },
   "aws_deploy_kit": {
-    "status": "PRIVATE_DEPLOYED_AND_INVOKED",
+    "status": "PUBLIC_DEPLOYED_AND_READBACK_VERIFIED",
     "target": "lambda-container",
     "runbook": "docs/AWS_DEPLOYMENT_RUNBOOK.md",
     "workflow": ".github/workflows/aws-lambda.yml (aws-* tag or manual dispatch; never scheduled)",
     "auth": "GitHub OIDC role assumption; no stored AWS keys",
-    "default_function_url_auth": "AWS_IAM",
-    "public_url_requires": "separate owner approval (public release)",
-    "blocked_on": "separate owner approval for public URL or any further paid deployment"
+    "current_function_url_auth": "NONE",
+    "public_url_authorization": "COMPLETED_BY_OWNER",
+    "blocked_on": "Any additional paid provisioning, permission expansion, or redeployment requires fresh owner scope confirmation."
   },
   "final_video_evidence_gate": {
-    "status": "PREPARED_NOT_RECORDED",
-    "review_status": "PREPARED_NOT_REVIEWED",
-    "video": "MISSING",
+    "status": "PUBLIC_OWNER_FILM_AVAILABLE_UNBOUND",
+    "review_status": "NOT_INDEPENDENTLY_REVIEWED",
+    "video": "https://youtu.be/AEDHXknTBy8",
     "requires_real_media_probe": true,
     "requires_distinct_reviewer": true,
     "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
     "camera_claim": "NOT_RUN",
-    "deployment_claim": "DEPLOYED_PRIVATE_AWS_IAM",
+    "deployment_claim": "PUBLIC_AWS_JUDGE_UI_DEPLOYED",
     "action_executed": false,
-    "public_endpoint_claim": "NOT_AUTHORIZED"
+    "public_endpoint_claim": "PUBLIC_AWS_FUNCTION_URL"
   },
   "demo_evidence_contract": {
+    "scope": "HISTORICAL_CHECK146_CONTRACT",
     "status": "PREPARED_NOT_RECORDED",
     "cut": "VISUALGUARD_DEMO_EVIDENCE_CONTRACT002",
     "duration_seconds": 180,
@@ -111,9 +114,9 @@
       "VISUALGUARD_AWS_COST_SCOPE",
       "VISUALGUARD_ARTIFACT_SHA256"
     ],
-    "last_real_probe": "READY_IN_DEPLOY_WORKFLOW",
+    "last_real_probe": "COMPLETED_IN_DEPLOY_WORKFLOW",
     "deployment": "EXECUTED",
-    "endpoint": "DEPLOYED_PRIVATE_AWS_IAM"
+    "endpoint": "PUBLIC_AWS_FUNCTION_URL"
   },
   "validation": {
     "executed_at": "2026-10-25T21:28:00+00:00",
@@ -148,13 +151,14 @@
     "capture_packet_gate": "PASS; 180 seconds; 6 segments; 2 artifacts; secret_patterns_detected=0",
     "storyboard_gate": "PASS; deterministic checked-in HTML; 180 seconds; 6 ordered segments; no AWS call",
     "storyboard_targeted_tests": "PASS 5/5; related capture/contract/video suite PASS 33/33",
-    "storyboard_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090"
+    "storyboard_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
+    "deployment_state_consistency_targeted_tests": "PASS 5/5"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
-    "aws": "PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
-    "aws_read_only_preflight": "READY_IN_DEPLOY_WORKFLOW",
-    "endpoint": "DEPLOYED_PRIVATE_AWS_IAM",
+    "aws": "PUBLIC_AWS_SYNTHETIC_EXECUTION_VERIFIED",
+    "aws_read_only_preflight": "COMPLETED_IN_DEPLOY_WORKFLOW",
+    "endpoint": "PUBLIC_AWS_FUNCTION_URL",
     "camera": "NOT_RUN",
     "physical_action": "NONE"
   },
@@ -162,22 +166,21 @@
     "A colocated file checkpoint is a local verification fixture, not an independent freshness source.",
     "Coordinated rollback of SQLite and the matching local checkpoint is accepted and requires an independently administered monotonic or immutable anchor to detect.",
     "Checkpoint equality does not authenticate the source or prove pre-migration truth.",
-    "The judging matrix and private AWS invocations use synthetic inputs; neither demonstrates field accuracy, live camera, or an executed action.",
-    "The demo contract is PREPARED_NOT_RECORDED; it binds private AWS synthetic execution but does not establish a video, live camera run, public endpoint, or submission.",
-    "The final-video gate and receipt templates are prepared only; no final video or independent review exists.",
+    "The judging matrix and AWS invocations use synthetic inputs; neither demonstrates field accuracy, live camera, or an executed action.",
+    "The historical CHECK146 demo contract remains PREPARED_NOT_RECORDED and must not be used as evidence for the newer public endpoint or owner film.",
+    "The public owner film is not byte-bound to the historical receipt templates and has no independent review receipt.",
     "Scene-pipeline metrics come from a synthetic generator written by the same author as the detector; they do not establish field accuracy.",
     "The capture replay ledger is per process / per Lambda execution environment, not global.",
     "execution_environment in endpoint responses is self-reported; the Lambda emulator reports AWS_LAMBDA locally."
   ],
   "prerequisites": [
-    "Separate owner approval for any public Function URL",
     "Separate owner approval and cost scope for any further paid AWS operation",
-    "Human operator records the final video and a distinct reviewer verifies it"
+    "A distinct human reviewer verifies the current public film bytes and claim boundary"
   ],
   "next_steps": [
-    "A human operator opens the checked-in offline storyboard locally and records the six-segment 180-second video without opening AWS Console.",
-    "A distinct human reviewer verifies the same final media bytes and the credential-exposure boundary.",
-    "Request separate owner approval before any public Function URL, further paid AWS operation, or competition submission."
+    "A distinct human reviewer verifies the current public film bytes and the credential-exposure boundary.",
+    "Preserve the GET-only readback evidence; do not consume shared inference quota for routine monitoring.",
+    "Request fresh owner scope before any further paid AWS operation, permission expansion, or redeployment."
   ],
   "aws_execution_evidence": {
     "status": "AWS_PRIVATE_SYNTHETIC_EXECUTION_VERIFIED",
@@ -201,7 +204,7 @@
     "evidence_without_terminal_lf_sha256": "a86e06f6324b9cbc611bba85ca39201eba1812ee95e01c6631f7c9dce954612b",
     "byte_normalization_note": "The checked-in JSON ends with one LF. The earlier a86e... digest is the same payload without that terminal LF."
   },
-  "stage_note": "Private AWS synthetic execution is tracked separately in aws_execution_evidence; source_ready remains backward-compatible with the fail-closed deployment preflight.",
+  "stage_note": "Current public deployment state is fail-closed and cross-checked by ops/verify_deployment_state.py. Historical private AWS synthetic execution remains separately preserved in aws_execution_evidence.",
   "demo_capture_packet": {
     "status": "PREPARED_NOT_RECORDED",
     "path": "evidence/VISUALGUARD_AWS_DEMO_CAPTURE_PACKET002.json",

@@ -7,7 +7,7 @@ Snapshot: 2026-10-27 (Asia/Taipei). This file tracks evidence and remaining judg
 **Project:** VisualGuard — Two Views. One Next Step.  
 **Solo team display name:** YOUNG-FU  
 **Current submission state:** Submitted; anonymous public readback verified on 2026-10-27.  
-**Current code branch:** claude/practical-ride-st6n28. The repository is public. The submitted no-login judge path is the static GitHub Pages review site, which replays saved local synthetic results and makes no AWS call. A public AWS inference endpoint remains `NOT_AUTHORIZED` and is not deployed.
+**Current code branch:** claude/practical-ride-st6n28. The repository is public. The no-login judge paths now include both the static GitHub Pages saved replay and the public AWS Function URL documented in `AWS_PUBLIC_DEMO_20261027.md`. Loading a sample performs GET requests only; inference requires an explicit **Inspect on AWS** action and uses the shared daily quota.
 
 ## Deadline and official requirements
 
@@ -20,14 +20,14 @@ The official final-entry checklist asks for a technical report; a public or priv
 | Requirement | Evidence now | Remaining gate |
 |---|---|---|
 | OpenCV 5 image analysis | Full-frame two-view quality checks and red-indicator detection are documented in README and TECHNICAL_REPORT.md. | Evaluation uses generated inputs; field accuracy is unverified. |
-| AWS component | Private AWS_IAM Lambda in us-east-1. Four recorded health, alarm, clear, and missing-view invocations use synthetic or empty inputs. Evidence: evidence/AWS_EXECUTION_20261026_40223113044.json; workflow 40223113044; deployed source 832b1b4. | No public AWS inference endpoint is part of the submitted judge path; any rollout remains owner-gated and would require the shared DynamoDB quota table plus its single-table Lambda permission. |
+| AWS component | Public Lambda Function URL in us-east-1, deployed from `0030066b2733d877678bf0f2bc4c06970bb29714`; deployment run 40454177734 and CI run 40453839498 succeeded. GET-only anonymous readback is bound in `evidence/AWS_PUBLIC_READBACK_20261027.json`; the earlier private invocation evidence remains separately preserved. | Inputs are synthetic and field accuracy is unverified. The five-attempt Asia/Taipei daily quota limits inference attempts, not all AWS cost. |
 | Architecture | docs/ARCHITECTURE.md contains the system and workflow diagram. | Confirm the rendered diagram is visible in the judge’s browsing context. |
 | Technical report | docs/TECHNICAL_REPORT.md describes the implementation, AWS execution, evaluation, failures, limits, and reproduction steps. | None for document presence; reviewer acceptance is not claimed. |
 | Evaluation | 540 generated pairs; 94.26% exact-decision agreement. Known failure: 30/30 round red-sticker cases produced false STOP; one motion-blur case was misrouted. | Synthetic results only; no ground-truth factory or camera evaluation. |
 | Dependencies and instructions | Pinned requirement files, Docker targets, deployment runbook, and reproduction commands are in the repository. | A fresh clean-machine install was not re-run during this documentation update. |
 | Code access | The project is public on claude/practical-ride-st6n28. | Read the published source and CI results back before final form review. |
 | Demo video | Public 2:20 owner-review film: https://youtu.be/AEDHXknTBy8. | Before submission, verify the actual film visibly covers the solo team, working app, architecture, and principal results. It is not independently reviewed or bound to the older CHECK146 video contract. |
-| Live demonstration | The public no-login GitHub Pages review site was anonymously verified with the film and saved local synthetic replay; it makes no AWS request. The private IAM-protected Lambda remains separate evidence. | A public AWS inference endpoint remains not authorized or deployed. |
+| Live demonstration | The static GitHub Pages replay and the public no-login AWS judge UI are both available. The AWS page exposes health, samples, explicit inference, decisions, next actions, and AWS request IDs. | CHECK156 verified GET-only availability; it did not spend inference quota or establish camera/field accuracy. |
 | Devpost entry | Public submission: https://devpost.com/software/visualguard-two-views-one-next-step. Anonymous readback shows `SUBMITTED TO` the OpenCV AI Competition 2026, with repository and no-login judge-page links. | Submission is complete; any later edit or withdrawal remains owner-controlled. |
 | Special tracks | No COOL-on-Graviton performance claim is made. | Do not claim COOL eligibility without verified Graviton execution and comparative measurements. Agentic Vision eligibility also needs evidence that a visual result drives a subsequent plan, tool call, action, or human-approval request. |
 
@@ -45,9 +45,9 @@ The official final-entry checklist asks for a technical report; a public or priv
 
 - [ ] Recheck the deadline and required fields on the live Devpost page.
 - [ ] Verify the public repository branch and CI checks.
-- [ ] Do not deploy a public AWS inference endpoint unless separately owner-authorized; the submitted judge page is static saved replay.
+- [x] Public AWS judge UI was deployed by an owner-authorized actor and anonymously read back; do not redeploy or expand permissions without fresh scope.
 - [ ] Watch the full video against the four required items: team, working application, architecture, and principal results.
 - [x] Confirm the public submission links point to the intended feature branch and no-login judge page.
 - [x] Owner submitted the entry; anonymous public readback shows the competition association.
 
-This documentation update records anonymous submission and judge-page readback only; it does not change AWS configuration, run inference, or add cost.
+This documentation update records the existing anonymous AWS and submission readbacks only; it does not change AWS configuration, run inference, or consume the shared quota.
