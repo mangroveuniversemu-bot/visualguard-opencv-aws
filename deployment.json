@@ -31,9 +31,9 @@
   "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK156_VISUALGUARD_PUBLIC_AWS_READBACK",
-  "parent_commit": "215f90d3fa76be2088a258d630f65dc836e7f5bb",
-  "current_cut": "VISUALGUARD_PUBLIC_DEPLOYMENT_STATE_CONSISTENCY001",
+  "parent_checkpoint": "CHECK159_ALEXA_EXTERNAL_FRESHNESS_WITNESS_RECEIPT_GATE001",
+  "parent_commit": "196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
+  "current_cut": "VISUALGUARD_PUBLIC_FILM_BYTES_REVIEW_GATE001",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -77,6 +77,8 @@
     "status": "PUBLIC_OWNER_FILM_AVAILABLE_UNBOUND",
     "review_status": "NOT_INDEPENDENTLY_REVIEWED",
     "video": "https://youtu.be/AEDHXknTBy8",
+    "current_public_film_contract": "evidence/VISUALGUARD_PUBLIC_FILM_REVIEW_GATE001.json",
+    "current_public_film_review_status": "PREPARED_NOT_RUN",
     "requires_real_media_probe": true,
     "requires_distinct_reviewer": true,
     "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
@@ -152,7 +154,9 @@
     "storyboard_gate": "PASS; deterministic checked-in HTML; 180 seconds; 6 ordered segments; no AWS call",
     "storyboard_targeted_tests": "PASS 5/5; related capture/contract/video suite PASS 33/33",
     "storyboard_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
-    "deployment_state_consistency_targeted_tests": "PASS 5/5"
+    "deployment_state_consistency_targeted_tests": "PASS 5/5",
+    "public_film_review_gate_targeted_tests": "PASS 8/8 local; hosted full suite PASS 288/288 plus 116 subtests run 40482850082 at 196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
+    "public_film_review_gate_real_media_probe": "BLOCKED VIDEO_MISSING; exit 2"
   },
   "live_state": {
     "external_witness": "NOT_RUN",

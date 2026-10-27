@@ -1,0 +1,93 @@
+{
+  "checkpoint_id": "CHECK160",
+  "created_at": "2026-10-27T17:43:47+08:00",
+  "cut": "VISUALGUARD_PUBLIC_FILM_BYTES_REVIEW_GATE001",
+  "result": "PASS_GATE_PREPARATION_BLOCKED_REAL_MEDIA",
+  "provenance": "DERIVED",
+  "evidence_mode": "LOCAL_MEDIA_FIXTURE",
+  "parent_checkpoint": "CHECK159_ALEXA_EXTERNAL_FRESHNESS_WITNESS_RECEIPT_GATE001",
+  "parent_visualguard_commit": "e2d953d2221b3bf298fd22854699fae24c215698",
+  "functional_commit": "196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
+  "branch": "claude/practical-ride-st6n28",
+  "implementation": [
+    "A separate contract for the current 2:20 public owner-review film; the historical CHECK146 180-second storyboard is not reused or upgraded.",
+    "Real media SHA-256, byte size, ffprobe duration, public film URL and deployed source commit binding.",
+    "Distinct operator and reviewer identifiers plus exact four-item submission observation ordering.",
+    "Fail-closed claim boundary for synthetic inputs, public AWS disclosure, live camera, field accuracy, physical action and credential exposure."
+  ],
+  "files": [
+    "ops/verify_public_film_evidence.py",
+    "tests/test_public_film_evidence.py",
+    "evidence/VISUALGUARD_PUBLIC_FILM_REVIEW_GATE001.json",
+    "docs/PUBLIC_FILM_REVIEW.md",
+    ".github/workflows/verify.yml"
+  ],
+  "tests": {
+    "local": {
+      "ruff_lint": "PASS",
+      "ruff_format_isolated": "PASS",
+      "pytest": "PASS 8/8",
+      "seed": "NONE"
+    },
+    "hosted": {
+      "result": "PASS",
+      "run_id": 40482850082,
+      "test_job_id": 122117220313,
+      "container_job_id": 122117220482,
+      "tested_head": "196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
+      "python": "3.12.15",
+      "pytest": 288,
+      "pytest_subtests": 116,
+      "ruff": "PASS 24 files",
+      "container": "PASS"
+    },
+    "real_media_probe": {
+      "result": "BLOCKED",
+      "reason": "VIDEO_MISSING",
+      "exit_code": 2,
+      "live_video_bytes": "NOT_PROVIDED",
+      "independent_review": "NOT_RUN"
+    }
+  },
+  "append_only_failures": [
+    {
+      "run_id": 40482115024,
+      "test_job_id": 122114730949,
+      "result": "FAIL",
+      "reason": "Ruff formatter drift on the new verifier; full pytest was skipped. Container job passed."
+    },
+    {
+      "run_id": 40482295707,
+      "test_job_id": 122115345791,
+      "result": "FAIL",
+      "reason": "EOF-only correction did not resolve formatter drift; full pytest was skipped. Container job passed."
+    },
+    {
+      "run_id": 40482493867,
+      "test_job_id": 122116028644,
+      "result": "FAIL",
+      "reason": "Normalized EOF matched the original blob, confirming formatter layout rather than newline drift. Container job passed."
+    },
+    {
+      "run_id": 40482705013,
+      "test_job_id": 122116734417,
+      "result": "FAIL",
+      "reason": "Diagnostic Ruff diff identified three lines formatted by the repository's 88-column default; full pytest was skipped. Container job passed."
+    }
+  ],
+  "claim_boundary": {
+    "public_aws_judge_ui": "EXISTING_DEPLOYMENT_UNCHANGED",
+    "aws_redeployment": "NOT_RUN",
+    "inference_post_requests": 0,
+    "live_camera": "NOT_VERIFIED",
+    "field_accuracy": "NOT_VERIFIED",
+    "physical_action": "NONE",
+    "public_film_bytes": "NOT_PROVIDED",
+    "independent_review": "NOT_RUN",
+    "action_executed": false
+  },
+  "blocked_reason": "The exact published film bytes and a review receipt from a human distinct from the operator are not available.",
+  "resume_condition": "Provide the exact 2:20 public film bytes without transcoding and a distinct-reviewer receipt matching docs/PUBLIC_FILM_REVIEW.md.",
+  "next_cut": "PAYPAL_NEXT_CANONICAL_READY_CUT_OR_META_FRESH_CHECK",
+  "scheduler_instruction": "KEEP_ENABLED"
+}
