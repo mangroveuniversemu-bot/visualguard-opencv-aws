@@ -1,5 +1,11 @@
 # VisualGuard architecture
 
+> **Public deployment update, 2026-10-27:** The English UI and inspection API
+> are now deployed at a public AWS Lambda Function URL, with the shared
+> Asia/Taipei daily quota active. See [the public AWS addendum](AWS_PUBLIC_DEMO_20261027.md)
+> for the final source, deployment run, and anonymous readback. Private-only
+> and rollout-pending labels below describe the earlier architecture snapshot.
+
 Status labels are part of the diagram: anything marked **NOT_RUN** has not
 executed on AWS. Local, CI and emulator runs are listed in
 [`TECHNICAL_REPORT.md`](TECHNICAL_REPORT.md).

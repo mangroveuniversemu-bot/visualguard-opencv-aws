@@ -1,5 +1,12 @@
 # VisualGuard Technical Report
 
+> **Public deployment update, 2026-10-27:** The English UI and inspection API
+> are now deployed publicly on AWS with the shared daily quota active. See
+> [the public AWS addendum](AWS_PUBLIC_DEMO_20261027.md) for final source and
+> readback evidence. Private-only, rollout-pending, and Devpost-draft wording
+> below belongs to this earlier report snapshot and is not a current status
+> assertion. Synthetic evaluation and field-validation limits still apply.
+
 **Snapshot:** 2026-10-27. This report separates verified synthetic/local/AWS evidence from field claims. It is not an independent product or safety review.
 
 ## Current status

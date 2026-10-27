@@ -1,3 +1,5 @@
+> Current public AWS deployment: see [2026-10-27 live demo update](AWS_PUBLIC_DEMO_20261027.md). The private deployment and pending gates below describe earlier checkpoints.
+
 # VisualGuard submission readiness
 
 Snapshot: 2026-10-27 (Asia/Taipei). This file tracks evidence and remaining judge-access gates; it does not claim the project has been submitted.

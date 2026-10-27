@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#058d85"/></marker></defs>
+<rect width="1500" height="1000" fill="white"/>
+<text x="60" y="65" font-family="Segoe UI,Arial,sans-serif" font-size="43" font-weight="650" fill="#10283b" text-anchor="start">VisualGuard | Public AWS architecture</text>
+<text x="60" y="105" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="400" fill="#4d6576" text-anchor="start">Two images. A bounded inspection. One next step for a human.</text>
+<rect x="60" y="150" width="350" height="115" rx="17" fill="#f4f7fa" stroke="#d5e2e9" stroke-width="2"/>
+<text x="82" y="189" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="650" fill="#10283b" text-anchor="start">GitHub Actions + OIDC</text>
+<text x="82" y="223" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Short-lived deploy credentials</text>
+<text x="82" y="252" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Exact committed source</text>
+<rect x="570" y="150" width="430" height="115" rx="17" fill="#f4f7fa" stroke="#d5e2e9" stroke-width="2"/>
+<text x="592" y="189" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="650" fill="#10283b" text-anchor="start">Amazon ECR</text>
+<text x="592" y="223" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Versioned Lambda container</text>
+<text x="592" y="252" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Source SHA bound at build</text>
+<path d="M 410 207 L 570 207" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)" stroke-dasharray="8 7"/>
+<text x="490" y="188" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">build + push</text>
+<path d="M 785 265 L 785 350" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)" stroke-dasharray="8 7"/>
+<text x="880" y="316" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">deploy image</text>
+<rect x="60" y="355" width="350" height="250" rx="17" fill="#eef8f7" stroke="#d5e2e9" stroke-width="2"/>
+<text x="82" y="394" font-family="Segoe UI,Arial,sans-serif" font-size="27" font-weight="650" fill="#10283b" text-anchor="start">Browser</text>
+<text x="82" y="428" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">English UI - no account</text>
+<text x="82" y="457" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Front + side input previews</text>
+<text x="82" y="486" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">GET health and sample catalog</text>
+<text x="82" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">POST only after Inspect</text>
+<rect x="570" y="355" width="430" height="440" rx="18" fill="#eef8f7" stroke="#058d85" stroke-width="2.5"/>
+<text x="592" y="395" font-family="Segoe UI,Arial,sans-serif" font-size="29" font-weight="650" fill="#10283b" text-anchor="start">Lambda Function URL</text>
+<text x="592" y="426" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="600" fill="#058d85" text-anchor="start">AuthType NONE | us-east-1</text>
+<rect x="590" y="450" width="390" height="72" rx="17" fill="white" stroke="#d5e2e9" stroke-width="2"/>
+<text x="612" y="480" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="650" fill="#10283b" text-anchor="start">1. Shared quota gate</text>
+<text x="612" y="507" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="400" fill="#4d6576" text-anchor="start">Before image decoding / inference</text>
+<rect x="590" y="552" width="390" height="114" rx="17" fill="white" stroke="#d5e2e9" stroke-width="2"/>
+<text x="612" y="591" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="650" fill="#10283b" text-anchor="start">2. OpenCV 5 core</text>
+<text x="612" y="625" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Perceive -&gt; decide -&gt; human plan</text>
+<text x="612" y="654" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Quality + red geometry + fusion</text>
+<rect x="590" y="699" width="390" height="72" rx="17" fill="white" stroke="#d5e2e9" stroke-width="2"/>
+<text x="612" y="729" font-family="Segoe UI,Arial,sans-serif" font-size="24" font-weight="650" fill="#10283b" text-anchor="start">Capture replay ledger</text>
+<text x="612" y="759" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="400" fill="#4d6576" text-anchor="start">/tmp SQLite - per runtime</text>
+<rect x="1120" y="430" width="320" height="152" rx="17" fill="#f4f7fa" stroke="#d5e2e9" stroke-width="2"/>
+<text x="1142" y="469" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="650" fill="#10283b" text-anchor="start">DynamoDB quota</text>
+<text x="1142" y="503" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Conditional UpdateItem</text>
+<text x="1142" y="532" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">5 admitted requests per day</text>
+<text x="1142" y="561" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Asia/Taipei calendar date</text>
+<rect x="1120" y="650" width="320" height="137" rx="17" fill="#f4f7fa" stroke="#d5e2e9" stroke-width="2"/>
+<text x="1142" y="689" font-family="Segoe UI,Arial,sans-serif" font-size="25" font-weight="650" fill="#10283b" text-anchor="start">CloudWatch logs</text>
+<text x="1142" y="723" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">AWS + application request IDs</text>
+<text x="1142" y="752" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Timing and inspection outcome</text>
+<path d="M 410 482 L 570 482" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="490" y="460" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">HTTPS</text>
+<path d="M 1000 475 L 1120 475" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1060" y="455" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">claim</text>
+<path d="M 1120 544 L 1000 544" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1060" y="533" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">claim result</text>
+<path d="M 1000 695 L 1120 695" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1060" y="675" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">request log</text>
+<rect x="60" y="690" width="350" height="168" rx="17" fill="#eef8f7" stroke="#d5e2e9" stroke-width="2"/>
+<text x="82" y="729" font-family="Segoe UI,Arial,sans-serif" font-size="26" font-weight="650" fill="#10283b" text-anchor="start">Operator next step</text>
+<text x="82" y="763" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">REVIEW | STOP | REQUEST_VIEW</text>
+<text x="82" y="792" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Annotated views + evidence</text>
+<text x="82" y="821" font-family="Segoe UI,Arial,sans-serif" font-size="21" font-weight="400" fill="#4d6576" text-anchor="start">Recommendation; no actuator</text>
+<path d="M 570 634 L 235 634 L 235 690" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="395" y="614" font-family="Segoe UI,Arial,sans-serif" font-size="19" font-weight="500" fill="#4d6576" text-anchor="middle">JSON response + annotations</text>
+<path d="M 60 785 L 25 785 L 25 505 L 60 505" fill="none" stroke="#058d85" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="60" y="902" font-family="Segoe UI,Arial,sans-serif" font-size="23" font-weight="600" fill="#058d85" text-anchor="start">REQUEST_VIEW: replace the unclear image, then explicitly inspect the new pair.</text>
+<text x="60" y="947" font-family="Segoe UI,Arial,sans-serif" font-size="20" font-weight="400" fill="#4d6576" text-anchor="start">Quota is global across visitors. Replay protection is local to each Lambda execution environment.</text>
+<text x="60" y="980" font-family="Segoe UI,Arial,sans-serif" font-size="18" font-weight="400" fill="#4d6576" text-anchor="start">Source 0030066b2733d877678bf0f2bc4c06970bb29714 | Public deployment 27 October 2026</text>
+</svg>

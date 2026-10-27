@@ -1,3 +1,5 @@
+> Current public AWS deployment: see [2026-10-27 live demo update](AWS_PUBLIC_DEMO_20261027.md). The private deployment and pending gates below describe earlier checkpoints.
+
 # AWS deployment runbook and execution readback
 
 Execution update (2026-10-26): one private `AWS_IAM` Lambda was deployed and
