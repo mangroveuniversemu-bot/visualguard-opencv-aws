@@ -11,6 +11,7 @@
   "repository": "mangroveuniversemu-bot/visualguard-opencv-aws",
   "branch": "claude/practical-ride-st6n28",
   "parent_commit": "1b47b1ef67db2dc8915b67e0eb96e8dd20212fdd",
+  "functional_commit": "d06836f7f817bb959be4c74770c393e764c6ef7c",
   "provenance": "DERIVED",
   "evidence_mode": "LOCAL_MEDIA_FIXTURE",
   "result": "PASS",
