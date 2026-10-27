@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-10-27T13:16:51.5057867+08:00",
+  "public_url": "https://zkdmdpnivndaqlsxgm4umbjwjy0akezq.lambda-url.us-east-1.on.aws/",
+  "source_commit": "0030066b2733d877678bf0f2bc4c06970bb29714",
+  "deployment_run": "https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40454177734",
+  "ci_run": "https://github.com/mangroveuniversemu-bot/visualguard-opencv-aws/actions/runs/40453839498",
+  "authentication": "NONE",
+  "health_http_status": 200,
+  "health_aws_request_id": "3beaded8-c5cb-4c9f-9812-2313a02d8946",
+  "health": {
+    "execution_environment": {
+      "evidence_class": "SELF_REPORTED",
+      "platform": "AWS_LAMBDA",
+      "region": "us-east-1"
+    },
+    "live_state": {
+      "camera": "NOT_RUN",
+      "physical_action": "NONE"
+    },
+    "runtime": {
+      "algorithm": "cvtColor+GaussianBlur+Sobel+Laplacian+calcHist (quality); cvtColor(HSV)+inRange+morphologyEx+findContours+minEnclosingCircle+boundingRect+drawContours+mean (indicator)",
+      "config_sha256": "fac3b4ca5dbeca66de47632210a39495460ee312a4d07b4150aadf026a252f97",
+      "opencv_version": "5.0.0",
+      "package": "opencv-python-headless",
+      "package_version": "5.0.0.93",
+      "pipeline_version": "opencv5-scene-v1"
+    },
+    "runtime_matches_contract": true,
+    "status": "ok"
+  },
+  "ui_http_status": 200,
+  "ui_sha256": "4a02430626c0d99d4b45318e7dda955ea4e95e701d8bb728df1e870e6aa25ece",
+  "expected_ui_sha256": "4a02430626c0d99d4b45318e7dda955ea4e95e701d8bb728df1e870e6aa25ece",
+  "ui_matches_committed_source": true,
+  "inference_requests_sent_by_this_readback": 0,
+  "quota_limit": 5,
+  "quota_timezone": "Asia/Taipei",
+  "physical_action": "NONE"
+}
