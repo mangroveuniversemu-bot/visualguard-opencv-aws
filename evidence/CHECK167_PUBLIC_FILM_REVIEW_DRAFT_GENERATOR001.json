@@ -25,6 +25,17 @@
     "targeted": "PASS 15/15",
     "new_generator_tests": "PASS 7/7",
     "full_suite": "PASS 295/295 plus 116 subtests",
+    "hosted": {
+      "result": "PASS",
+      "run_id": 40542429333,
+      "tested_head": "d06836f7f817bb959be4c74770c393e764c6ef7c",
+      "test_job_id": 122324059230,
+      "container_job_id": 122324058824,
+      "python": "3.12.15",
+      "pytest": 295,
+      "pytest_subtests": 116,
+      "container": "PASS"
+    },
     "changed_file_ruff": "PASS",
     "changed_file_format": "PASS",
     "full_tree_ruff": "BLOCKED_PRE_EXISTING"

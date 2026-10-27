@@ -163,6 +163,7 @@
     "public_film_review_draft_generator_targeted_tests": "PASS 7/7; related public-film suite PASS 15/15",
     "public_film_review_draft_generator_real_media_fixture": "PASS preparation over a generated 140-second MP4; unreviewed draft rejected REVIEW_INCOMPLETE with exit 2",
     "scoped_branch_full_suite_check167": "PASS 295/295 plus 116 subtests; Python 3.12.14, OpenCV 5.0.0, NumPy 2.5.3, pytest 9.0.2",
+    "hosted_ci_check167": "PASS run 40542429333 at d06836f7f817bb959be4c74770c393e764c6ef7c; test job 122324059230 passed 295 tests plus 116 subtests on Python 3.12.15; container job 122324058824 passed",
     "changed_file_ruff_check167": "PASS ruff 0.14.13",
     "full_tree_ruff_check167": "BLOCKED by four pre-existing violations outside CHECK167 changed files; retained in CHECK167 evidence"
   },
