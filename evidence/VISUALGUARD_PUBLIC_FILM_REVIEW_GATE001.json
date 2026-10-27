@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "cut": "VISUALGUARD_PUBLIC_FILM_BYTES_REVIEW_GATE001",
+  "status": "PREPARED_NOT_RUN",
+  "provenance": "DERIVED",
+  "public_film_url": "https://youtu.be/AEDHXknTBy8",
+  "expected_duration_seconds": 140,
+  "duration_tolerance_seconds": 1,
+  "source_commit": "0030066b2733d877678bf0f2bc4c06970bb29714",
+  "public_endpoint_status": "PUBLIC_AWS_JUDGE_UI_DEPLOYED",
+  "review_runbook": "docs/PUBLIC_FILM_REVIEW.md",
+  "required_observations": [
+    "solo_team",
+    "working_application",
+    "architecture",
+    "principal_results"
+  ],
+  "claim_boundary": {
+    "synthetic_inputs_disclosed": true,
+    "public_aws_endpoint_disclosed": true,
+    "live_camera_claimed": false,
+    "field_accuracy_claimed": false,
+    "physical_action_claimed": false,
+    "credentials_visible": false
+  },
+  "action_executed": false,
+  "blocked_reason": "The public film bytes and a distinct human review receipt are not available in the repository.",
+  "resume_condition": "Provide the exact public film bytes and a receipt from a reviewer distinct from the operator; then run ops/verify_public_film_evidence.py."
+}
