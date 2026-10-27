@@ -4,13 +4,14 @@ Project repository for **OpenCV AI Competition 2026, powered by AWS**.
 
 ## Current status
 
-**PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED** on `claude/practical-ride-st6n28`.
+**SUBMITTED_PUBLICLY_ACCESSIBLE** on Devpost, with `PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED` on `claude/practical-ride-st6n28`.
 A private `AWS_IAM` Lambda in `us-east-1` was deployed from source commit
 `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live-camera integration and
 physical action remain `NOT_RUN` / `NONE`; real-world alarm accuracy is not
 established. The public owner-review film is separate from the AWS evidence
 contract and has not been byte-bound or independently reviewed under CHECK146.
 
+Public submission: [VisualGuard | Two Views. One Next Step.](https://devpost.com/software/visualguard-two-views-one-next-step)  
 Current public owner-review film: [VisualGuard | Two Views. One Next Step.](https://youtu.be/AEDHXknTBy8)
 (2:20). It combines 2026-10-04 exhibition footage, labelled AI-generated
 illustration, edited captures of the local application using synthetic inputs,
@@ -35,9 +36,10 @@ cases and eight local negative controls, not this newer film or field accuracy.
 - **Endpoint.** `service/app.py` serves an English judge UI at `/` and
   `POST /v1/inspect` from the same host. The page reads `/healthz` and
   `/v1/samples`, displays the reported OpenCV/runtime connection, and uses
-  same-origin requests, so judges need no account or AWS credentials once the
-  already-approved public endpoint is deployed. Public AWS mode will use a
-  DynamoDB-backed
+  same-origin requests. The submitted no-login judge path is a static GitHub
+  Pages review site with saved local synthetic replay; it does not call AWS.
+  A public AWS inference endpoint remains owner-gated and is not deployed.
+  If separately authorized, public AWS mode would use a DynamoDB-backed
   global limit of five `/v1/inspect` POST attempts per Taiwan calendar day;
   malformed POSTs consume a slot, and health/sample GETs do not. A failed quota
   store blocks inference. Each response returns the decision,
@@ -45,8 +47,8 @@ cases and eight local negative controls, not this newer film or field accuracy.
   executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
   and `lambda` targets. Public AWS smoke validation is deliberately limited to
   one inference request so it preserves the shared daily quota. The public AWS
-  rollout is pending the DynamoDB table and the Lambda role's single-table
-  `UpdateItem` permission.
+  rollout would additionally require the DynamoDB table and the Lambda role's
+  single-table `UpdateItem` permission.
 - **Hosted verification.** Existing GitHub Actions run `40249719964` at
   baseline `b85ebb0873cf030ab95fd32c1d886df59bf74c86` passed 268 tests and
   116 subtests. Local Windows review results are separate and are not the hosted
