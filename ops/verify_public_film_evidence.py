@@ -150,7 +150,9 @@ def verify_public_film_evidence(
 
     _require(review.get("schema_version") == 1, "REVIEW_SCHEMA_UNSUPPORTED")
     _require(review.get("status") == "INDEPENDENT_REVIEWED", "REVIEW_INCOMPLETE")
-    _require(review.get("contract_sha256") == contract_sha256, "CONTRACT_DIGEST_MISMATCH")
+    _require(
+        review.get("contract_sha256") == contract_sha256, "CONTRACT_DIGEST_MISMATCH"
+    )
     _require(review.get("video_sha256") == video_sha256, "VIDEO_DIGEST_MISMATCH")
     _require(review.get("video_size_bytes") == size, "VIDEO_SIZE_MISMATCH")
     _require(
@@ -159,14 +161,20 @@ def verify_public_film_evidence(
     )
     operator_id = review.get("operator_id")
     reviewer_id = review.get("reviewer_id")
-    _require(isinstance(operator_id, str) and operator_id.strip(), "OPERATOR_ID_INVALID")
-    _require(isinstance(reviewer_id, str) and reviewer_id.strip(), "REVIEWER_ID_INVALID")
+    _require(
+        isinstance(operator_id, str) and operator_id.strip(), "OPERATOR_ID_INVALID"
+    )
+    _require(
+        isinstance(reviewer_id, str) and reviewer_id.strip(), "REVIEWER_ID_INVALID"
+    )
     _require(operator_id != reviewer_id, "REVIEW_NOT_INDEPENDENT")
     _require(
         review.get("observed_requirements") == list(REQUIRED_OBSERVATIONS),
         "REQUIRED_OBSERVATIONS_INVALID",
     )
-    _require(review.get("claim_boundary") == EXPECTED_BOUNDARY, "CLAIM_BOUNDARY_INVALID")
+    _require(
+        review.get("claim_boundary") == EXPECTED_BOUNDARY, "CLAIM_BOUNDARY_INVALID"
+    )
     _require(review.get("credentials_exposed") is False, "REVIEW_CREDENTIAL_EXPOSURE")
 
     return {
