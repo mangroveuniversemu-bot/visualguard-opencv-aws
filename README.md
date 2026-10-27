@@ -2,16 +2,23 @@
 
 Project repository for **OpenCV AI Competition 2026, powered by AWS**.
 
+[Live AWS report](docs/VisualGuard-Technical-Report-AWS-Live-20261027.pdf) · [Current architecture](docs/AWS_PUBLIC_ARCHITECTURE_20261027.png) · [Anonymous readback](evidence/AWS_PUBLIC_READBACK_20261027.json)
+
 ## Current status
 
-**SUBMITTED_PUBLICLY_ACCESSIBLE** on Devpost, with `PRIVATE_AWS_SYNTHETIC_EXECUTION_VERIFIED` on `claude/practical-ride-st6n28`.
-A private `AWS_IAM` Lambda in `us-east-1` was deployed from source commit
-`832b1b476ce88e3fa95e83ac5749f64af0f4bd63`. Live-camera integration and
+**PUBLIC_AWS_JUDGE_UI_DEPLOYED** on `claude/practical-ride-st6n28`.
+[Open the English AWS application](https://zkdmdpnivndaqlsxgm4umbjwjy0akezq.lambda-url.us-east-1.on.aws/)
+without an account. The Lambda in `us-east-1` is deployed from source commit
+`0030066b2733d877678bf0f2bc4c06970bb29714`, with public Function URL
+authentication `NONE` and a DynamoDB-backed allowance of five inspection
+attempts per Asia/Taipei day. Deployment run `40454177734` and CI run
+`40453839498` succeeded. See the [public deployment addendum](docs/AWS_PUBLIC_DEMO_20261027.md)
+for anonymous readback and quota records. Live-camera integration and
 physical action remain `NOT_RUN` / `NONE`; real-world alarm accuracy is not
 established. The public owner-review film is separate from the AWS evidence
 contract and has not been byte-bound or independently reviewed under CHECK146.
 
-Public submission: [VisualGuard | Two Views. One Next Step.](https://devpost.com/software/visualguard-two-views-one-next-step)  
+Devpost project: [VisualGuard | Two Views. One Next Step.](https://devpost.com/software/visualguard-two-views-one-next-step)  
 Current public owner-review film: [VisualGuard | Two Views. One Next Step.](https://youtu.be/AEDHXknTBy8)
 (2:20). It combines 2026-10-04 exhibition footage, labelled AI-generated
 illustration, edited captures of the local application using synthetic inputs,
@@ -36,20 +43,21 @@ cases and eight local negative controls, not this newer film or field accuracy.
 - **Endpoint.** `service/app.py` serves an English judge UI at `/` and
   `POST /v1/inspect` from the same host. The page reads `/healthz` and
   `/v1/samples`, displays the reported OpenCV/runtime connection, and uses
-  same-origin requests. The submitted no-login judge path is a static GitHub
-  Pages review site with saved local synthetic replay; it does not call AWS.
-  A public AWS inference endpoint remains owner-gated and is not deployed.
-  If separately authorized, public AWS mode would use a DynamoDB-backed
-  global limit of five `/v1/inspect` POST attempts per Taiwan calendar day;
+  same-origin requests. The public Lambda URL above provides image previews,
+  uploads, explicit **Inspect on AWS**, decisions, next actions, and the actual
+  AWS Request ID separately from the application request ID. Loading a sample
+  performs GET requests only. Public AWS mode uses a DynamoDB-backed global
+  limit of five `/v1/inspect` POST attempts per Asia/Taipei calendar day;
   malformed POSTs consume a slot, and health/sample GETs do not. A failed quota
   store blocks inference. Each response returns the decision,
-  the planned follow-up (never
-  executed) and a perceive/decide/plan trace. The `Dockerfile` has `http`
-  and `lambda` targets. Public AWS smoke validation is deliberately limited to
-  one inference request so it preserves the shared daily quota. The public AWS
-  rollout would additionally require the DynamoDB table and the Lambda role's
-  single-table `UpdateItem` permission.
-- **Hosted verification.** Existing GitHub Actions run `40249719964` at
+  the planned follow-up (never executed) and a perceive/decide/plan trace.
+  The `Dockerfile` has `http` and `lambda` targets. The final deployment check
+  uses GET requests only and sends zero inference POSTs. At the approved
+  one-time reset readback around 13:11 Asia/Taipei on 2026-10-27, the shared
+  counter was 1 used / 4 remaining; later visitors can change that count.
+  The static GitHub Pages review site remains a separate saved-replay page.
+- **Hosted verification.** CI run `40453839498` succeeded for deployed source
+  `0030066b2733d877678bf0f2bc4c06970bb29714`. Historical GitHub Actions run `40249719964` at
   baseline `b85ebb0873cf030ab95fd32c1d886df59bf74c86` passed 268 tests and
   116 subtests. Local Windows review results are separate and are not the hosted
   run.
@@ -57,17 +65,19 @@ cases and eight local negative controls, not this newer film or field accuracy.
   four saved AWS cases and eight local negative controls. This verifies saved
   evidence consistency, not source authenticity, current-film review or field
   performance.
-- **AWS (private synthetic execution verified).** The OIDC workflow deployed
+- **Historical AWS checkpoint (2026-10-26).** The OIDC workflow deployed
   an `AWS_IAM` Lambda and invoked health, alarm and clear synthetic cases;
   an AWS Console invocation added the empty-views negative control. The
   evidence is bound in `evidence/AWS_EXECUTION_20261026_40223113044.json`.
-  No public endpoint, live camera or physical action is claimed.
+  These older records describe private synthetic execution. The public
+  deployment is recorded in the addendum; live camera and physical action
+  remain unverified.
 - **Video evidence boundary.** The public 2:20 film is available at the link
   above. It is not bound to the older 180-second CHECK146 storyboard contract,
   and it has no independent reviewer receipt. The older contract remains
   pending; its templates do not describe the newer public film.
 
-Docs: `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
+Docs: `docs/AWS_PUBLIC_DEMO_20261027.md`, `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
 `docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`,
 `docs/AWS_DEMO_CAPTURE_PACKET.md`.
 
@@ -162,13 +172,14 @@ Reserved concurrency 2 was rejected by the account quota and is not configured.
 ## Provenance and limits
 
 - Parent checkpoint: AWS execution readback committed at `3442e3aa0e8d6003c538ecd2045cd65b2e697710`.
-- AWS source commit: `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`.
+- Historical private AWS source commit: `832b1b476ce88e3fa95e83ac5749f64af0f4bd63`.
+- Current public AWS source commit: `0030066b2733d877678bf0f2bc4c06970bb29714`.
 - IP classification: `DERIVED`; no private patent algorithm, customer data, or
   another submission's implementation was imported.
 - Live external witness, asymmetric signing, managed KMS, camera, process kill,
   physical disk/power loss, distributed multi-writer ordering, and physical
-  action are not demonstrated. AWS runtime evidence is limited to private
-  Lambda invocations over synthetic inputs.
+  action are not demonstrated. The recorded AWS inspections use synthetic
+  inputs; public availability does not establish field accuracy.
 - The probe demonstrates that a same-domain file checkpoint does not stop
   coordinated rollback of the database and checkpoint. Production freshness
   therefore requires an independently administered monotonic or immutable
@@ -176,7 +187,7 @@ Reserved concurrency 2 was rejected by the account quota and is not configured.
   certify pre-migration truth.
 - The matrix proves deterministic local routing over fixed arrays, not field
   performance, source authenticity, or executed automation. Separate AWS-side
-  records prove only private Lambda execution over synthetic inputs.
+  records establish private and public Lambda execution over synthetic inputs.
 - Scene-pipeline metrics come from procedurally rendered frames. Generator
   and detector have the same author, so they establish behaviour on this
   generator only, not field accuracy.
@@ -188,12 +199,19 @@ Reserved concurrency 2 was rejected by the account quota and is not configured.
   field accuracy, source authenticity, live camera, public availability or
   physical action. The older receipt templates do not establish a byte-bound review of the newer public film.
 
-## Deployment gate
+## Deployment status and operation
 
-The one-time private AWS execution is complete and must not be repeated under
-its expired US$1 operation allowance. A public Function URL, further paid
-provisioning, competition submission, or automatic merge still requires
-separate owner authorization.
+The owner authorized the public Function URL, the shared daily-quota table and
+its scoped runtime permission, and the one-time reset of today's counter to
+1. The public deployment is complete. Final release
+`aws-deploy-public-20261027-final` uses source `0030066` and passed its GET-only
+deployment check. Anonymous readback at 13:16:51 Asia/Taipei on 2026-10-27
+returned HTTP 200 for health and UI, with the downloaded UI matching the
+source HTML SHA-256. See the addendum for the exact AWS Request ID.
+
+The shared allowance limits inspection attempts, not all AWS costs. The
+existing monthly budget is an alert rather than an automatic stop. Keep
+additional provisioning and permissions within the owner's authorized scope.
 
 
 

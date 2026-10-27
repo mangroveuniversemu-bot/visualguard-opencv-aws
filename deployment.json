@@ -1,5 +1,27 @@
 {
   "schema_version": 2,
+  "current_public_deployment": {
+    "status": "PUBLIC_AWS_JUDGE_UI_DEPLOYED",
+    "source_commit": "0030066b2733d877678bf0f2bc4c06970bb29714",
+    "region": "us-east-1",
+    "public_url": "https://zkdmdpnivndaqlsxgm4umbjwjy0akezq.lambda-url.us-east-1.on.aws/",
+    "auth_type": "NONE",
+    "deployment_workflow_run": 40454177734,
+    "source_ci_run": 40453839498,
+    "readback_evidence": "evidence/AWS_PUBLIC_READBACK_20261027.json",
+    "daily_inference_limit": 5,
+    "quota_timezone": "Asia/Taipei",
+    "quota_store": "DynamoDB conditional UpdateItem",
+    "deployment_check_inference_requests": 0,
+    "owner_approved_one_time_reset": {
+      "quota_date": "2026-10-27",
+      "calls_after_reset": 1,
+      "remaining_at_readback": 4
+    },
+    "camera_accuracy": "NOT_VERIFIED",
+    "physical_action": "NONE"
+  },
+  "historical_fields_note": "Remaining fields preserve the earlier private storyboard/evidence contract for reproducibility; current public status is recorded above.",
   "repository": "mangroveuniversemu-bot/visualguard-opencv-aws",
   "competition": "OpenCV AI Competition 2026, powered by AWS",
   "official_rules_url": "https://opencv26.devpost.com/",
