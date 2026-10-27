@@ -4,7 +4,9 @@ The local mode sends the full synthetic sample matrix, a capture-ID
 substitution, and a malformed request. The public AWS mode deliberately sends
 one synthetic inference, checks the global daily-quota headers, and verifies
 the public page, health route, and sample catalog without consuming the daily
-allowance during read-only checks.
+allowance during read-only checks. ``--read-only`` performs only the three
+GET checks and never sends an inspection or negative-control POST. Deployment
+workflows use that mode to preserve the entire shared inference allowance.
 """
 
 from __future__ import annotations
@@ -82,7 +84,12 @@ def _pair_body(name: str, batch: str) -> bytes:
     return json.dumps({"views": views}).encode()
 
 
-def run(base: str, *, expected_environment: str | None = None) -> dict[str, object]:
+def run(
+    base: str,
+    *,
+    expected_environment: str | None = None,
+    read_only: bool = False,
+) -> dict[str, object]:
     checks = []
 
     def check(name, passed, **detail):
@@ -126,8 +133,10 @@ def run(base: str, *, expected_environment: str | None = None) -> dict[str, obje
         sample_count=len(samples.get("samples", [])),
     )
     run_id = uuid.uuid4().hex[:12]
-    public_aws = expected_environment == "AWS_LAMBDA"
-    cases = CASES[:1] if public_aws else CASES
+    # Detect the actual runtime as well as the caller's expectation. Omitting
+    # the CLI flag must never expand an AWS smoke into the local POST matrix.
+    public_aws = environment == "AWS_LAMBDA" or expected_environment == "AWS_LAMBDA"
+    cases = () if read_only else (CASES[:1] if public_aws else CASES)
     quota_evidence = None
     for name, decision, action in cases:
         status, result, elapsed, _, headers = _request(
@@ -169,7 +178,7 @@ def run(base: str, *, expected_environment: str | None = None) -> dict[str, obje
                 timezone=quota_evidence["timezone"],
                 inspection_requests_used_by_this_smoke=1,
             )
-    if not public_aws:
+    if not read_only and not public_aws:
         status, result, elapsed, _, _ = _request(
             base,
             "POST",
@@ -201,13 +210,20 @@ def run(base: str, *, expected_environment: str | None = None) -> dict[str, obje
     passed = all(item["status"] == "PASS" for item in checks)
     return {
         "schema_version": 1,
-        "evidence_mode": "ENDPOINT_SMOKE_TEST_SYNTHETIC_INPUT",
+        "evidence_mode": (
+            "ENDPOINT_READ_ONLY_GET_CHECK"
+            if read_only
+            else "ENDPOINT_SMOKE_TEST_SYNTHETIC_INPUT"
+        ),
+        "validation_mode": "READ_ONLY" if read_only else "SYNTHETIC_INFERENCE",
         "base_url": base,
         "run_id": run_id,
         "status": "PASS" if passed else "FAIL",
         "checks": checks,
         "quota_evidence": quota_evidence,
-        "inspection_requests_used": 1 if public_aws else len(CASES) + 2,
+        "inspection_requests_used": (
+            0 if read_only else (1 if public_aws else len(CASES) + 2)
+        ),
         "physical_action": "NONE",
     }
 
@@ -219,9 +235,18 @@ def main() -> int:
         "--expected-environment",
         help="Require the runtime reported by /healthz (for example AWS_LAMBDA)",
     )
+    parser.add_argument(
+        "--read-only",
+        action="store_true",
+        help="Check only GET health, UI and sample catalog; never send a POST",
+    )
     parser.add_argument("--output", help="Optional JSON evidence path")
     args = parser.parse_args()
-    report = run(args.base_url, expected_environment=args.expected_environment)
+    report = run(
+        args.base_url,
+        expected_environment=args.expected_environment,
+        read_only=args.read_only,
+    )
     rendered = json.dumps(report, indent=2, sort_keys=True) + "\n"
     if args.output:
         Path(args.output).write_text(rendered, encoding="utf-8")
