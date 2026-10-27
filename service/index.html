@@ -29,7 +29,7 @@
 <div class="input-card"><div class="input-title"><strong>Front view</strong><span class="view-no">VIEW 01</span></div><div class="preview"><div class="placeholder" id="front-empty"><span aria-hidden="true"></span>Add the front of the panel</div><img id="front-preview" alt="Front input preview" hidden></div><div class="input-footer"><label for="front">Front view image</label><input id="front" type="file" accept="image/*"><p class="file-meta" id="front-meta">Choose an image at least 160 × 160 pixels.</p></div></div>
 <div class="input-card"><div class="input-title"><strong>Side view</strong><span class="view-no">VIEW 02</span></div><div class="preview"><div class="placeholder" id="side-empty"><span aria-hidden="true"></span>Add a second angle of the panel</div><img id="side-preview" alt="Side input preview" hidden></div><div class="input-footer"><label for="side">Side view image</label><input id="side" type="file" accept="image/*"><p class="file-meta" id="side-meta">Use a distinct angle of the same panel.</p></div></div>
 </div>
-<div class="inspect-bar"><div><p class="small muted" id="quota">The daily AWS allowance is shared by all visitors. Remaining quota appears after a response.</p><div id="status" class="muted" role="status" aria-live="polite">Images remain in your browser until you select Inspect.</div></div><button id="run" type="button" disabled><span class="spinner" aria-hidden="true"></span><span id="run-label">Inspect</span></button></div>
+<div class="inspect-bar"><div><p class="small muted" id="quota">Daily AWS limit: 5 inspections, shared by all visitors; resets at midnight Asia/Taipei. Remaining quota appears after a response.</p><div id="status" class="muted" role="status" aria-live="polite">Images remain in your browser until you select Inspect.</div></div><button id="run" type="button" disabled><span class="spinner" aria-hidden="true"></span><span id="run-label">Inspect</span></button></div>
 </section>
 <section class="panel result-panel" id="result" hidden aria-live="polite" aria-labelledby="result-title">
 <div class="row"><span id="decision" class="decision"></span><span class="pill" id="result-mode"></span></div><h2 class="result-title" id="result-title"></h2><p class="result-why" id="why"></p>
@@ -37,13 +37,13 @@
 <div class="result-meta"><span id="latency"></span><span>Human decision required · No equipment command sent</span></div><div class="grid" id="views"></div>
 <details><summary>Evidence JSON &amp; inspection trace</summary><dl class="evidence-info"><div><dt>Application request ID</dt><dd><code id="application-id">Unavailable</code></dd></div><div><dt>AWS request ID</dt><dd><code id="aws-id">Unavailable</code></dd></div><div><dt>Reason code</dt><dd><code id="reason"></code></dd></div><div><dt>Planned action · executed</dt><dd><code id="action"></code> · <code id="executed"></code></dd></div></dl><ol class="trace" id="trace"></ol><button class="secondary" id="download" type="button">Download response JSON</button><p class="small muted" style="margin-top:12px">Image annotation bytes are omitted from the preview below. The download includes the complete returned response.</p><pre id="json"></pre></details>
 </section>
-<footer class="footer"><p>VisualGuard plans a next step for a person. No equipment actuator is connected. Uploaded images are processed in memory; the replay ledger records image digests. Real camera accuracy and physical control remain unverified.</p><span>Created by YOUNG-FU</span></footer>
+<footer class="footer"><p>VisualGuard plans a next step for a person. Planned actions are never executed; no equipment actuator is connected. Uploaded images are processed in memory; the replay ledger records image digests. Real camera accuracy and physical control remain unverified.</p><span>Created by YOUNG-FU</span></footer>
 </main>
 <script>
 const state = { front:null, side:null, sample:null, kinds:{}, busy:false, preparing:0, connected:false, platform:null, quotaRemaining:null, quotaLimit:null, quotaDay:null, lastResult:null, replaceView:"side", versions:{front:0,side:0} };
 const $ = (id) => document.getElementById(id);
 const sources = { front:"camera-front-v1", side:"camera-side-v1" };
-const MAX_IMAGE_BYTES = 240 * 1024, MAX_REQUEST_BYTES = 900 * 1024;
+const MAX_IMAGE_BYTES = 240 * 1024, MAX_SAMPLE_BYTES = 1024 * 1024, MAX_REQUEST_BYTES = 3 * 1024 * 1024;
 const taiwanDay = () => new Date().toLocaleDateString("en-CA", { timeZone:"Asia/Taipei" });
 const humanize = (value) => String(value || "Unavailable").replaceAll("_", " ").toLowerCase();
 function setStatus(text,isError=false){$("status").textContent=text;$("status").className=isError?"error":"muted";}
@@ -111,7 +111,7 @@ $("replace").addEventListener("click",()=>{$("input-grid").scrollIntoView({behav
 $("download").addEventListener("click",()=>{if(!state.lastResult)return;const url=URL.createObjectURL(new Blob([JSON.stringify(state.lastResult,null,2)],{type:"application/json"})),link=document.createElement("a");link.href=url;link.download="visualguard-response-"+(state.lastResult.request_id||Date.now())+".json";link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);});
 $("run").addEventListener("click",async()=>{
  if(state.busy||state.preparing||!state.connected||!state.front||!state.side||state.quotaRemaining===0)return;const batch=crypto.randomUUID(),body={annotate:true,views:{}};
- for(const view of ["front","side"]){if(base64Bytes(state[view])>MAX_IMAGE_BYTES){setStatus("A view exceeds the prepared image limit. Choose a smaller photo.",true);return;}body.views[view]={image_base64:state[view],source_id:sources[view],capture_id:batch+"-"+view};}
+ for(const view of ["front","side"]){const byteLimit=state.kinds[view]==="sample"?MAX_SAMPLE_BYTES:MAX_IMAGE_BYTES;if(base64Bytes(state[view])>byteLimit){setStatus("A view exceeds the prepared image limit. Choose a smaller photo.",true);return;}body.views[view]={image_base64:state[view],source_id:sources[view],capture_id:batch+"-"+view};}
  const requestBody=JSON.stringify(body);if(new TextEncoder().encode(requestBody).length>MAX_REQUEST_BYTES){setStatus("The image pair is too large. Choose smaller photos before inspection.",true);return;}
  const inputMode=Object.values(state.kinds).every(value=>value==="sample")?"Synthetic input":Object.values(state.kinds).every(value=>value==="upload")?"Uploaded photos":"Mixed inputs";
  state.busy=true;ready();setStatus(state.platform==="AWS_LAMBDA"?"Sending the pair to AWS Lambda. Waiting for the OpenCV result...":"Sending the pair to the local inspection service...");const started=performance.now(),controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),90000);
