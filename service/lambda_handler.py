@@ -37,6 +37,11 @@ def handler(event: dict, context: object = None) -> dict[str, object]:
     else:
         body = raw_body.encode()
     status, headers, payload = _service().handle(method, path, body)
+    # Bind browser-visible results to the actual Lambda invocation, separately
+    # from the application request ID used by the shared HTTP service.
+    aws_request_id = getattr(context, "aws_request_id", None)
+    if aws_request_id:
+        headers["X-Aws-Request-Id"] = str(aws_request_id)
     return {
         "statusCode": status,
         "headers": headers,
