@@ -31,9 +31,9 @@
   "deployment_completed": true,
   "schedules_enabled": false,
   "credential_values_stored": false,
-  "parent_checkpoint": "CHECK159_ALEXA_EXTERNAL_FRESHNESS_WITNESS_RECEIPT_GATE001",
-  "parent_commit": "196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
-  "current_cut": "VISUALGUARD_PUBLIC_FILM_BYTES_REVIEW_GATE001",
+  "parent_checkpoint": "CHECK166_PAYPAL_CAPTURE_RESOURCE_BINDING001",
+  "parent_commit": "1b47b1ef67db2dc8915b67e0eb96e8dd20212fdd",
+  "current_cut": "VISUALGUARD_PUBLIC_FILM_REVIEW_DRAFT_GENERATOR001",
   "opencv5_scene_pipeline": {
     "status": "LOCALLY_VERIFIED_SYNTHETIC",
     "pipeline_version": "opencv5-scene-v1",
@@ -79,6 +79,8 @@
     "video": "https://youtu.be/AEDHXknTBy8",
     "current_public_film_contract": "evidence/VISUALGUARD_PUBLIC_FILM_REVIEW_GATE001.json",
     "current_public_film_review_status": "PREPARED_NOT_RUN",
+    "review_draft_generator": "ops/prepare_public_film_review.py",
+    "review_draft_generator_status": "LOCAL_VERIFIED_FAIL_CLOSED",
     "requires_real_media_probe": true,
     "requires_distinct_reviewer": true,
     "aws_claim": "PRIVATE_AWS_LAMBDA_SYNTHETIC_INPUT_EXECUTED",
@@ -156,7 +158,12 @@
     "storyboard_sha256": "661d2936f180cfd9befd3c7d17737ad3321b77670527a307ed3cf0ba0f441090",
     "deployment_state_consistency_targeted_tests": "PASS 5/5",
     "public_film_review_gate_targeted_tests": "PASS 8/8 local; hosted full suite PASS 288/288 plus 116 subtests run 40482850082 at 196b86d7ffa9c02de5dc07f8af0fcca9f4043fe1",
-    "public_film_review_gate_real_media_probe": "BLOCKED VIDEO_MISSING; exit 2"
+    "public_film_review_gate_real_media_probe": "BLOCKED VIDEO_MISSING; exit 2",
+    "public_film_review_draft_generator_targeted_tests": "PASS 7/7; related public-film suite PASS 15/15",
+    "public_film_review_draft_generator_real_media_fixture": "PASS preparation over a generated 140-second MP4; unreviewed draft rejected REVIEW_INCOMPLETE with exit 2",
+    "scoped_branch_full_suite_check167": "PASS 295/295 plus 116 subtests; Python 3.12.14, OpenCV 5.0.0, NumPy 2.5.3, pytest 9.0.2",
+    "changed_file_ruff_check167": "PASS ruff 0.14.13",
+    "full_tree_ruff_check167": "BLOCKED by four pre-existing violations outside CHECK167 changed files; retained in CHECK167 evidence"
   },
   "live_state": {
     "external_witness": "NOT_RUN",
@@ -182,7 +189,7 @@
     "A distinct human reviewer verifies the current public film bytes and claim boundary"
   ],
   "next_steps": [
-    "A distinct human reviewer verifies the current public film bytes and the credential-exposure boundary.",
+    "Run ops/prepare_public_film_review.py against the exact downloaded public film bytes, then have a distinct human reviewer complete the generated fail-closed draft and verify it.",
     "Preserve the GET-only readback evidence; do not consume shared inference quota for routine monitoring.",
     "Request fresh owner scope before any further paid AWS operation, permission expansion, or redeployment."
   ],

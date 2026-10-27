@@ -14,6 +14,21 @@ CHECK146 180-second storyboard contract.
    contract SHA-256, and the claim boundary below. Do not commit the media or a
    receipt containing personal information.
 
+Generate a byte-bound, fail-closed draft instead of transcribing the hashes and
+size by hand:
+
+```bash
+python ops/prepare_public_film_review.py \
+  --video .local/public-film.mp4 \
+  --operator-id owner-operator \
+  --output .local/public-film-review.json
+```
+
+The generator probes the real media, checks the 2:20 duration contract and
+writes `PREPARED_NOT_REVIEWED` with no reviewer or observations. That draft is
+expected to fail the final verifier. A distinct human must watch the exact file,
+complete the review fields and change the status only after review.
+
 The review JSON uses this shape:
 
 ```json

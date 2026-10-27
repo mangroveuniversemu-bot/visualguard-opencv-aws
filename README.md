@@ -75,7 +75,10 @@ cases and eight local negative controls, not this newer film or field accuracy.
 - **Video evidence boundary.** The public 2:20 film is available at the link
   above. It is not bound to the older 180-second CHECK146 storyboard contract,
   and it has no independent reviewer receipt. The older contract remains
-  pending; its templates do not describe the newer public film.
+  pending; its templates do not describe the newer public film. Use
+  `ops/prepare_public_film_review.py` to generate a fail-closed, byte-bound
+  draft for the current film; only a distinct human's completed receipt can
+  pass `ops/verify_public_film_evidence.py`.
 
 Docs: `docs/AWS_PUBLIC_DEMO_20261027.md`, `docs/ARCHITECTURE.md`, `docs/TECHNICAL_REPORT.md`,
 `docs/SUBMISSION_GAP.md`, `docs/AWS_DEPLOYMENT_RUNBOOK.md`,

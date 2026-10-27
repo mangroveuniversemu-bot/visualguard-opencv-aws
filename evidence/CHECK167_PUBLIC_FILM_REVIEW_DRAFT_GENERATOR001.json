@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "check": "CHECK167",
+  "cut": "VISUALGUARD_PUBLIC_FILM_REVIEW_DRAFT_GENERATOR001",
+  "recorded_at_utc": "2026-10-27T16:32:25Z",
+  "parent_portfolio_checkpoint": {
+    "check": "CHECK166",
+    "drive_file_id": "1EapR4QWycG8sPGUbmwSLS9S_-pCjuLxr",
+    "sha256": "15a93ad84fdc01defd0dd31cb3083dea1297376f488b9f5e758f4068cca25d36"
+  },
+  "repository": "mangroveuniversemu-bot/visualguard-opencv-aws",
+  "branch": "claude/practical-ride-st6n28",
+  "parent_commit": "1b47b1ef67db2dc8915b67e0eb96e8dd20212fdd",
+  "provenance": "DERIVED",
+  "evidence_mode": "LOCAL_MEDIA_FIXTURE",
+  "result": "PASS",
+  "implementation": [
+    "Probe actual media with ffprobe before preparing a review draft.",
+    "Bind the exact video SHA-256, byte size, duration, contract SHA-256 and public film URL without manual transcription.",
+    "Emit PREPARED_NOT_REVIEWED with blank reviewer, no observed requirements and unknown credential exposure.",
+    "Refuse to overwrite an existing output path and retain the distinct-human final verifier as the only PASS gate."
+  ],
+  "tests": {
+    "targeted": "PASS 15/15",
+    "new_generator_tests": "PASS 7/7",
+    "full_suite": "PASS 295/295 plus 116 subtests",
+    "changed_file_ruff": "PASS",
+    "changed_file_format": "PASS",
+    "full_tree_ruff": "BLOCKED_PRE_EXISTING"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "opencv": "5.0.0",
+    "numpy": "2.5.3",
+    "pytest": "9.0.2",
+    "ruff": "0.14.13",
+    "seed": "NONE"
+  },
+  "replay": {
+    "fixture": "generated 140-second 16x16 H.264 MP4; not the public film",
+    "fixture_sha256": "86c7a22af3c1058a8af26fea20589916d6d2518d6035f1f1fb9a6a835899919a",
+    "fixture_size_bytes": 5194,
+    "prepared_status": "PREPARED_NOT_REVIEWED",
+    "final_verifier_result": "BLOCKED",
+    "final_verifier_reason": "REVIEW_INCOMPLETE",
+    "final_verifier_exit": 2
+  },
+  "append_only_friction": [
+    {
+      "reproduction": ".venv/bin/ruff check .",
+      "expectation": "Full-tree lint passes before the suite.",
+      "observation": "Four pre-existing violations outside CHECK167 changed files: two E402 imports in external-witness negative scripts and two E702 semicolon lines in test_opencv5_inspection.py.",
+      "impact": "Full-tree Ruff remains blocked; changed-file Ruff and format pass and the full functional suite executes successfully.",
+      "workaround": "Run changed-file Ruff for this bounded cut and preserve the unrelated failures for a separate cleanup cut."
+    },
+    {
+      "reproduction": "git push origin HEAD:claude/practical-ride-st6n28",
+      "expectation": "Fast-forward the verified local commit to the existing development branch.",
+      "observation": "The local HTTPS client had no interactive GitHub username credential and exited 128 before any remote write.",
+      "impact": "No branch update occurred through local git.",
+      "workaround": "Use the authorized GitHub App Git-data API with an expected remote-head lease and force=false."
+    }
+  ],
+  "actual_public_film_bytes": "NOT_PROVIDED",
+  "independent_human_review": "NOT_RUN",
+  "aws_call": "NOT_RUN",
+  "redeployment": "NOT_RUN",
+  "action_executed": false,
+  "blocked_reason": "The exact published film bytes and a distinct human reviewer receipt remain external requirements.",
+  "resume_condition": "Download the exact published film without transcoding, generate the bound draft, and have a distinct human complete and verify it.",
+  "next_cut": "ROTATE_TO_NEXT_CANONICAL_READY_PORTFOLIO_LANE_UNLESS_DISTINCT_HUMAN_REVIEW_INPUTS_EXIST"
+}
